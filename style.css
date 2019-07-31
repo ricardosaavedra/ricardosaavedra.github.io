@@ -1,3 +1,37 @@
+/* /////// old css from old file //*/
+
+@font-face {
+    font-family: 'GT America Regular';
+    src: url('GTAmerica-Regular.woff2') format('woff2'),
+        url('GTAmerica-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GT America Medium Italic';
+    src: url('GTAmerica-MediumItalic.woff2') format('woff2'),
+        url('GTAmerica-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'GT America Medium';
+    src: url('GTAmerica-Medium.woff2') format('woff2'),
+        url('GTAmerica-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GT America Bold';
+    src: url('GTAmerica-Bold.woff2') format('woff2'),
+        url('GTAmerica-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
 .carousel {
     position: relative;
     margin: 0;
@@ -82,24 +116,24 @@
     font-size: 3.0vw;
     text-align: left;
     color: black;
-    font-family: 'GT America medium', arial;
+    font-family: 'GT America Medium', arial;
     z-index: 2;
     font-weight: bold;
-    margin-top: 0.5vw;
+    margin-top: 0.6vw;
     text-transform: uppercase;
 
 }
 
-a.title-scroll-category:hover, a.title-scroll-category-last:hover, a.title-scroll-category.active {
+a.title-scroll-category:hover ,a.title-scroll-category-last:hover, a.title-scroll-category.active {
     text-decoration: none;
-    font-family: 'GT America medium italic', arial;
+    font-family: 'GT America Medium Italic', arial;
     color: black;
 }
 
 
 
 .grow p {
-    font-family: 'GT America regular', arial;
+    font-family: 'GT America Regular', arial;
     font-size: 1.8vw;
 }
 
@@ -117,39 +151,7 @@ a.project-wraper:hover {
     padding-left: 2vw
 }
 
-/* /////// old css from old file //*/
 
-@font-face {
-    font-family: 'GT America Regular';
-    src: url('GTAmerica-Regular.woff2') format('woff2'),
-        url('GTAmerica-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'GT America Medium Italic';
-    src: url('GTAmerica-MediumItalic.woff2') format('woff2'),
-        url('GTAmerica-MediumItalic.woff') format('woff');
-    font-weight: 500;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'GT America Medium';
-    src: url('GTAmerica-Medium.woff2') format('woff2'),
-        url('GTAmerica-Medium.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'GT America Bold';
-    src: url('GTAmerica-Bold.woff2') format('woff2'),
-        url('GTAmerica-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
 
 .title-scroll-category {}
 
@@ -264,7 +266,7 @@ div.scrollableArea {
 /* any other img heigh controls how image inside the carousel scale */
 .scrrollDiv img,
 .scrrollDiv video {
-    height: 600px;
+    height: 30vw;
 }
 
 /* ui img that needs a shorter width*/
@@ -292,9 +294,9 @@ img.ui-img {
 /*cuts the images*/
 .scrrollDiv {
     width: 100%;
-    height: 700px;
+    height: 50vw;
     position: relative;
-    margin-top: 15px;
+    margin-top: 0.9vw;
     padding-bottom: 50px;
 }
 
@@ -339,7 +341,7 @@ img.ui-img {
 }
 
 .grow:hover {
-    height: 700px;
+    height: 38vw;
 }
 
 
@@ -385,7 +387,7 @@ iframe {
 /* overlay on top of video */
 .proj-desc2.overlay-about {
     position: absolute;
-    top: 4vw;
+    top: 5.5vw;
     left: 0;
     right: 0;
     bottom: 0;
@@ -400,6 +402,12 @@ iframe {
 .grew.grow {
     height: 56vw;
 
+}
+
+.grew.line {
+    height: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .grow.about-long {
@@ -417,9 +425,14 @@ iframe {
     width: 100%;
     height: 50vw;
     position: relative;
-    margin-top: 1vw;
+    margin-top: 0vw;
     padding-bottom: 50px;
     opacity: ;
+}
+
+.scrrollDiv.about video {
+    height: 80vw;
+    
 }
 
 /* main type for the area*/
@@ -433,8 +446,7 @@ p.about-subtitle {
 }
 
 .about-subtitle span {
-    font-family: 'GT America Medium Italic';
-
+    font-family: 'GT America Medium';
 }
 
 .about-subtitle span.last-word {
