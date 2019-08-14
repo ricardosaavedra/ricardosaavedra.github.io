@@ -266,7 +266,7 @@ div.scrollableArea {
 /* any other img heigh controls how image inside the carousel scale */
 .scrrollDiv img,
 .scrrollDiv video {
-    height: 30vw;
+    height: 50vw;
 }
 
 /* ui img that needs a shorter width*/
@@ -294,7 +294,7 @@ img.ui-img {
 /*cuts the images*/
 .scrrollDiv {
     width: 100%;
-    height: 50vw;
+    height: 60vw;
     position: relative;
     margin-top: 0.9vw;
     padding-bottom: 50px;
@@ -341,7 +341,7 @@ img.ui-img {
 }
 
 .grow:hover {
-    height: 38vw;
+    height: 58vw;
 }
 
 
