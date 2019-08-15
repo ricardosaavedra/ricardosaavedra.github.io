@@ -135,6 +135,8 @@ a.title-scroll-category:hover ,a.title-scroll-category-last:hover, a.title-scrol
 .grow p {
     font-family: 'GT America Regular', arial;
     font-size: 1.8vw;
+    margin-bottom: 0.1vw;
+    margin-top: 0.1vw;
 }
 
 .title-scroll-category-last {
@@ -348,7 +350,7 @@ img.ui-img {
 }
 
 .grow:hover {
-    height: 58vw;
+    height: 59vw;
 }
 
 
@@ -452,10 +454,14 @@ p.about-subtitle {
 
 }
 
+
+
 p a {
     color: black;
     text-decoration: underline;
 }
+
+
 
 p a:hover {
     color: #484848;
