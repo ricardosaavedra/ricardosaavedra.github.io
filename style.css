@@ -296,7 +296,7 @@ img.ui-img {
     width: 100%;
     height: 60vw;
     position: relative;
-    margin-top: 0.9vw;
+    margin-top: 2vw;
     padding-bottom: 50px;
 }
 
@@ -337,7 +337,14 @@ img.ui-img {
     border-top: 2px solid black;
     margin-left: 20px;
     margin-right: 20px;
-    padding-top: 0.8vw;
+    padding-top: 0.6vw;
+}
+
+.grow .line2 {
+    border-top: 0px solid black;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 0.6vw;
 }
 
 .grow:hover {
@@ -443,6 +450,16 @@ p.about-subtitle {
     text-transform: uppercase;
     text-align: center;
 
+}
+
+p a {
+    color: black;
+    text-decoration: underline;
+}
+
+p a:hover {
+    color: #484848;
+    text-decoration: underline;
 }
 
 .about-subtitle span {
