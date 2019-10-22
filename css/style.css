@@ -1,18 +1,28 @@
 @font-face {
     font-family: 'Lausanne';
-    src: url('Lausanne-Regular.woff2') format('woff2'),
-        url('Lausanne-Regular.woff') format('woff');
+    src: url('Lausanne-Regular.eot');
+    src: url('Lausanne-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Lausanne-Regular.woff2') format('woff2'),
+        url('Lausanne-Regular.woff') format('woff'),
+        url('Lausanne-Regular.ttf') format('truetype'),
+        url('Lausanne-Regular.svg#Lausanne-Regular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Ogg';
-    src: url('Ogg-Roman.woff2') format('woff2'),
-        url('Ogg-Roman.woff') format('woff');
+    src: url('Ogg-Roman.eot');
+    src: url('Ogg-Roman.eot?#iefix') format('embedded-opentype'),
+        url('Ogg-Roman.woff2') format('woff2'),
+        url('Ogg-Roman.woff') format('woff'),
+        url('Ogg-Roman.ttf') format('truetype'),
+        url('Ogg-Roman.svg#Ogg-Roman') format('svg');
     font-weight: normal;
     font-style: normal;
 }
+
+
 
 
 
@@ -41,7 +51,7 @@
 }
 
 .img-hero p {
-    font-family: Lausanne, arial;
+    font-family: Lausanne, helvetica;
     position: absolute;
     z-index: 999;
     margin: 0 auto;
