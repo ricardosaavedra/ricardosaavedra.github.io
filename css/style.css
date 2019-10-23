@@ -23,9 +23,6 @@
 }
 
 
-
-
-
 .container-fluid.full {
     padding-right: 0px;
     padding-left: 0px;
@@ -70,7 +67,7 @@
 
 
 .img-hero h2 {
-    font-family: Lausanne, arial;
+    font-family: Ogg, arial;
     position: absolute;
     z-index: 999;
     margin: 0 auto;
@@ -99,12 +96,15 @@
 }
 
 h3 {
-    font-family: Ogg, arial;
-    font-size: 3.5vw
+    font-family: Lausanne, arial;
+    font-size: 3.5vw;
+    line-height: 5vw
 }
 
+
 h3 span {
-    font-size: 2.8rem
+    font-family: Ogg, arial;
+    font-size: 3.1rem
 }
 
 .tagline {
@@ -124,8 +124,6 @@ h3 span {
     font-family: Ogg, arial;
     font-size: 2.4rem
 }
-
-
 
 .bio span {
     font-family: Lausanne, arial;
@@ -149,6 +147,7 @@ h3 span {
 
 .menu {
     color: black;
+    font-family: Lausanne, arial;
 }
 
 .menu.menu-active {
@@ -157,4 +156,46 @@ text-decoration: underline
 
 .end-page {
     height: 10vw;
+}
+
+.bg-light {
+    background-color: none;
+}
+
+.project-title {
+    margin-top: 2vw;
+    margin-bottom: 4vw;    
+}
+
+.display-title1 {
+    font-size: 4.5vw;
+    line-height: 5vw;
+    font-weight: 400;
+}
+
+.display-title1  span {
+    font-size: 5.1vw;
+    line-height: 8vw;
+    font-family: Ogg, arial;    
+}
+
+.display-title2 {
+    font-size: 3.9vw;    
+}
+
+.display-title4 {
+    font-family: Ogg, arial; 
+    font-size: 2.7vw;
+    letter-spacing: 0.08rem;
+}
+
+.p-desc {
+    font-size: 2.6vw
+        
+}
+
+.p-desc span {
+    font-size: 2.6vw;
+    font-family: Ogg, arial;
+
 }
