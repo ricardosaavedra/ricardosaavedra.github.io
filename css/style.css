@@ -32,6 +32,7 @@
     -webkit-filter: brightness(60%);
     /* Safari 6.0 - 9.0 */
     filter: brightness(60%);
+    
 }
 
 .carousel-caption {
@@ -61,8 +62,6 @@
     width: 95%;
     /* Set the width of the positioned div */
     font-size: 1.5vw
-
-
 }
 
 
@@ -80,7 +79,6 @@
     /* Set the width of the positioned div */
     color: white;
     font-size: 3vw
-
 }
 
 .img-hero h3 {
@@ -107,18 +105,25 @@ h3 span {
     font-size: 3.1rem
 }
 
+/*big title on home page*/
 .tagline {
-    margin: 5% 0
-}
-
-.row.bio {
-    margin: 3% 0 0 0
-}
-
-.bio,.tagline {
+    font-size: 10vw;
+    line-height: 15vw;
     font-family: Ogg, arial;
-    font-size: 2.2rem
 }
+
+.row.home-top {
+    margin: 2% 0 0 0;
+}
+
+.bio,
+.menu {
+    font-family: Lausanne, arial;
+    font-size: 1.9rem;
+    line-height: 2.4rem;
+}
+
+
 
 .bio-info {
     font-family: Ogg, arial;
@@ -135,11 +140,6 @@ h3 span {
     font-size: 2.2rem
 }
 
-.tagline {
-    font-size: 10vw;
-    line-height: 15vw;
-}
-
 .tagline-info {
     font-size: 8vw;
     line-height: 10vw;
@@ -151,7 +151,7 @@ h3 span {
 }
 
 .menu.menu-active {
-text-decoration: underline
+    text-decoration: underline;
 }
 
 .end-page {
@@ -163,39 +163,87 @@ text-decoration: underline
 }
 
 .project-title {
-    margin-top: 2vw;
-    margin-bottom: 4vw;    
+    
 }
 
 .display-title1 {
-    font-size: 4.5vw;
+    font-size: 4.2rem;
     line-height: 5vw;
     font-weight: 400;
+    margin-top: 2vw;
+    margin-bottom: 3vw;
 }
 
-.display-title1  span {
-    font-size: 5.1vw;
-    line-height: 8vw;
-    font-family: Ogg, arial;    
+.display-title1 span {
+    font-size: 4.6rem;
+    line-height: 8rem;
+    font-family: Ogg, arial;
 }
 
 .display-title2 {
-    font-size: 3.9vw;    
+    font-size: 10rem;
+    font-family: Ogg, arial;
+    line-height: 12rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+.display-title3 {
+    font-size: 2rem;
 }
 
 .display-title4 {
-    font-family: Ogg, arial; 
+    font-family: Ogg, arial;
     font-size: 2.7vw;
     letter-spacing: 0.08rem;
 }
 
-.p-desc {
-    font-size: 2.6vw
-        
+.text1 {
+    font-size: 2.0rem;
+    
 }
 
-.p-desc span {
-    font-size: 2.6vw;
+.text2 {
+    font-size: 1.3rem;
+    line-height: 2.2rem;
+    margin-bottom: 2rem;
+}
+
+.text1 span {
+    text-decoration: underline;
+    font-family: Lausanne, arial;
+}
+
+.blockquote, blockquote {
+    text-decoration: underline;
+}
+
+/* #### target mobile devices with max device width 480px #### */
+@media screen and (max-width: 880px) {
+
+    /* some css here */
+    .text1 {
+        font-size: 1.6rem
+    }
+    
+    .display-title2 {
+    font-size: 6rem;
     font-family: Ogg, arial;
-
+    line-height: 7rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
 }
+    
+    .display-title1 {
+    font-size: 3.4rem;
+    line-height: 4rem;
+    font-weight: 400;
+}
+
+.display-title1 span {
+    font-size: 3.8rem;
+    font-family: Ogg, arial;
+}
+}
+
+/* #### target mobile devices with max device width 480px #### */
