@@ -168,7 +168,7 @@ h3 span {
 
 .display-title1 {
     font-size: 4.2rem;
-    line-height: 5vw;
+
     font-weight: 400;
     margin-top: 2vw;
     margin-bottom: 3vw;
@@ -176,7 +176,6 @@ h3 span {
 
 .display-title1 span {
     font-size: 4.6rem;
-    line-height: 8rem;
     font-family: Ogg, arial;
 }
 
