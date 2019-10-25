@@ -198,8 +198,7 @@ h3 span {
 }
 
 .text1 {
-    font-size: 2.0rem;
-    
+    font-size: 2.0rem; 
 }
 
 .text2 {
@@ -211,6 +210,11 @@ h3 span {
 .text1 span {
     text-decoration: underline;
     font-family: Lausanne, arial;
+    color: black;
+}
+
+.text1 a {
+    color: black;
 }
 
 .blockquote, blockquote {
