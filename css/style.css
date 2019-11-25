@@ -340,3 +340,8 @@ body {
         padding-left: 5vw;
     }
 }
+
+em {
+    font-size: 1rem;
+    vertical-align: top;
+}
