@@ -217,7 +217,7 @@ h3 span {
     margin-bottom: 4vw;
 }
 
-.text2 {
+.text2, ul li, ol li {
     font-size: 1.3rem;
     line-height: 2.2rem;
     margin-bottom: 2rem;
@@ -344,4 +344,13 @@ body {
 em {
     font-size: 1rem;
     vertical-align: top;
+    font-style: normal;
+}
+
+.list, .list-ordered{
+    padding-left: 6rem;
+}
+
+.list bold {
+    font-weight: 700;
 }
