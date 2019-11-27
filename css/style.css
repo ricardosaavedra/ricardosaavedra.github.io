@@ -209,6 +209,9 @@ h3 span {
 
 .display-title3 {
     font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    
 }
 
 
@@ -230,6 +233,8 @@ h3 span {
     color: black;
 }
 
+.text3 span {line-height: 2}
+
 .text1 a {
     color: black;
 }
@@ -238,6 +243,7 @@ h3 span {
 blockquote {
     text-decoration: underline;
 }
+
 
 .display-title1 span {
     font-size: 3.8rem;
