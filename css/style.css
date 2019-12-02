@@ -161,6 +161,10 @@ h3 span {
     font-family: Lausanne, arial;
 }
 
+.menu.menu-inactive {
+    color: lightgrey    ;
+}
+
 .menu.menu-active {
     text-decoration: underline;
 }
@@ -305,6 +309,10 @@ a:hover {
 
 body {
     background-color: ;
+}
+
+p a {
+    text-decoration: underline;
 }
 
 /* #### target mobile devices with max device width 480px #### */
