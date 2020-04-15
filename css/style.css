@@ -108,7 +108,6 @@ h3 {
     font-family: Lausanne, arial;
     font-size: 3.5vw;
     line-height: 5vw
-        
 }
 
 
@@ -133,7 +132,7 @@ h3 span {
     font-family: Lausanne, arial;
     font-size: 1.9rem;
     line-height: 2.4rem;
-    
+
 }
 
 
@@ -173,7 +172,7 @@ h3.bio a {
 }
 
 .menu.menu-inactive {
-    color: lightgrey    ;
+    color: lightgrey;
 }
 
 .menu.menu-active {
@@ -223,22 +222,31 @@ h3.bio a {
 }
 
 .display-title3 {
-    font-size: 2rem;
+    font-size: 1.8vw;
     margin-top: 2rem;
     margin-bottom: 0.5rem;
-    
+
+}
+
+.display-title4 {
+    margin-top: 0rem;
+    margin-bottom: 0.5rem;
+    font-size: 4rem;
 }
 
 
 .text1 {
     font-size: 1.8rem;
     margin-bottom: 4vw;
+    padding: 0;
 }
 
-.text2, ul li, ol li {
+.text2,
+ul li,
+ol li {
     font-size: 1.3rem;
     line-height: 2.2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.1rem;
 }
 
 .text1 span,
@@ -248,7 +256,9 @@ h3.bio a {
     color: black;
 }
 
-.text3 span {line-height: 2}
+.text3 span {
+    line-height: 2
+}
 
 .text1 a {
     color: black;
@@ -277,12 +287,10 @@ img {
 /* home */
 
 .display-title4 {
-    font-size: 4.2vw;
-    font-family: Lausanne, arial;
+    font-size: vw;
     color: black;
-    margin: 0;
-    letter-spacing: 0.08rem;
-    padding-left: 2vw;
+    font-family: Lausanne, arial;
+
 
 }
 
@@ -309,8 +317,8 @@ img {
 
 a:hover {
     text-decoration: none;
-    color:darkgrey;
-    
+    color: darkgrey;
+
 }
 
 .opacity {
@@ -357,7 +365,7 @@ p a {
     }
 
     .text4 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         padding-left: 5vw;
     }
 
@@ -372,7 +380,8 @@ em {
     font-style: normal;
 }
 
-.list, .list-ordered{
+.list,
+.list-ordered {
     padding-left: 6rem;
 }
 
