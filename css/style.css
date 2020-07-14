@@ -593,9 +593,7 @@ ol.list-new li:first-child {
 
 ul.list-new li:last-child, 
 ol.list-new li:last-child {
-    border-bottom: 0px solid black;
-    
-    
+    border-bottom: 0px solid black;    
 }
 
 
@@ -662,6 +660,12 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 .bg-purple-light {
     background-color: #5738AF;
 }
+
+.bg-purple-light-alt {
+    background-color: #482D94;
+}
+
+
 
 .bg-purple-blue {
     background-color: #CBCEE3;
@@ -732,4 +736,8 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 
 .no-margin-top {
     margin-top: 0
+}
+
+.no-margin-bottom {
+    margin-bottom: 0
 }
