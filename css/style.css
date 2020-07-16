@@ -479,13 +479,13 @@ h2.title1-new span {
 
 /* big title for sections */
 .title1-new {
-    font-size: 6.5rem;
+    font-size: 6rem;
     font-family: 'Suisse Int\'l';
     font-weight: normal;
     font-style: normal;
     padding: 2rem 0px;
     margin: 0;
-    line-height: 7rem
+    line-height: 6.5rem
 }
 
 
@@ -522,13 +522,20 @@ h2.title1-new span {
 
 /* first paragraph */
 .text1-new {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-family: 'Suisse Int\'l';
     font-weight: 500;
     font-style: normal;
     line-height: 2.5rem;
 
 }
+
+.text1-new span {
+    font-family: 'Suisse Int\'l';
+    font-weight: normal;
+    font-style: italic;
+}
+
 
 /* text body */
 .text2-new {
@@ -583,6 +590,12 @@ ol li span {
     font-weight: normal;
     font-style: italic;
     line-height: 2.4rem;
+}
+
+.italic {
+    font-family: 'Suisse Int\'l';
+    font-weight: normal;
+    font-style: italic;
 }
 
 ul.list-new li,
@@ -655,7 +668,8 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000", endColorstr="#000000", GradientType=1);
 }
 
-.img-gradient img, {
+.img-gradient img,
+    {
     display: block;
 }
 
@@ -722,15 +736,15 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 }
 
 .pt-6 {
-    padding-top:6rem;
+    padding-top: 6rem;
 }
 
 .pt-7 {
-    padding-top:7rem;
+    padding-top: 7rem;
 }
 
 .pb-6 {
-    padding-bottom:6rem;
+    padding-bottom: 6rem;
 }
 
 .pb-7 {
@@ -773,6 +787,8 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 
 .grid-container-text {
     position: relative;
+    border-radius: 10px;
+    overflow: hidden
 }
 
 .grid-container {
@@ -785,24 +801,27 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     width: 100%;
     opacity: 0;
     transition: 1s ease;
-    background-color: #008CBA;
+    background-color: #000;
     color: white;
 }
 
 .grid-container-text:hover .grid-container {
-    opacity: 1;
+    opacity: 0.8;
 }
 
 .grid-container .client {
     position: absolute;
     top: 1.5rem;
     left: 2rem;
+    opacity: 1;
+    color: white;
+    z-index: 2;
 
 }
 
 .grid-container .tags {
     position: absolute;
-    top: 6.5rem;
+    bottom: 1.8rem;
     left: 2rem;
     font-family: 'Suisse Int\'l';
     font-weight: normal;
@@ -825,6 +844,16 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 
 .grid-container .proj-description {
     position: absolute;
+    bottom: 6.3rem;
+    left: 2rem;
+    padding-right: 4rem;
+    margin-bottom: 0;
+}
+
+.case-study {
+    color: white;
+    text-decoration: none;
+  position: absolute;
     bottom: 1.5rem;
     left: 2rem;
     padding-right: 2rem;
@@ -833,13 +862,13 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 
 @media (max-width: 576px) {
     html {
-        font-size: 72.5%;
+        font-size: 60%;
     }
 }
 
 @media (max-width: 991.98px) {
     html {
-        font-size: 90%;
+        font-size: 55%;
     }
 }
 
@@ -878,7 +907,7 @@ html {
     left: 3rem;
     bottom: 0rem;
     z-index: 2;
-    padding-right:3rem 
+    padding-right: 3rem
 }
 
 .text-video-entry p {
@@ -906,5 +935,21 @@ html {
 
 .border-home-services-top {
     border-top: 1px solid white;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+p.round-list {
+    border: 1px solid white;
+    color: white;
+    border-radius: 45px;
+    padding: 0.3em 1.5rem 0.4rem 1.5rem;
+    margin: 0rem 1rem 1rem 0rem;
+    float: left;
+
+}
+
+.b-left {
+    border-left: 0px solid white;
 }
 
