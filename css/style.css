@@ -968,7 +968,7 @@ html {
 p.round-list, h3.round-list {
     border: 1px solid white;
     color: white;
-    border-radius: 400px;
+    border-radius: 60px;
     padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     margin: -5px 1rem 1rem 0rem;
     float: left;
@@ -984,7 +984,7 @@ h3.skill {
     
 }
     .text1-new video {
-
+        width: rem;
         padding-top: 1.2rem;
         margin: 0rem 1rem 0rem 0rem;
         display: inline;
