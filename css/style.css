@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: 'Suisse Int\'l';
     src: url('/SuisseIntl-Book.woff2') format('woff2'),
@@ -38,30 +39,8 @@
     font-display: swap;
 }
 
-
-
-@font-face {
-    font-family: 'Lausanne';
-    src: url('Lausanne-Regular.eot');
-    src: url('Lausanne-Regular.eot?#iefix') format('embedded-opentype'),
-        url('Lausanne-Regular.woff2') format('woff2'),
-        url('Lausanne-Regular.woff') format('woff'),
-        url('Lausanne-Regular.ttf') format('truetype'),
-        url('Lausanne-Regular.svg#Lausanne-Regular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Ogg';
-    src: url('Ogg-Roman.eot');
-    src: url('Ogg-Roman.eot?#iefix') format('embedded-opentype'),
-        url('Ogg-Roman.woff2') format('woff2'),
-        url('Ogg-Roman.woff') format('woff'),
-        url('Ogg-Roman.ttf') format('truetype'),
-        url('Ogg-Roman.svg#Ogg-Roman') format('svg');
-    font-weight: normal;
-    font-style: normal;
+body {
+    font-family:sans-serif, helvetica;
 }
 
 
@@ -483,7 +462,7 @@ h2.title1-new span {
     font-family: 'Suisse Int\'l';
     font-weight: normal;
     font-style: normal;
-    padding: 2rem 0px;
+    padding: 2rem 0 1rem 0;
     margin: 0;
     line-height: 6.5rem
 }
@@ -513,7 +492,7 @@ h2.title1-new span {
 
 /* not-bold and thiner titles */
 .title4-new {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-family: 'Suisse Int\'l';
     font-weight: 500;
     font-style: normal;
@@ -526,7 +505,8 @@ h2.title1-new span {
     font-family: 'Suisse Int\'l';
     font-weight: 500;
     font-style: normal;
-    line-height: 2.5rem;
+    line-height: 2.1rem;
+    margin-bottom: 2rem;
 
 }
 
@@ -547,6 +527,19 @@ h2.title1-new span {
     margin-bottom: 2rem;
 }
 
+.extra-lh {
+    line-height: 2rem;
+}
+
+/* text body */
+.text2-new span {
+    font-size: 1.1rem;
+    font-family: 'Suisse Int\'l';
+    font-weight: normal;
+    font-style: italic;
+    line-height: 1.6rem;
+    margin-bottom: 2rem;
+}
 
 ul.bullet-new,
 ul.list-new,
@@ -589,7 +582,7 @@ ol li span {
     font-family: 'Suisse Int\'l';
     font-weight: normal;
     font-style: italic;
-    line-height: 2.4rem;
+    line-height: 2.8rem
 }
 
 .italic {
@@ -607,6 +600,15 @@ ol.list-new li {
     border-bottom: 1px solid black;
 }
 
+ul li a {
+    color: white;
+}
+
+
+ul li a:hover {
+    text-decoration: underline;
+}
+
 ul.list-new li.b-white,
 ol.list-new li.b-white {
     border-bottom: 1px solid white;
@@ -614,7 +616,6 @@ ol.list-new li.b-white {
 
 ul.list-new li:first-child,
 ol.list-new li:first-child {
-
     padding-top: 0px;
 }
 
@@ -690,10 +691,12 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 }
 
 .bg-purple-light-alt {
-    background-color: #482D94;
+    background-color: #5436A7;
 }
 
-
+.bg-taxonomy {
+    background-color: #F6F6F6
+}
 
 .bg-purple-blue {
     background-color: #CBCEE3;
@@ -751,6 +754,18 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     padding-bottom: 7rem;
 }
 
+.pl-7 {
+    padding-left:7rem;
+}
+
+.pr-7 {
+    padding-right: 7rem;
+}
+
+.no-margin {
+    margin-bottom: 0;
+}
+
 .figure-caption {
     font-family: 'Suisse Int\'l';
     font-weight: normal;
@@ -800,7 +815,7 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     height: 100%;
     width: 100%;
     opacity: 0;
-    transition: 1s ease;
+    transition: 2s ease;
     background-color: #000;
     color: white;
 }
@@ -831,7 +846,7 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 
 .grid-container .tags span {
     border: 1px solid white;
-    border-radius: 25px;
+    border-radius: 15px;
     padding: 0.2rem 0.8rem 0.2rem 0.8rem;
     margin-right: 0.6rem
 }
@@ -844,7 +859,7 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
 
 .grid-container .proj-description {
     position: absolute;
-    bottom: 6.3rem;
+    bottom: 3.5rem;
     left: 2rem;
     padding-right: 4rem;
     margin-bottom: 0;
@@ -854,10 +869,16 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     color: white;
     text-decoration: none;
   position: absolute;
-    bottom: 1.5rem;
+    bottom: 1rem;
     left: 2rem;
     padding-right: 2rem;
     margin-bottom: 0;
+    
+}
+
+.case-study a {
+    text-decoration: none;
+    color: white;
 }
 
 @media (max-width: 576px) {
@@ -898,7 +919,7 @@ html {
     min-width: 100%;
     min-height: 100%;
     transform: translate(-50%, -50%);
-    opacity: 0.5;
+    opacity: 0.8;
 }
 
 .text-video-entry {
@@ -923,6 +944,11 @@ html {
 
 .navbar a {
     color: white;
+    text-shadow: 0px 0px 60px white;
+}
+
+.navbar.internal a {
+    color: black;
 }
 
 .dont-show {
@@ -939,12 +965,12 @@ html {
     padding-bottom: 0;
 }
 
-p.round-list {
+p.round-list, h3.round-list {
     border: 1px solid white;
     color: white;
-    border-radius: 45px;
-    padding: 0.3em 1.5rem 0.4rem 1.5rem;
-    margin: 0rem 1rem 1rem 0rem;
+    border-radius: 400px;
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+    margin: -5px 1rem 1rem 0rem;
     float: left;
 
 }
@@ -953,3 +979,15 @@ p.round-list {
     border-left: 0px solid white;
 }
 
+h3.skill {
+    float: none;
+    
+}
+    .text1-new video {
+
+        padding-top: 1.2rem;
+        margin: 0rem 1rem 0rem 0rem;
+        display: inline;
+        opacity: 0.2;
+        
+}
