@@ -560,11 +560,12 @@ ol.list-new li {
     background: url("/img/bullet.svg") no-repeat top left;
     background-position: 0 0px;
     padding: 0rem 0px 0px 50px;
+    margin-top: -4px;
     font-size: 1.4rem;
     font-family: 'Suisse Int\'l';
     font-weight: normal;
     font-style: normal;
-    line-height: 2rem;
+    line-height: 2.2rem;
     margin: 0 0px 0px 0px;
 }
 
@@ -582,7 +583,7 @@ ol li span {
     font-family: 'Suisse Int\'l';
     font-weight: normal;
     font-style: italic;
-    line-height: 2.8rem
+    line-height: 2.2rem
 }
 
 .italic {
@@ -596,12 +597,16 @@ ol.list-new li {
     background: none;
     padding-left: 0;
     padding-bottom: 1.2rem;
-    padding-top: 1.2rem;
+    padding-top: 1rem;
     border-bottom: 1px solid black;
 }
 
-ul li a {
+ul.home li a {
     color: white;
+}
+
+ul li a {
+    color: black;
 }
 
 
@@ -919,7 +924,7 @@ html {
     min-width: 100%;
     min-height: 100%;
     transform: translate(-50%, -50%);
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .text-video-entry {
@@ -961,6 +966,10 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endCo
 .navbar a {
     color: white;
     }
+
+.menu.gray {
+    color: #C1C1C1;
+}
 
 .navbar.internal a {
     color: white;
