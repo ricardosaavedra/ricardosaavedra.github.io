@@ -820,7 +820,7 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     height: 100%;
     width: 100%;
     opacity: 0;
-    transition: 2s ease;
+    transition: 1.5s ease-in;
     background-color: #000;
     color: white;
 }
