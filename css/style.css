@@ -715,6 +715,11 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     background-color: #262626;
 }
 
+.bg-tWizResearch { 
+background-color: #8E99FF    
+}
+
+
 .text-white {
     color: white;
 }
@@ -981,6 +986,10 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endCo
 
 .border-home-services {
     border-bottom: 1px solid white;
+}
+
+.border-bottom-c {
+    border-bottom: 1px solid black;
 }
 
 .border-home-services-top {
