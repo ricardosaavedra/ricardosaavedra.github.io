@@ -601,6 +601,10 @@ ol.list-new li {
     border-bottom: 1px solid black;
 }
 
+.link-text {
+   color: #212529;
+}
+
 ul.home li a {
     color: white;
 }
