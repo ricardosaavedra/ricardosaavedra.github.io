@@ -1,4 +1,3 @@
-
 @font-face {
     font-family: 'Suisse Int\'l';
     src: url('/SuisseIntl-Book.woff2') format('woff2'),
@@ -15,7 +14,7 @@
         url('SuisseIntl-Bold.woff') format('woff'),
         url('SuisseIntl-Bold.ttf') format('truetype');
     font-weight: bold;
-    font-style: normal;
+    font-style: bold;
     font-display: swap;
 }
 
@@ -39,8 +38,10 @@
     font-display: swap;
 }
 
+
+
 body {
-    font-family:sans-serif, helvetica;
+    font-family: sans-serif, helvetica;
 }
 
 
@@ -602,7 +603,7 @@ ol.list-new li {
 }
 
 .link-text {
-   color: #212529;
+    color: #212529;
 }
 
 ul.home li a {
@@ -678,8 +679,8 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000", endColorstr="#000000", GradientType=1);
 }
 
-.img-gradient img, .img-gradient
-    {
+.img-gradient img,
+.img-gradient {
     display: block;
 }
 
@@ -719,8 +720,8 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     background-color: #262626;
 }
 
-.bg-tWizResearch { 
-background-color: #8E99FF    
+.bg-tWizResearch {
+    background-color: #8E99FF
 }
 
 
@@ -769,7 +770,7 @@ background-color: #8E99FF
 }
 
 .pl-7 {
-    padding-left:7rem;
+    padding-left: 7rem;
 }
 
 .pr-7 {
@@ -882,12 +883,12 @@ background-color: #8E99FF
 .case-study {
     color: white;
     text-decoration: none;
-  position: absolute;
+    position: absolute;
     bottom: 1rem;
     left: 2rem;
     padding-right: 2rem;
     margin-bottom: 0;
-    
+
 }
 
 .case-study a {
@@ -946,17 +947,17 @@ html {
 }
 
 .gradient-video {
-  background: rgb(0,0,0);
-background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 31%, rgba(0,0,0,0) 98%);
-background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 31%, rgba(0,0,0,0) 98%);
-background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 31%, rgba(0,0,0,0) 98%);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
-  width: 100%;
-  height: 100%;
-  min-height: 600px;
-  object-fit: cover;
-  position: relative;
-  z-index: 2;
+    background: rgb(0, 0, 0);
+    background: -moz-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 31%, rgba(0, 0, 0, 0) 98%);
+    background: -webkit-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 31%, rgba(0, 0, 0, 0) 98%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 31%, rgba(0, 0, 0, 0) 98%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000", endColorstr="#000000", GradientType=1);
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
 }
 
 .text-video-entry p {
@@ -974,7 +975,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endCo
 
 .navbar a {
     color: white;
-    }
+}
 
 .menu.gray {
     color: #C1C1C1;
@@ -1002,7 +1003,8 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endCo
     padding-bottom: 0;
 }
 
-p.round-list, h3.round-list {
+p.round-list,
+h3.round-list {
     border: 1px solid white;
     color: white;
     border-radius: 60px;
@@ -1018,13 +1020,89 @@ p.round-list, h3.round-list {
 
 h3.skill {
     float: none;
+
+}
+
+.text1-new video {
+    width: rem;
+    padding-top: 1.2rem;
+    margin: 0rem 1rem 0rem 0rem;
+    display: inline;
+    opacity: 0.2;
+
+}
+
+/* #### target mobile devices with max device width 480px #### */
+
+.mt-large {
+    margin-top: 14rem;
+}
+
+@font-face {
+    font-family: 'suisse-regular';
+    src: url('SuisseIntl-Regular.woff2') format('woff2'),
+        url('SuisseIntl-Regular.woff') format('woff'),
+        url('SuisseIntl-Regular.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: block;
+
+}
+
+@font-face {
+    font-family: 'steinbeck';
+    src: url('Steinbeck-Regular.woff2') format('woff2'),
+        url('Steinbeck-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+.projDescNew, .introNew {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'suisse-regular';
+    font-style: normal;
+    margin-bottom: 2.5rem;
+    font-size: 1.3rem;
+    color: #fff;
+    text-rendering:geometricPrecision;
+
+}
+
+.projDescNew {
+    line-height: 1.6rem
+}
+
+h4.projNameNew,
+h4.comNameNew, h2.categoryNew {
+    font-family: 'steinbeck';
+    font-size:1.6rem;
+    font-style: normal;
+    color: #fff;
+    text-rendering:geometricPrecision;
+
+}
+
+h4.comNameNew {
+    color: #767676;
     
 }
-    .text1-new video {
-        width: rem;
-        padding-top: 1.2rem;
-        margin: 0rem 1rem 0rem 0rem;
-        display: inline;
-        opacity: 0.2;
-        
+
+h2.categoryNew {
+    font-size: 4rem;
+}
+
+p.introNew {
+    font-size: 2rem;
+    line-height: 2.2rem;
+    font-weight: lighter;
+    text-rendering:geometricPrecision;
+}
+
+a.menuNew {
+    font-size: 1.1rem;
+        text-rendering:geometricPrecision;
+
 }
