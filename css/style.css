@@ -1148,12 +1148,28 @@ blockquote.quote-cs {
     margin-bottom: 2.5rem;
 }
 
+/* #### regular img pattern #### */
 .img-cs {
-        margin-top: 1.875;
+        margin-top: 1.875rem;
         margin-bottom: 1.25rem;
 }
 
-.img-csb {
-        margin-top: 1.25rem;
-        margin-bottom: 1.25rem;
+video.video-reset {
+    margin: 0;
+    padding: 0;
 }
+
+/* #### use when video is on top #### */
+.img-after-vid {
+        margin-bottom: 1.25rem;
+        margin-top: -0.5rem;
+        padding-top: 0rem;
+}
+
+/* #### use when image is bellow image #### */
+.img-grid {
+        margin-top: 0rem;
+        margin-bottom: 1.25rem;
+
+}
+
