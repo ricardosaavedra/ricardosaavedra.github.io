@@ -1059,15 +1059,17 @@ h3.skill {
 }
 
 
-.projDescNew, .introNew {
+.projDescNew,
+.introNew, h4.projNameNew {
     margin: 0px;
     padding: 0px;
     font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
     font-style: normal;
     margin-bottom: 2.5rem;
     font-size: 1.3rem;
     color: #fff;
-    text-rendering:geometricPrecision;
+
 
 }
 
@@ -1075,83 +1077,180 @@ h3.skill {
     line-height: 1.6rem
 }
 
-h4.projNameNew,
-h4.comNameNew, h2.categoryNew {
+
+h4.comNameNew,
+h2.categoryNew {
     font-family: 'steinbeck';
-    font-size:1.6rem;
+    text-rendering: geometricPrecision;
+    font-size: 2.5rem;
     font-style: normal;
     color: #fff;
-    text-rendering:geometricPrecision;
+}
 
+h4.projNameNew {
+    font-size: 2.5rem;
+    margin-bottom: 0;
 }
 
 h4.comNameNew {
     color: #767676;
-    
-}
 
-h2.categoryNew {
-    font-size: 4rem;
 }
 
 p.introNew {
     font-size: 2rem;
     line-height: 2.2rem;
     font-weight: lighter;
-    text-rendering:geometricPrecision;
+    text-rendering: geometricPrecision;
 }
 
 a.menuNew {
-    font-size: 1.1rem;
-        text-rendering:geometricPrecision;
+    font-size: 2rem;
+    text-rendering: geometricPrecision;
 
 }
 
+a.menuNew.black {
+    color: black;
+}
+
+/* #### case study home #### */
+h4.caseStudyTitle {
+    color: white;
+    font-family: 'steinbeck';
+    text-rendering: geometricPrecision;
+    font-weight: 100;
+    letter-spacing: -0.01rem;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+h4.caseStudyCom,
+h4.caseStudyCall a {
+    color: white;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    text-rendering: geometricPrecision;
+    color: #767676;
+}
+
+h4.caseStudyCall a {
+    font-size: 1.4rem;
+    color: white;
+}
+
+h4.caseStudyCom a:hover {
+    text-decoration: underline;
+}
+
+h2.titleCategoryTop {
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
+    font-size: 10vw;
+    color: white;
+
+}
+
+
+
+img.arrowNew {
+    width: 03%;
+    margin-left: 0.6rem;
+
+}
 
 /* #### case study styles #### */
 
 h1.heading-1 {
-    margin-top: 8.75rem;
-    margin-bottom: 5rem;
+    margin-top: 9.75rem;
+    margin-bottom: 2.5rem;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
+    font-size: 5rem;
 }
 
 h2.heading-2 {
-    margin-top: 5rem;
     margin-bottom: 6.25rem;
+    font-size: 2.5rem;
+    font-family: 'steinbeck';
+    text-rendering: geometricPrecision;
+    
 }
 
 h3.heading-3 {
     margin-top: 6.25rem;
     margin-bottom: 0.625rem;
+    font-size: 3.75rem;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
 }
 
 h4.heading-4 {
     margin-top: 2.5rem;
     margin-bottom: 0rem;
+    font-size: 1.6rem;
+    font-family: 'steinbeck';
+    text-rendering: geometricPrecision;
+}
+
+dl dt {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 100;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+    margin-top: 2rem;
+}
+
+dl dd {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 100;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
+    font-style: normal;
+    font-size: 1.15rem;
+}
+
+
+p.copy-cs {
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    font-size: 1.15rem;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
 }
 
 h5.heading-5 {
     margin-top: 0;
     margin-bottom: 2.5rem;
+    font-size: 1.6rem;
+    font-family: 'steinbeck';
+    text-rendering: geometricPrecision;
 
-}
-
-p.copy-cs {
-    margin-top: 0.625rem;
-    margin-bottom: 0.625rem;
 }
 
 blockquote.quote-cs {
     margin-left: 6.25rem;
     margin-right: 6.25rem;
+    font-size: 2.5rem;
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
+    line-height: 2.9rem;
+    font-family: 'steinbeck';
+    text-rendering: geometricPrecision;
+    text-decoration: none;
 }
 
 /* #### regular img pattern #### */
 .img-cs {
-        margin-top: 1.875rem;
-        margin-bottom: 1.25rem;
+    margin-top: 1.875rem;
+    margin-bottom: 1.25rem;
 }
 
 video.video-reset {
@@ -1161,15 +1260,70 @@ video.video-reset {
 
 /* #### use when video is on top #### */
 .img-after-vid {
-        margin-bottom: 1.25rem;
-        margin-top: -0.5rem;
-        padding-top: 0rem;
+    margin-bottom: 1.25rem;
+    margin-top: -0.5rem;
+    padding-top: 0rem;
 }
 
 /* #### use when image is bellow image #### */
 .img-grid {
-        margin-top: 0rem;
-        margin-bottom: 1.25rem;
+    margin-top: 0rem;
+    margin-bottom: 1.25rem;
 
 }
 
+.snap-scroll {
+    position: relative;
+    height: 100vh;
+    overflow: auto;
+    scroll-snap-type: y mandatory;
+}
+
+.slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    scroll-snap-align: center;
+    z-index: 1;
+}
+
+.child {
+    position: absolute;
+    left: 1px;
+    bottom: 1px;
+    text-align: left;
+}
+
+.bottomTitle {
+    font-size: 7rem;
+    color: white;
+    font-size: 9.4vw;
+    letter-spacing: -0.4rem;
+}
+
+#background-video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -2;
+}
+
+.blur-home {
+    width: 50vw;
+    height: 100vh;
+    z-index: -1;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    backdrop-filter: blur(60px);
+
+}

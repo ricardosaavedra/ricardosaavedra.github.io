@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="90px" height="34px" viewBox="0 0 90 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
-    <title>v</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="v" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M0.5,17.5 L71.2106781,17.5" id="Line-2" stroke="#000000" stroke-width="2" stroke-linecap="square"></path>
-        <polygon id="Rectangle-7" fill="#000000" transform="translate(69.000000, 19.000000) rotate(-315.000000) translate(-69.000000, -19.000000) " points="58 8 80 8 80 30"></polygon>
-    </g>
+<svg width="53" height="36" viewBox="0 0 53 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_104_215)">
+<path d="M2 18H51M51 18L35.5 2M51 18L35.5 34" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_104_215">
+<rect width="53" height="36" fill="white"/>
+</clipPath>
+</defs>
 </svg>
