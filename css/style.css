@@ -1353,3 +1353,7 @@ video.video-reset {
    transform: translate(-50%, -50%);
  ;
 }
+
+iframe {
+    margin: 0;
+}
