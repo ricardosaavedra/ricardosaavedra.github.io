@@ -1060,7 +1060,8 @@ h3.skill {
 
 
 .projDescNew,
-.introNew, h4.projNameNew {
+.introNew,
+h4.projNameNew {
     margin: 0px;
     padding: 0px;
     font-family: 'suisse-regular';
@@ -1176,7 +1177,7 @@ h2.heading-2 {
     font-size: 2.5rem;
     font-family: 'steinbeck';
     text-rendering: geometricPrecision;
-    
+
 }
 
 h3.heading-3 {
@@ -1298,8 +1299,8 @@ video.video-reset {
 .bottomTitle {
     font-size: 7rem;
     color: white;
-    font-size: 9.4vw;
-    letter-spacing: -0.4rem;
+    font-size: 9.3vw;
+    letter-spacing: -0.2rem;
 }
 
 #background-video {
@@ -1314,44 +1315,67 @@ video.video-reset {
     z-index: -2;
 }
 
-#blur-home {
-    width: 50%;
-    height: 100vh;
-    z-index: -1;
-    object-fit: cover;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    backdrop-filter: blur(120px);
-    -webkit-backdrop-filter: blur(60px);
+@media (min-width: 720px) {
+    #blur-home {
+        width: 50%;
+        height: 100vh;
+        z-index: -1;
+        object-fit: cover;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        backdrop-filter: blur(120px);
+        -webkit-backdrop-filter: blur(60px);
+    }
 }
+
+@media (max-width: 720px) {
+    #blur-home {
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+        object-fit: cover;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        backdrop-filter: blur(120px);
+        -webkit-backdrop-filter: blur(60px);
+    }
+}
+
+
 
 .case-row {
     margin-top: 12rem;
 }
 
 .vimeo-wrapper {
-   position: fixed;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   z-index: -2;
-   pointer-events: none;
-   overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+    overflow: hidden;
 }
+
 .vimeo-wrapper iframe {
-   width: 100vw;
-   height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
-   min-height: 100vh;
-   min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
- ;
+    width: 100vw;
+    height: 56.25vw;
+    /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
+    min-height: 100vh;
+    min-width: 177.77vh;
+    /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    ;
 }
 
 iframe {
