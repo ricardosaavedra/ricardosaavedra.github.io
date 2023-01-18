@@ -1269,7 +1269,7 @@ video.video-reset {
 /* #### use when image is bellow image #### */
 .img-grid {
     margin-top: 0rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 30px;
 
 }
 
@@ -1380,4 +1380,9 @@ video.video-reset {
 
 iframe {
     margin: 0;
+}
+
+.container-fluid {
+    padding-left: 30px;
+    padding-right: 30px;
 }
