@@ -1170,6 +1170,8 @@ h1.heading-1 {
     font-family: 'suisse-regular';
     text-rendering: geometricPrecision;
     font-size: 5rem;
+    letter-spacing: -0.3rem;
+
 }
 
 h2.heading-2 {
@@ -1177,54 +1179,31 @@ h2.heading-2 {
     font-size: 2.5rem;
     font-family: 'steinbeck';
     text-rendering: geometricPrecision;
+    letter-spacing: -0.01rem;
 
 }
 
 h3.heading-3 {
     margin-top: 6.25rem;
-    margin-bottom: 0.625rem;
-    font-size: 3.75rem;
+    margin-bottom: 0.62rem;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
     font-family: 'suisse-regular';
     text-rendering: geometricPrecision;
+    letter-spacing: -0.03rem;
 }
 
-h4.heading-4 {
+h4.heading-4, h4.heading-4.mb {
     margin-top: 2.5rem;
-    margin-bottom: 0rem;
-    font-size: 1.6rem;
+    margin-bottom: -0.9rem;
+    font-size: 1.4rem;
     font-family: 'steinbeck';
     text-rendering: geometricPrecision;
+    letter-spacing: 0.0rem;
 }
 
-dl dt {
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 100;
-    font-family: 'suisse-regular';
-    text-rendering: geometricPrecision;
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
-    margin-top: 2rem;
-}
-
-dl dd {
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 100;
-    font-family: 'suisse-regular';
-    text-rendering: geometricPrecision;
-    font-style: normal;
-    font-size: 1.15rem;
-}
-
-
-p.copy-cs {
-    margin-top: 0.625rem;
-    margin-bottom: 0.625rem;
-    font-size: 1.15rem;
-    font-family: 'suisse-regular';
-    text-rendering: geometricPrecision;
+h4.heading-4.mb {
+    margin-bottom: -1rem;
 }
 
 h5.heading-5 {
@@ -1235,6 +1214,38 @@ h5.heading-5 {
     text-rendering: geometricPrecision;
 
 }
+
+
+p.copy-cs {
+    font-size: 1.15rem;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+    letter-spacing: -0.03rem;
+    line-height: 1.6rem;
+}
+
+dl dd {
+    font-size: 1.15rem;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    letter-spacing: -0.03rem;
+    line-height: 1.6rem;
+}
+
+dl dt {
+    font-size: 1.05rem;
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
+    margin-top: 1.8rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.0rem;
+    line-height: 1.6rem;
+}
+
 
 blockquote.quote-cs {
     margin-left: 6.25rem;
@@ -1270,7 +1281,22 @@ video.video-reset {
 .img-grid {
     margin-top: 0rem;
     margin-bottom: 30px;
+}
 
+.img-grid-1st {
+    margin-top: 1.875rem;
+    margin-bottom: 30px;
+}
+
+/* #### regular img pattern #### */
+.img-cs {
+    margin-top: 1.875rem;
+    margin-bottom: 1.25rem;
+}
+
+.img-cs-last {
+    margin-top: 1.875rem;
+    margin-bottom: 0;
 }
 
 .snap-scroll {
