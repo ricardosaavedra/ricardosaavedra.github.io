@@ -1070,8 +1070,6 @@ h4.projNameNew {
     margin-bottom: 2.5rem;
     font-size: 1.3rem;
     color: #fff;
-
-
 }
 
 .projDescNew {
@@ -1099,10 +1097,11 @@ h4.comNameNew {
 }
 
 p.introNew {
-    font-size: 2rem;
-    line-height: 2.2rem;
+    font-size: 1.5rem;
+    line-height: 2.1rem;
     font-weight: lighter;
     text-rendering: geometricPrecision;
+    margin-top: -2rem;
 }
 
 a.menuNew {
@@ -1193,7 +1192,8 @@ h3.heading-3 {
     letter-spacing: -0.03rem;
 }
 
-h4.heading-4, h4.heading-4.mb {
+h4.heading-4,
+h4.heading-4.mb {
     margin-top: 2.5rem;
     margin-bottom: -0.9rem;
     font-size: 1.3rem;
@@ -1342,47 +1342,59 @@ video.video-reset {
     z-index: -2;
 }
 
-@media (min-width: 720px) {
+#blur-home {
+    width: 50%;
+    height: 100vh;
+    z-index: -1;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    backdrop-filter: blur(120px);
+    -webkit-backdrop-filter: blur(60px);
+}
+
+/* #### everything bigger than 980 #### */
+
+@media (min-width: 1350px) {
     #blur-home {
         width: 50%;
-        height: 100vh;
-        z-index: -1;
-        object-fit: cover;
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        backdrop-filter: blur(120px);
-        -webkit-backdrop-filter: blur(60px);
     }
-    
-     html {
+
+    p.introNew {
+    font-size: 1.9rem;
+    line-height: 2.5rem;
+
+}
+
+}
+
+@media (min-width: 980px) {
+    #blur-home {
+        width: 50%;
+    }
+
+    html {
         font-size: 16px;
     }
 }
 
-@media (max-width: 720px) {
+/* #### everything from 960 until below #### */
+
+@media (max-width: 960px) {
     #blur-home {
         width: 100%;
-        height: 100vh;
-        z-index: -1;
-        object-fit: cover;
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        backdrop-filter: blur(120px);
-        -webkit-backdrop-filter: blur(60px);
     }
-    
+
     html {
         font-size: 14px;
     }
-    
-   
 }
+
+
+
 
 
 
