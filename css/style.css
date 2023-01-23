@@ -38,6 +38,10 @@
     font-display: swap;
 }
 
+html {
+        text-rendering: geometricPrecision;
+
+}
 
 
 body {
@@ -1030,7 +1034,7 @@ h3.skill {
     margin-bottom: 10vw;
 }
 
-.mt-6 {
+div.mt-6 {
     margin-top: 10vw;
 }
 
