@@ -1064,22 +1064,6 @@ h3.skill {
 }
 
 
-.projDescNew,
-h4.projNameNew {
-    margin: 0px;
-    padding: 0px;
-    font-family: 'suisse-regular';
-    text-rendering: geometricPrecision;
-    font-style: normal;
-    margin-bottom: 2.5rem;
-    font-size: 1.3rem;
-    color: #fff;
-}
-
-.projDescNew {
-    line-height: 1.6rem
-}
-
 
 h2.categoryNew {
     font-family: 'steinbeck';
@@ -1091,10 +1075,7 @@ h2.categoryNew {
 
 
 
-h4.projNameNew {
-    font-size: 2.5rem;
-    margin-bottom: 0;
-}
+
 
 h4.caseStudyCall a {
     color: white;
@@ -1135,7 +1116,8 @@ h1.heading-1 {
 }
 
 /* #### HEADING 3 - PAGE TITLES #### */
-p.introNew, a.menuNew {
+p.introNew,
+a.menuNew {
     font-size: 1.7rem;
     line-height: 2rem;
     font-weight: lighter;
@@ -1221,7 +1203,7 @@ blockquote.quote-cs,
 h4.heading-4 {
     margin-top: 0;
     margin-bottom: 2.3rem;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     font-family: 'steinbeck';
     text-rendering: geometricPrecision;
     letter-spacing: 0.0rem;
@@ -1247,7 +1229,8 @@ blockquote.quote-cs {
     padding-right: 1rem;
 }
 
-p.copy-cs, dl dd {
+p.copy-cs,
+dl dd {
     font-size: 1.25rem;
     font-family: 'suisse-regular';
     text-rendering: geometricPrecision;
@@ -1261,7 +1244,8 @@ p.mt {
 }
 
 p.last,
-img.last, dl.alone {
+img.last,
+dl.alone {
     margin-bottom: 0;
 }
 
@@ -1422,7 +1406,7 @@ h2.titleCategoryTop {
         text-align: left;
     }
 
-.navbar {
+    .navbar {
         padding-left: 1rem;
         padding-right: 1rem;
     }
@@ -1450,13 +1434,13 @@ h2.titleCategoryTop {
     #blur-home {
         width: 100%;
     }
-    
+
 
     html {
         font-size: 14px;
     }
 
-.navbar {
+    .navbar {
         padding-left: 0.9rem;
         padding-right: 0.9rem;
     }
@@ -1469,7 +1453,7 @@ h2.titleCategoryTop {
 
     .child {
         position: absolute;
-        left: 0.1rem;
+        left: 1rem;
         bottom: 1px;
         text-align: left;
     }
@@ -1483,6 +1467,22 @@ h2.titleCategoryTop {
     .img-grid-1st {
         margin-top: 0;
         margin-bottom: 1rem;
+    }
+
+    .snap-scroll {
+        position: relative;
+        height: 95vh;
+        overflow: auto;
+        scroll-snap-type: y mandatory;
+    }
+
+    .slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 95vh;
+        scroll-snap-align: center;
+        z-index: 1;
     }
 
 }
