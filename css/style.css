@@ -38,10 +38,6 @@
     font-display: swap;
 }
 
-html {
-        text-rendering: geometricPrecision;
-
-}
 
 
 body {
@@ -1034,7 +1030,7 @@ h3.skill {
     margin-bottom: 10vw;
 }
 
-div.mt-6 {
+.mt-6 {
     margin-top: 10vw;
 }
 
@@ -1354,7 +1350,7 @@ video.video-reset {
 h4.bottomTitle,
 h2.titleCategoryTop {
     color: white;
-    font-size: 8.5vw;
+    font-size: 7.9vw;
     letter-spacing: -0.2vw;
     /* Title Shadow */
     text-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
@@ -1477,9 +1473,10 @@ h2.titleCategoryTop {
     #blur-home {
         width: 100%;
     }
+    
 
     html {
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .navbar {
@@ -1492,10 +1489,7 @@ h2.titleCategoryTop {
         padding-right: 1rem;
     }
 
-    div.container-fluid {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
+    
 
     .child {
         position: absolute;
