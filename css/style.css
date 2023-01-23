@@ -1046,9 +1046,9 @@ h3.skill {
 
 @font-face {
     font-family: 'suisse-regular-bold';
-    src: url('SuisseIntl-Bold.woff2') format('woff2'),
-        url('SuisseIntl-Bold.woff') format('woff'),
-        url('SuisseIntl-Bold.ttf') format('truetype');
+    src: url('SuisseIntl-Book.woff2') format('woff2'),
+        url('SuisseIntl-Book.woff') format('woff'),
+        url('SuisseIntl-Book.ttf') format('truetype');
     font-weight: 100;
     font-style: normal;
     font-display: block;
@@ -1249,13 +1249,13 @@ blockquote.quote-cs {
     padding-right: 1rem;
 }
 
-p.copy-cs {
-    font-size: 1.15rem;
+p.copy-cs, dl dd {
+    font-size: 1.20rem;
     font-family: 'suisse-regular';
     text-rendering: geometricPrecision;
     margin-bottom: 1.4rem;
     letter-spacing: -0.01rem;
-    line-height: 1.6rem;
+    line-height: 1.75rem;
 }
 
 p.mt {
@@ -1272,23 +1272,13 @@ p.copy-cs.p-home {
     margin-bottom: 2.8rem;
 }
 
-dl dd {
-    font-size: 1.15rem;
-    font-family: 'suisse-regular';
-    text-rendering: geometricPrecision;
-    margin-top: 0rem;
-    margin-bottom: 0rem;
-    letter-spacing: -0.03rem;
-    line-height: 1.6rem;
-}
 
 dl dt {
     font-size: 1.10rem;
     font-family: 'suisse-regular-bold';
     text-rendering: geometricPrecision;
-    margin-top: 1.8rem;
     margin-bottom: 0.5rem;
-    letter-spacing: -0.03rem;
+    letter-spacing: -0.0rem;
     line-height: 1.6rem;
     font-weight: thin;
 }
