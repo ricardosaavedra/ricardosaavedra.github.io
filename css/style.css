@@ -1136,18 +1136,18 @@ h1.heading-1 {
 }
 
 /* #### HEADING 3 - PAGE TITLES #### */
-p.introNew {
+p.introNew, a.menuNew {
     font-size: 1.5rem;
     line-height: 2rem;
     font-weight: lighter;
     text-rendering: geometricPrecision;
     margin-bottom: 10%;
+    color: #FBFBFB
 }
 
 h3.heading-3,
 h4.caseStudyCom,
-h4.projNameNew,
-a.menuNew {
+h4.projNameNew {
     font-size: 2.4rem;
     line-height: 2.4rem;
     font-family: 'suisse-regular';
@@ -1155,8 +1155,7 @@ a.menuNew {
     letter-spacing: -0.03rem;
 }
 
-h4.projNameNew,
-a.menuNew {
+h4.projNameNew {
     margin-bottom: 0rem;
     font-size: 1.7rem;
     color: #FBFBFB;
@@ -1417,7 +1416,7 @@ h2.titleCategoryTop {
     }
 
     p.introNew {
-        margin-bottom: 10%;
+        margin-bottom: 13%;
         padding-right: 2.7rem;
     }
 
@@ -1450,7 +1449,6 @@ h2.titleCategoryTop {
     }
 
     p.introNew {
-        margin-bottom: 0%;
         padding-right: 1rem;
     }
 
@@ -1479,8 +1477,9 @@ h2.titleCategoryTop {
         font-size: 12px;
     }
 
-    .navbar {
-        padding: 0px;
+.navbar {
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
     }
 
 
@@ -1488,8 +1487,6 @@ h2.titleCategoryTop {
         margin-bottom: 0%;
         padding-right: 1rem;
     }
-
-    
 
     .child {
         position: absolute;
