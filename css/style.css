@@ -1236,7 +1236,7 @@ dl dd {
     text-rendering: geometricPrecision;
     margin-bottom: 1.4rem;
     letter-spacing: -0.01rem;
-    line-height: 1.85rem;
+    line-height: 2rem;
 }
 
 p.mt {
@@ -1261,7 +1261,7 @@ dl dt {
     text-rendering: geometricPrecision;
     margin-bottom: 0.5rem;
     letter-spacing: -0.015rem;
-    line-height: 1.6rem;
+    line-height: 1.9rem;
     font-weight: thin;
 }
 
