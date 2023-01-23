@@ -1065,7 +1065,6 @@ h3.skill {
 
 
 .projDescNew,
-.introNew,
 h4.projNameNew {
     margin: 0px;
     padding: 0px;
@@ -1137,7 +1136,7 @@ h1.heading-1 {
 
 /* #### HEADING 3 - PAGE TITLES #### */
 p.introNew, a.menuNew {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     line-height: 2rem;
     font-weight: lighter;
     text-rendering: geometricPrecision;
@@ -1398,21 +1397,12 @@ h2.titleCategoryTop {
         width: 50.7%;
     }
 
-    div.container-fluid {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
 
     .child {
         position: absolute;
         left: 1rem;
         bottom: 2rem;
         text-align: left;
-    }
-
-    .navbar {
-        padding-left: 1.1rem;
-        padding-right: 0rem;
     }
 
     p.introNew {
@@ -1444,8 +1434,9 @@ h2.titleCategoryTop {
         text-align: left;
     }
 
-    .navbar {
-        padding-left: ;
+.navbar {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     p.introNew {
