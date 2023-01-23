@@ -737,17 +737,7 @@ Convert HEX to RGBA - http://hex2rgba.devoth.com/
     margin: 2.5rem 0 5rem 0
 }
 
-.mt-6 {
-    margin-top: 6rem;
-}
 
-.mt-7 {
-    margin-top: 7rem;
-}
-
-.mb-6 {
-    margin-bottom: 6rem;
-}
 
 .mb-7 {
     margin-bottom: 7rem;
@@ -973,6 +963,8 @@ html {
     z-index: 4;
 }
 
+
+
 .navbar a {
     color: white;
 }
@@ -1032,10 +1024,14 @@ h3.skill {
 
 }
 
-/* #### target mobile devices with max device width 480px #### */
+/* #### PADDING #### */
 
-.mt-large {
-    margin-top: 14rem;
+.mb-6 {
+    margin-bottom: 10vw;
+}
+
+.mt-6 {
+    margin-top: 10vw;
 }
 
 @font-face {
@@ -1046,7 +1042,16 @@ h3.skill {
     font-weight: 100;
     font-style: normal;
     font-display: block;
+}
 
+@font-face {
+    font-family: 'suisse-regular-bold';
+    src: url('SuisseIntl-Bold.woff2') format('woff2'),
+        url('SuisseIntl-Bold.woff') format('woff'),
+        url('SuisseIntl-Bold.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: block;
 }
 
 @font-face {
@@ -1077,7 +1082,6 @@ h4.projNameNew {
 }
 
 
-h4.comNameNew,
 h2.categoryNew {
     font-family: 'steinbeck';
     text-rendering: geometricPrecision;
@@ -1086,46 +1090,13 @@ h2.categoryNew {
     color: #fff;
 }
 
+
+
 h4.projNameNew {
     font-size: 2.5rem;
     margin-bottom: 0;
 }
 
-h4.comNameNew {
-    color: #767676;
-
-}
-
-p.introNew {
-    font-size: 1.5rem;
-    line-height: 2.1rem;
-    font-weight: lighter;
-    text-rendering: geometricPrecision;
-    margin-top: -2rem;
-}
-
-a.menuNew {
-    font-size: 2rem;
-    text-rendering: geometricPrecision;
-
-}
-
-a.menuNew.black {
-    color: black;
-}
-
-/* #### case study home #### */
-h4.caseStudyTitle {
-    color: white;
-    font-family: 'steinbeck';
-    text-rendering: geometricPrecision;
-    font-weight: 100;
-    letter-spacing: -0.01rem;
-    margin-bottom: 1rem;
-    font-size: 2.5rem;
-}
-
-h4.caseStudyCom,
 h4.caseStudyCall a {
     color: white;
     font-family: 'suisse-regular';
@@ -1145,14 +1116,6 @@ h4.caseStudyCom a:hover {
     text-decoration: underline;
 }
 
-h2.titleCategoryTop {
-    font-family: 'suisse-regular';
-    text-rendering: geometricPrecision;
-    font-size: 10vw;
-    color: white;
-
-}
-
 
 
 img.arrowNew {
@@ -1161,8 +1124,7 @@ img.arrowNew {
 
 }
 
-/* #### case study styles #### */
-
+/* #### TYPOGRAPHY STYLES #### */
 h1.heading-1 {
     margin-top: 9.75rem;
     margin-bottom: 2.5rem;
@@ -1173,57 +1135,143 @@ h1.heading-1 {
 
 }
 
-h2.heading-2 {
-    margin-bottom: 6.25rem;
-    font-size: 2.5rem;
-    font-family: 'steinbeck';
+/* #### HEADING 3 - PAGE TITLES #### */
+p.introNew {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: lighter;
     text-rendering: geometricPrecision;
-    letter-spacing: -0.01rem;
-
+    margin-bottom: 10%;
 }
 
-h3.heading-3 {
-    margin-top: 6.25rem;
-    margin-bottom: 0.62rem;
-    font-size: 2.5rem;
-    line-height: 2.5rem;
+h3.heading-3,
+h4.caseStudyCom,
+h4.projNameNew,
+a.menuNew {
+    font-size: 2.4rem;
+    line-height: 2.4rem;
     font-family: 'suisse-regular';
     text-rendering: geometricPrecision;
     letter-spacing: -0.03rem;
 }
 
-h4.heading-4,
-h4.heading-4.mb {
-    margin-top: 2.5rem;
-    margin-bottom: -0.9rem;
-    font-size: 1.3rem;
+h4.projNameNew,
+a.menuNew {
+    margin-bottom: 0rem;
+    font-size: 1.7rem;
+    color: #FBFBFB;
+}
+
+
+/* #### NAV BAR #### */
+a.menuNew {
+    /* Title Shadow */
+    text-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);
+}
+
+a.menuNew.black {
+    color: black;
+    /* Title Shadow */
+    text-shadow: none;
+}
+
+h3.heading-3 {
+    margin-top: 6.25rem;
+    margin-bottom: 1rem;
+}
+
+h3.heading-3.alone {
+    margin-bottom: 2rem;
+}
+
+h4.caseStudyCom {
+    color: white;
+    margin-bottom: 1rem;
+    color: #767676;
+}
+
+/* #### HEADING 2 #### */
+
+h2.heading-2,
+h4.caseStudyTitle,
+h4.comNameSub {
+    font-size: 2.5rem;
+    font-family: 'steinbeck';
+    text-rendering: geometricPrecision;
+    letter-spacing: -0.03rem;
+    line-height: 2.9rem;
+
+}
+
+h4.comNameSub {
+    color: #767676;
+    font-size: 1.7rem;
+}
+
+h2.heading-2 {
+    margin-bottom: 6.25rem;
+}
+
+h4.caseStudyTitle {
+    color: white;
+    margin-bottom: 0.6rem;
+}
+
+
+
+
+h5.heading-5,
+blockquote.quote-cs,
+h4.heading-4 {
+    margin-top: 0;
+    margin-bottom: 2.5rem;
+    font-size: 1.6rem;
     font-family: 'steinbeck';
     text-rendering: geometricPrecision;
     letter-spacing: 0.0rem;
+    line-height: 1.9rem;
+
+}
+
+h4.heading-4 {
+    margin-top: 2.5rem;
+    margin-bottom: 0.6rem;
 }
 
 h4.heading-4.mb {
     margin-bottom: -1rem;
 }
 
-h5.heading-5 {
-    margin-top: 0;
+blockquote.quote-cs {
+    margin-top: 2.5rem;
     margin-bottom: 2.5rem;
-    font-size: 1.6rem;
-    font-family: 'steinbeck';
-    text-rendering: geometricPrecision;
-
+    text-decoration: none;
+    color: black;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
-
 
 p.copy-cs {
     font-size: 1.15rem;
     font-family: 'suisse-regular';
     text-rendering: geometricPrecision;
-    margin-top: 1.4rem;
     margin-bottom: 1.4rem;
-    letter-spacing: -0.03rem;
+    letter-spacing: -0.01rem;
     line-height: 1.6rem;
+}
+
+p.mt {
+    margin-top: 2rem;
+}
+
+p.last,
+img.last, dl.alone {
+    margin-bottom: 0;
+}
+
+p.copy-cs.p-home {
+    color: #FBFBFB;
+    margin-bottom: 2.8rem;
 }
 
 dl dd {
@@ -1237,34 +1285,19 @@ dl dd {
 }
 
 dl dt {
-    font-size: 1.15rem;
-    font-family: 'suisse-regular';
+    font-size: 1.10rem;
+    font-family: 'suisse-regular-bold';
     text-rendering: geometricPrecision;
     margin-top: 1.8rem;
     margin-bottom: 0.5rem;
     letter-spacing: -0.03rem;
     line-height: 1.6rem;
-    font-weight: 100
+    font-weight: thin;
 }
 
 
-blockquote.quote-cs {
-    margin-left: 6.25rem;
-    margin-right: 6.25rem;
-    font-size: 2.5rem;
-    margin-top: 2.5rem;
-    margin-bottom: 2.5rem;
-    line-height: 2.9rem;
-    font-family: 'steinbeck';
-    text-rendering: geometricPrecision;
-    text-decoration: none;
-}
+/* #### END TYPOGRAPHY #### */
 
-/* #### regular img pattern #### */
-.img-cs {
-    margin-top: 1.875rem;
-    margin-bottom: 1.25rem;
-}
 
 video.video-reset {
     margin: 0;
@@ -1278,25 +1311,16 @@ video.video-reset {
     padding-top: 0rem;
 }
 
-/* #### use when image is bellow image #### */
-.img-grid {
-    margin-top: 0rem;
-    margin-bottom: 30px;
-}
 
-.img-grid-1st {
-    margin-top: 1.875rem;
-    margin-bottom: 30px;
-}
 
 /* #### regular img pattern #### */
 .img-cs {
-    margin-top: 1.875rem;
-    margin-bottom: 1.25rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
 }
 
 .img-cs-last {
-    margin-top: 1.875rem;
+    margin-top: 0.5rem;
     margin-bottom: 0;
 }
 
@@ -1323,11 +1347,15 @@ video.video-reset {
     text-align: left;
 }
 
-.bottomTitle {
-    font-size: 7rem;
+h4.bottomTitle,
+h2.titleCategoryTop {
     color: white;
-    font-size: 9.3vw;
-    letter-spacing: -0.2rem;
+    font-size: 8.5vw;
+    letter-spacing: -0.2vw;
+    /* Title Shadow */
+    text-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
+    font-family: 'suisse-regular';
+    text-rendering: geometricPrecision;
 }
 
 #background-video {
@@ -1352,54 +1380,143 @@ video.video-reset {
     right: 0;
     top: 0;
     bottom: 0;
-    backdrop-filter: blur(120px);
-    -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    background-color: rgba(0, 0, 0, 0.3);
 }
+
+
 
 /* #### everything bigger than 980 #### */
 
-@media (min-width: 1350px) {
+@media (min-width: 1300px) {
+
+    html {
+        font-size: 18px;
+    }
+
     #blur-home {
-        width: 50%;
+        width: 50.7%;
+    }
+
+    div.container-fluid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .child {
+        position: absolute;
+        left: 1rem;
+        bottom: 2rem;
+        text-align: left;
+    }
+
+    .navbar {
+        padding-left: 1.1rem;
+        padding-right: 0rem;
     }
 
     p.introNew {
-    font-size: 1.9rem;
-    line-height: 2.5rem;
+        margin-bottom: 10%;
+        padding-right: 2.7rem;
+    }
 
 }
 
-}
+@media (max-width: 1300px) {
 
-@media (min-width: 980px) {
+    html {
+        font-size: 16px;
+    }
+
     #blur-home {
         width: 50%;
     }
 
-    html {
-        font-size: 14px;
+    div.container-fluid {
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
+
+    .child {
+        position: absolute;
+        left: 1rem;
+        bottom: 1rem;
+        text-align: left;
+    }
+
+    .navbar {
+        padding-left: ;
+    }
+
+    p.introNew {
+        margin-bottom: 0%;
+        padding-right: 1rem;
+    }
+
+    /* #### use when image is bellow image #### */
+    .img-grid {
+        margin-top: 0rem;
+        margin-bottom: 2rem;
+    }
+
+    .img-grid-1st {
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+
 }
 
-/* #### everything from 960 until below #### */
+/* #### everything from 960 until 0 #### */
 
-@media (max-width: 960px) {
+@media (max-width: 992px) {
     #blur-home {
         width: 100%;
     }
 
     html {
-        font-size: 12px;
+        font-size: 16px;
     }
+
+    .navbar {
+        padding: 0px;
+    }
+
+
+    p.introNew {
+        margin-bottom: 0%;
+        padding-right: 1rem;
+    }
+
+    div.container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .child {
+        position: absolute;
+        left: 0.1rem;
+        bottom: 1px;
+        text-align: left;
+    }
+
+    /* #### use when image is bellow image #### */
+    .img-grid {
+        margin-top: 0rem;
+        margin-bottom: 1rem;
+    }
+
+    .img-grid-1st {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
 }
 
-
-
-
-
+}
 
 .case-row {
-    margin-top: 12rem;
+    margin-top: 16rem;
 }
 
 .vimeo-wrapper {
@@ -1429,9 +1546,4 @@ video.video-reset {
 
 iframe {
     margin: 0;
-}
-
-.container-fluid {
-    padding-left: 30px;
-    padding-right: 30px;
 }
