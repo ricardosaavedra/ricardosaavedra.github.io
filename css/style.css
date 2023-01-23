@@ -1136,7 +1136,7 @@ h1.heading-1 {
 
 /* #### HEADING 3 - PAGE TITLES #### */
 p.introNew, a.menuNew {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     line-height: 2rem;
     font-weight: lighter;
     text-rendering: geometricPrecision;
@@ -1193,11 +1193,11 @@ h4.caseStudyCom {
 h2.heading-2,
 h4.caseStudyTitle,
 h4.comNameSub {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     font-family: 'steinbeck';
     text-rendering: geometricPrecision;
     letter-spacing: -0.03rem;
-    line-height: 2.9rem;
+    line-height: 2.7rem;
 
 }
 
@@ -1216,13 +1216,11 @@ h4.caseStudyTitle {
 }
 
 
-
-
 h5.heading-5,
 blockquote.quote-cs,
 h4.heading-4 {
     margin-top: 0;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.3rem;
     font-size: 1.6rem;
     font-family: 'steinbeck';
     text-rendering: geometricPrecision;
@@ -1250,12 +1248,12 @@ blockquote.quote-cs {
 }
 
 p.copy-cs, dl dd {
-    font-size: 1.20rem;
+    font-size: 1.25rem;
     font-family: 'suisse-regular';
     text-rendering: geometricPrecision;
     margin-bottom: 1.4rem;
     letter-spacing: -0.01rem;
-    line-height: 1.75rem;
+    line-height: 1.85rem;
 }
 
 p.mt {
@@ -1274,11 +1272,11 @@ p.copy-cs.p-home {
 
 
 dl dt {
-    font-size: 1.10rem;
+    font-size: 1.15rem;
     font-family: 'suisse-regular-bold';
     text-rendering: geometricPrecision;
     margin-bottom: 0.5rem;
-    letter-spacing: -0.0rem;
+    letter-spacing: -0.015rem;
     line-height: 1.6rem;
     font-weight: thin;
 }
@@ -1455,7 +1453,7 @@ h2.titleCategoryTop {
     
 
     html {
-        font-size: 13px;
+        font-size: 14px;
     }
 
 .navbar {
