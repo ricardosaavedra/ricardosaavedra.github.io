@@ -1356,7 +1356,16 @@ h2.titleCategoryTop {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+    /* #### use when image is bellow image #### */
+    .img-grid {
+        margin-top: 0rem;
+        margin-bottom: 2rem;
+    }
 
+    .img-grid-1st {
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
 
 /* #### everything bigger than 980 #### */
 
@@ -1381,6 +1390,11 @@ h2.titleCategoryTop {
     p.introNew {
         margin-bottom: 13%;
         padding-right: 2.7rem;
+    }
+    
+    div.container-fluid {
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
 
 }
@@ -1416,16 +1430,7 @@ h2.titleCategoryTop {
         padding-right: 1rem;
     }
 
-    /* #### use when image is bellow image #### */
-    .img-grid {
-        margin-top: 0rem;
-        margin-bottom: 2rem;
-    }
 
-    .img-grid-1st {
-        margin-top: 0;
-        margin-bottom: 2rem;
-    }
 
 }
 
@@ -1457,17 +1462,6 @@ h2.titleCategoryTop {
         left: 1rem;
         bottom: 1px;
         text-align: left;
-    }
-
-    /* #### use when image is bellow image #### */
-    .img-grid {
-        margin-top: 0rem;
-        margin-bottom: 1rem;
-    }
-
-    .img-grid-1st {
-        margin-top: 0;
-        margin-bottom: 1rem;
     }
 
     .snap-scroll {
