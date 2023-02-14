@@ -141,6 +141,10 @@ p.text2, h2.menu-a {
     letter-spacing: -0.0em;
 }
 
+h2.menu-a.active {
+    text-decoration: underline;
+}
+
 p.text2.white, h2.menu-a.white a {
     color: var(--white);
 }
@@ -351,7 +355,7 @@ video.video-reset {
     padding: 0;
 }
 
-div.bg {
+div.bg, body.bg {
     background-color: var(--dark-black);
 }
 
