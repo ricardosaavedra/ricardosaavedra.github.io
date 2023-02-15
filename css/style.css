@@ -23,13 +23,13 @@
 :root {
     --text-lg: 119px;
     --text-lg-lh: 136px;
-    
+
     --text-md: 52px;
     --text-md-lh: 60px;
-    
+
     --text-mds: 36px;
     --text-mds-lh: 40px;
-    
+
     --text-sm: 23px;
     --text-sm-lh: 32px;
 
@@ -51,26 +51,26 @@
 
 @media (max-width: 768px) {
     :root {
-    --text-lg: 59px;
-    --text-lg-lh: 68px;
-    
-    --text-md: 29px;
-    --text-md-lh: 36px;
-        
-    --text-mds: 26px;
-    --text-mds-lh: 32px;
-    
-    --text-sm: 18px;
-    --text-sm-lh: 24px;
+        --text-lg: 59px;
+        --text-lg-lh: 68px;
 
-    --m-xss: 4px;
-    --m-ss: 8px;
-    --m-sm: 28px;
-    --m-md: 32px;
-    --m-lg: 52px;
-    --m-xl: 52px;
-    --m-xxl: 96px;
-}
+        --text-md: 29px;
+        --text-md-lh: 36px;
+
+        --text-mds: 26px;
+        --text-mds-lh: 32px;
+
+        --text-sm: 18px;
+        --text-sm-lh: 24px;
+
+        --m-xss: 4px;
+        --m-ss: 8px;
+        --m-sm: 28px;
+        --m-md: 32px;
+        --m-lg: 52px;
+        --m-xl: 52px;
+        --m-xxl: 96px;
+    }
 }
 
 /* #### subtitle , Helvetica, Arial, sans-serif #### */
@@ -81,7 +81,8 @@ p.text1,
 p.text2,
 p.text3,
 p.body,
-h2.menu-a, p.text3 {
+h2.menu-a,
+p.text3 {
     margin: 0;
     padding: 0;
     letter-spacing: -0.02em;
@@ -89,13 +90,15 @@ h2.menu-a, p.text3 {
     font-family: 'Lausanne-regular', Helvetica, Arial, sans-serif;
     font-weight: 400;
 
-;
+    ;
 
 }
 
 h1.title1,
 p.text1,
-h2.title2, h2.menu-a, p.text2.bold {
+h2.title2,
+h2.menu-a,
+p.text2.bold {
     font-family: 'Lausanne-bold', Helvetica, Arial, sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -115,7 +118,9 @@ h1.title1.main {
 
 
 /* #### subtitle #### */
-p.text1, p.text3, h2.title2  {
+p.text1,
+p.text3,
+h2.title2 {
     font-size: var(--text-md);
     line-height: var(--text-md-lh);
     letter-spacing: -0.02em;
@@ -134,7 +139,8 @@ p.no-m-bottom {
 }
 
 
-p.text2, h2.menu-a {
+p.text2,
+h2.menu-a {
     font-size: var(--text-sm);
     line-height: var(--text-sm-lh);
     margin-bottom: var(--m-sm);
@@ -145,7 +151,8 @@ h2.menu-a.active {
     text-decoration: underline;
 }
 
-p.text2.white, h2.menu-a.white a {
+p.text2.white,
+h2.menu-a.white a {
     color: var(--white);
 }
 
@@ -167,7 +174,8 @@ a.p-link:hover p.text3 {
     transition: var(--t-slow);
 }
 
-a.p-link:hover .shadow-hover, a.p-link:hover div.shadow-hover {
+a.p-link:hover .shadow-hover,
+a.p-link:hover div.shadow-hover {
     box-shadow: 0px 0px 100px rgba(3, 3, 3, 0.2);
     box-shadow: 0px 0px 70px rgba(1, 1, 1, 0.4);
     box-shadow: 0px 0px 60px rgba(1, 1, 1, 0.3);
@@ -185,7 +193,7 @@ p.text3.cat {
     margin-bottom: var(--m-xss);
     margin-top: var(--m-sm);
     color: var(--grey);
-        font-size: var(--text-sm);
+    font-size: var(--text-sm);
 
 }
 
@@ -267,7 +275,7 @@ h2.no-m-bottom {
 
 
 div.p-margin {
-    padding-bottom: var(--m-xxl)!important;
+    padding-bottom: var(--m-xxl) !important;
 }
 
 div.top-border {
@@ -355,7 +363,8 @@ video.video-reset {
     padding: 0;
 }
 
-div.bg, body.bg {
+div.bg,
+body.bg {
     background-color: var(--dark-black);
 }
 
@@ -417,6 +426,11 @@ iframe {
     margin: 0;
 }
 
+iframe.video-youtube {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+}
+
 /* #### everything from 960 until 3800 #### */
 
 @media (max-width: 3800px) {
@@ -443,13 +457,11 @@ iframe {
 /* #### everything from until 1200 #### */
 
 @media (max-width: 1000px) {
-#blur-home {
-    width: 100%;
-}
+    #blur-home {
+        width: 100%;
+    }
 }
 
 /* #### everything from 960 until 0 #### */
 
-@media (max-width: 768px) {
-
-}
+@media (max-width: 768px) {}
