@@ -46,7 +46,7 @@
     --grey: #818181;
     --purple: #9B88E3;
 
-    --t-slow: 0.4s;
+    --t-slow: 0.7s;
 }
 
 @media (max-width: 768px) {
@@ -164,7 +164,7 @@ p.text3 {
     font-size: var(--text-mds);
     line-height: var(--text-mds-lh);
     letter-spacing: -0.0em;
-    opacity: 0.85;
+    opacity: 0.65;
     transition: var(--t-slow);
 
 }
@@ -185,7 +185,7 @@ a.p-link:hover div.shadow-hover {
 }
 
 a.p-link .shadow-hover {
-    opacity: 0.9;
+    opacity: 0.6;
     transition: var(--t-slow);
 }
 
@@ -226,6 +226,10 @@ a {
 .link-arrow {
     width: 20px;
     margin-left: var(--m-xss)
+}
+
+iframe:hover .arrow-fw {
+    opacity: 1;
 }
 
 a.p-link:hover .arrow-fw {
