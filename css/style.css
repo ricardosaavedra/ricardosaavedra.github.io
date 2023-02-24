@@ -140,12 +140,25 @@ p.no-m-bottom {
 
 
 p.text2,
-h2.menu-a {
+h2.menu-a, ul li {
     font-size: var(--text-sm);
     line-height: var(--text-sm-lh);
     margin-bottom: var(--m-sm);
     letter-spacing: -0.0em;
 }
+
+ul li ul li {
+    margin-bottom: var(--m-ss);
+    list-style-type: disc;  
+    margin-left: 0;
+    padding-left: 0;
+}
+
+ul {
+    margin-left: 10px;
+    padding: 0
+}
+
 
 h2.menu-a.active {
     text-decoration: underline;
@@ -335,6 +348,10 @@ div.m-bottom-sm {
 
 .m-top-xss {
     margin-top: var(--m-xss);
+}
+
+.img-fluid.body {
+    margin-bottom: var(--m-sm);
 }
 
 /* #### bg home #### */
