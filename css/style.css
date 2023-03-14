@@ -155,7 +155,7 @@ ul li ul li {
 }
 
 ul {
-    margin-left: 10px;
+    margin-left: var(--m-ss);
     padding: 0
 }
 
