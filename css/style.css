@@ -212,7 +212,7 @@ a.p-link .shadow-hover {
 }
 
 p.text3.cat {
-    margin-bottom: var(--m-xss);
+    margin-bottom: var(--sm-xss);
     margin-top: var(--m-sm);
     color: var(--grey);
     font-size: var(--text-sm);
