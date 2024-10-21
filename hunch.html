@@ -69,7 +69,7 @@
     <div class="container-fluid px-md-5">
         <div class="row gx-sm-5 m-top-md">
             <div class="col-lg-6">
-                <p class="text1">In an era of rapid AI advancement, the interfaces we use to interact with AI lagged behind, constraining the authentic potential of human-ai collaboration. Hunch allows users to overcome the limitations of traditional chat interfaces.</p>
+                <p class="text1">An infinite canvas allows users to break down complex work into AI task 'blocks' that AI models are good at, improving AI output and enabling users to work on even more complex tasks.</p>
             </div>
             <div class="col-lg-6">
                 <div class="row g-0">
@@ -114,23 +114,20 @@
             </div>
         </div>
 
-        <div class="row gx-sm-5 m-top-md">
-
-
-            <div class="col-lg-6 ">
+        
+        <div class="row gx-md-5 m-top-xxl">
+            <div class="col-lg-6">
                 <h1 class="title1">Context</h1>
             </div>
             <div class="col-lg-6">
-                <p class="text2">In an era of rapid AI advancement, the interfaces we use to interact with AI lagged behind, constraining the authentic potential of human-ai collaboration. </p>
+                <p class="text2">I joined the team in early 2023 to work on a data analytics product the team had been developing. Following the release of GPT-4 and other AI advancements, the team decided to explore new strategic directions that integrated AI into the core UX, enabling users to perform more general tasks, not just limited to data analytics. After this strategic shift, I collaborated with Hunch's founders to explore, prototype, and define the key aspects of the product.</p>
 
-                <p class="text2">Hunch emerged from two crucial insights: first, that AI's capabilities far exceed what current chat interfaces allow, and second, that elite knowledge workers and AI early adopters were eager to leverage AI more effectively to automate and accelerate their existing tasks.</p>
+                <p class="text2">My role as a Founding Product Designer involved driving the product strategy and vision alongside the founders, conducting user research, overseeing the brand & visual design, and designing the core product experience and UX paradigm. As the only designer on the team, I worked closely with the engineers and led continuous discovery and prototyping efforts to validate concepts and enhance key product interactions.</p>
 
-                <p class="text2">Today, working with AI often feels like texting an intern—low bandwidth and limited in scope—or like mapping out a tedious business process with high latency and constant context switching. We envisioned Hunch to change that.</p>
+                <p class="text2">My work encompassed multiple milestones, from product discovery and early product positioning/strategy to subsequent product iterations, community building, and product growth. Over 1.6 years of work, my efforts have helped Hunch evolve from an idea to a product loved by an early community of 1,000 users (and growing). With key aspects of the product offering validated by early beta users, Hunch is now expanding its user base while implementing new features that improve the initial core canvas UX.</p>
 
-                <p class="text2">My role as Founding Product Designer encompassed driving the product strategy and vision, conducting user research, brand & visual design, designing the core user experience and interface paradigm, collaborating closely with engineers, and leading prototyping efforts to validate concepts and interactions. This case study covers a few of the key decisions and challenges in building Hunch.</p>
             </div>
-
-
+            
             <div class="col-lg-12 img-fluid body">
                 <iframe src="https://www.youtube.com/embed/fUWeOYTLw8o?si=xkn-OEgatbRpPihr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="
                 width: 100%;
@@ -139,7 +136,53 @@
             "></iframe>
             </div>
 
-            <div class="col-lg-12">
+        </div>
+
+        <div class="row gx-md-5 m-top-xxl">
+            <div class="col-lg-6">
+                <h1 class="title1">Problem</h1>
+            </div>
+            <div class="col-lg-6">
+                <p class="text2">In an era of rapid AI advancement, the interfaces we use to interact with AI lagged behind, constraining the authentic potential of human-ai collaboration. Hunch emerged from two crucial insights: first, that AI's capabilities far exceed what current chat interfaces allow, and second, that elite knowledge workers and AI early adopters were eager to leverage AI more effectively to automate and accelerate their existing tasks.</p>
+
+                <p class="text2"><b>Linear Interaction Paradigms:</b> Traditional chat interfaces force users into a sequential mode of communication, unsuitable for multifaceted problems that require parallel processing or iterative refinement.</p>
+
+                <p class="text2"><b>Limited Control Over AI Reasoning:</b> Users cannot fine-tune AI processes or provide nuanced context, often leading to suboptimal outputs that require multiple revisions.</p>
+
+                <p class="text2"><b>Inefficiencies in Reusability and Sharing:</b> There's no straightforward way to reuse or share AI workflows and prompts, leading to duplicated efforts across teams and projects.</p>
+
+                <p class="text2"><b>Inability to Leverage Multiple AI Models Simultaneously:</b> Users can't easily harness different AI models' strengths within a single workflow, limiting the potential for more sophisticated problem-solving.</p>
+            </div>
+        </div>
+
+        <div class="row gx-md-5 m-top-xxl">
+            <div class="col-lg-6">
+                <h1 class="title1">The Block System</h1>
+            </div>
+            <div class="col-lg-6">
+                <p class="text2">Ultimately, we chose a flow-based language paradigm, implemented through an infinite canvas where users could create and connect "blocks" representing AI tasks and data. Each block wraps a function, from processing information like AI blocks or storing data. While flexible and powerful, each block feels familiar, like a Notion page or Google Doc.</p>
+
+                <p class="text2">When blocks are connected, the canvas compiles all the information from the connected content blocks into a single prompt that is sent to the AI model. This allows for complex context to be provided without cluttering individual blocks.</p>
+
+                <p class="text2">At the core of Hunch's interface is a block system:</p>
+
+                <p class="text2"><b>Content blocks:</b> serve as static containers for contexts—such as company information or problem specifics—that can be connected to AI blocks, keeping instructions clean and workflows organized.</p>
+
+                <p class="text2"><b>AI Blocks as Actuators:</b> Each block receives input, processes data using specific AI models, and passes output to other blocks.</p>
+
+                <p class="text2"><b>Complex Tools:</b> Some blocks encapsulate multiple AI/Code operations but are exposed as simple, user-friendly units, allowing users to achieve more.</p>
+
+            </div>
+
+            <div class="col-lg-12 img-fluid body">
+                <iframe src="https://www.youtube.com/embed/4XlvTzEr6SI?si=4q1JcMMpakCv6AWe;start=100" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="
+                width: 102%;
+                aspect-ratio: 16 / 9.1;
+                height: auto;
+            "></iframe>
+                </div>
+
+                <div class="col-lg-12">
                 <img src="img/hunch/canvas.png" class="img-fluid body">
             </div>
             <div class="col-lg-12">
@@ -163,11 +206,9 @@
             </div>
 
 
-
         </div>
 
-
-
+        
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->

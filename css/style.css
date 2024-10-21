@@ -104,6 +104,13 @@ p.text2.bold {
     font-style: normal;
 }
 
+.text2 b {
+        font-family: 'Lausanne-bold', Helvetica, Arial, sans-serif;
+    font-weight: 1000;
+    font-style: normal;
+    
+}
+
 h1.title1 {
     font-size: var(--text-lg);
     margin-bottom: var(--m-xss);
