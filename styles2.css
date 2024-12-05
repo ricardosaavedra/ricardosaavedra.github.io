@@ -1,11 +1,9 @@
 /* styles2.css */
 
-
 html {
     scroll-behavior: smooth;
     scroll-timeline: 100ms;  /* Adjust this value to control scroll speed */
 }
-
 
 * {
     margin: 0;
@@ -13,15 +11,13 @@ html {
     box-sizing: border-box;
 }
 
-
 body {
     display: flex;
     background: #000;
     color: #fff;
     font-family: Arial, sans-serif;
-    overflow: hidden;
+    /* Removed overflow: hidden; */
 }
-
 
 .sidebar {
     position: fixed;
@@ -30,7 +26,6 @@ body {
     padding: 20px;
     z-index: 1000;
 }
-
 
 .logo {
     margin-bottom: 40px;
@@ -41,11 +36,9 @@ body {
     display: inline-block;
 }
 
-
 .nav-links {
     list-style: none;
 }
-
 
 .nav-links li a {
     display: block;
@@ -56,52 +49,56 @@ body {
     font-size: 14px;
     color: #fff;
     text-decoration: none;
+    /* Added transition for active state */
+    transition: opacity 0.3s ease-out;
 }
 
-
-/* Active state styling */
 .nav-links li a.active {
     opacity: 1;
+    position: relative;
 }
 
+.nav-links li a.active::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 50%;
+}
 
 /* Hovered state styling */
 .nav-links li a.hovered {
     opacity: 1;
 }
 
-
 main {
     margin-left: 200px;
     width: calc(100% - 200px);
     height: 100vh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    perspective: 1px; /* Added for smoother transitions */
-    transform-style: preserve-3d;
+    overflow-y: auto; /* Changed from scroll to auto */
+    /* Removed scroll-snap-type */
+    perspective: none; /* Removed perspective for smoother transitions */
+    transform-style: flat; /* Simplify transform style */
     background-color: #000; /* Ensures background covers underlying content */
 }
-
 
 .section {
     min-height: 100vh;
     padding: 0 60px 60px 60px;
-    scroll-snap-align: start;
+    /* Removed scroll-snap-align */
     position: relative; /* Changed from default static position */
     background-color: #000; /* Ensure background covers underlying content */
-    will-change: opacity, transform;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
     opacity: 1;
-    transform: scale(1);
-    /* Removed transition properties to allow JavaScript to handle animations */
+    /* Removed transform and scale */
 }
-
 
 .section.fade-out {
     opacity: 0;
 }
-
 
 .section-header {
     position: sticky;
@@ -111,7 +108,6 @@ main {
     width: 100%;
 }
 
-
 .header-content {
     display: flex;
     justify-content: flex-end;
@@ -119,12 +115,10 @@ main {
     gap: 30px;
 }
 
-
 .header-content span {
     font-size: 14px;
     color: #fff;
 }
-
 
 .case-study-btn {
     background: #333;
@@ -137,11 +131,9 @@ main {
     transition: background 0.8s ease-in-out;
 }
 
-
 .case-study-btn:hover {
     background: #444;
 }
-
 
 .big-title {
     font-size: 48px;
@@ -151,11 +143,9 @@ main {
     margin-top: 40px;
 }
 
-
 .bullet-points {
     margin-bottom: 60px;
 }
-
 
 .bullet-points p {
     margin: 15px 0;
@@ -163,17 +153,14 @@ main {
     color: #888;
 }
 
-
 .image-grid {
     width: 100%;
 }
-
 
 .image-placeholder {
     background: #222;
     border-radius: 8px;
 }
-
 
 .main-image {
     width: 100%;
@@ -181,34 +168,31 @@ main {
     margin-bottom: 20px;
 }
 
-
 .image-row {
     display: flex;
     gap: 20px;
 }
-
 
 .half-width {
     width: 50%;
     height: 300px;
 }
 
-
 .preview-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0; /* Added to prevent horizontal overflow */
+    bottom: 0; /* Added to prevent vertical overflow */
+    width: auto; /* Removed fixed width */
+    height: auto; /* Removed fixed height */
     visibility: hidden;
-    z-index: 1001;
+    z-index: 50;
 }
-
 
 .preview-container.active {
     visibility: visible;
 }
-
 
 .preview-overlay {
     position: absolute;
@@ -223,7 +207,6 @@ main {
     background-repeat: no-repeat;
 }
 
-
 .preview-overlay::after {
     content: '';
     position: absolute;
@@ -235,11 +218,9 @@ main {
     z-index: 2;
 }
 
-
 .preview-overlay.active {
     opacity: 1;
 }
-
 
 .preview-content {
     position: absolute;
@@ -251,33 +232,32 @@ main {
     color: white;
 }
 
-
 .preview-project-name {
     display: block;
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-
 .preview-title {
     font-size: 36px;
 }
-
 
 .section-header.hidden {
     /* Removed hidden class to keep section headers always visible */
     /* visibility: hidden; */
 }
 
-
 /* Removed no-scroll classes to prevent disabling scroll */
-
 
 /* 
 .section {
-    /* Removed transitions on opacity and transform */
+    /* Removed transitions on opacity and transform 
     /* transition: opacity 0.3s ease-out, transform 0.3s ease-out; 
-}
+} 
 */
 
-
+.section-stack {
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden; /* Prevent horizontal overflow */
+}

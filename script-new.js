@@ -1,7 +1,6 @@
 // script-new.js
 
 document.addEventListener('DOMContentLoaded', function() {
-
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.nav-links li a');
     const previewContainer = document.querySelector('.preview-container');
@@ -10,13 +9,54 @@ document.addEventListener('DOMContentLoaded', function() {
     const previewTitle = document.querySelector('.preview-title');
     let activeOverlayIndex = 0;
 
-    function updatePreview(projectName, title, imageUrl) {
-        const nextIndex = (activeOverlayIndex + 1) % 2;
-        const currentOverlay = previewOverlays[activeOverlayIndex];
-        const nextOverlay = previewOverlays[nextIndex];
+    // Create threshold list for smoother tracking
+    function buildThresholdList() {
+        let thresholds = [];
+        let numSteps = 20;
+        for (let i = 0; i <= numSteps; i++) {
+            let ratio = i / numSteps;
+            thresholds.push(ratio);
+        }
+        return thresholds;
+    }
 
-        // Setup next overlay
-        nextOverlay.style.backgroundImage = `url(${imageUrl})`;
+    const options = {
+        root: document.querySelector('main'),
+        threshold: buildThresholdList(), // Create multiple thresholds for smooth tracking
+        rootMargin: '0px'
+    };
+
+    // Create intersection observer
+    const observer = new IntersectionObserver((entries) => {
+        // Find the entry with the largest intersection ratio
+        let maxEntry = entries.reduce((max, entry) => {
+            return (entry.intersectionRatio > max.intersectionRatio) ? entry : max;
+        }, entries[0]);
+
+        if (maxEntry.intersectionRatio > 0.5) { // More than 50% visible
+            // Update active menu item
+            const sectionId = maxEntry.target.id;
+            const correspondingLink = document.querySelector(`.nav-links li a[data-section="${sectionId}"]`);
+            
+            if (correspondingLink && !correspondingLink.classList.contains('active')) {
+                // Remove active class from all links
+                navLinks.forEach(link => link.classList.remove('active'));
+                
+                // Add active class to current link
+                correspondingLink.classList.add('active');
+            }
+        }
+    }, options);
+
+    // Observe all sections
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+    function updatePreview(projectName, title, imageUrl) {
+        // Use a single overlay for simplicity
+        const overlay = previewOverlays[0];
+        overlay.style.backgroundImage = `url(${imageUrl})`;
 
         // Update content
         previewProjectName.textContent = projectName;
@@ -24,11 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Trigger transition
         previewContainer.classList.add('active');
-        currentOverlay.classList.remove('active');
-        nextOverlay.classList.add('active');
-
-        // Update active index
-        activeOverlayIndex = nextIndex;
+        overlay.classList.add('active');
     }
 
     navLinks.forEach((link, index) => {
@@ -37,6 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const sectionId = this.getAttribute('data-section');
             const targetSection = document.getElementById(sectionId);
             const currentActiveLink = document.querySelector('.nav-links li a.active');
+
+            if (this.classList.contains('active')) {
+                return;
+            }
 
             previewContainer.classList.remove('active');
 
@@ -74,12 +114,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add 'hovered' class on focus for keyboard navigation
             this.classList.add('hovered');
 
-            const section = sections[index];
-            const projectName = section.querySelector('.project-name').textContent;
-            const title = section.querySelector('.big-title').textContent;
-            const previewImage = section.getAttribute('data-preview-image');
+            if (!this.classList.contains('active')) {
+                const section = sections[index];
+                const projectName = section.querySelector('.project-name').textContent;
+                const title = section.querySelector('.big-title').textContent;
+                const previewImage = section.getAttribute('data-preview-image');
 
-            updatePreview(projectName, title, previewImage);
+                updatePreview(projectName, title, previewImage);
+            }
         });
 
         link.addEventListener('blur', function() {
@@ -91,38 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '-10% 0px -10% 0px', // Adjust threshold area
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] // More granular thresholds
-    };
-
-    function sectionObserverCallback(entries, observer) {
-        entries.forEach(entry => {
-            const index = Array.from(sections).indexOf(entry.target);
-            const section = entry.target;
-
-            if (entry.isIntersecting) {
-                // Remove fade-out class when section is visible
-                section.classList.remove('fade-out');
-                navLinks.forEach(link => link.classList.remove('active'));
-                navLinks[index].classList.add('active');
-            } else {
-                // Add fade-out class when section is not visible
-                if (entry.boundingClientRect.top < 0) {
-                    section.classList.add('fade-out');
-                }
-            }
-        });
-    }
-
-    const observer = new IntersectionObserver(sectionObserverCallback, observerOptions);
-
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-
-    // Add the new scroll handler
     const main = document.querySelector('main');
     let ticking = false;
 
@@ -162,5 +172,4 @@ document.addEventListener('DOMContentLoaded', function() {
             ticking = true;
         }
     });
-
 });
