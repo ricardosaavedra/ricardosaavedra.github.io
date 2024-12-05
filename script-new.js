@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.nav-links li a');
     const previewContainer = document.querySelector('.preview-container');
-    const previewOverlays = document.querySelectorAll('.preview-overlay');
+    const previewOverlay = document.querySelector('.preview-overlay');
     const previewProjectName = document.querySelector('.preview-project-name');
     const previewTitle = document.querySelector('.preview-title');
     let activeOverlayIndex = 0;
@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = caseStudyUrl;
             };
         }
+
     }, options);
 
     // Observe all sections
@@ -77,20 +78,72 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(section);
     });
 
-    function updatePreview(projectName, title, imageUrl) {
-        // Use a single overlay for simplicity
-        const overlay = previewOverlays[0];
-        overlay.style.backgroundImage = `url(${imageUrl})`;
+    // Add variables to keep track of current animations
+    let currentFadeInAnimation = null;
+    let currentFadeOutAnimation = null;
 
-        // Update content
+    function updatePreview(projectName, title, imageUrl) {
+        // Cancel any ongoing fade-out animation
+        if (currentFadeOutAnimation) {
+            currentFadeOutAnimation.cancel();
+            currentFadeOutAnimation = null;
+        }
+
+        // Cancel any ongoing fade-in animation
+        if (currentFadeInAnimation) {
+            currentFadeInAnimation.cancel();
+        }
+
+        // Set the preview overlay image
+        previewOverlay.style.backgroundImage = `url(${imageUrl})`;
+
+        // Update preview content
         previewProjectName.textContent = projectName;
         previewTitle.textContent = title;
 
-        // Trigger transition with a small delay for smoothness
-        requestAnimationFrame(() => {
-            previewContainer.classList.add('active');
-            overlay.classList.add('active');
-        });
+        // Ensure the preview container is visible
+        previewContainer.style.visibility = 'visible';
+
+        // Start a fade-in animation
+        currentFadeInAnimation = previewContainer.animate(
+            [{ opacity: 0 }, { opacity: 1 }],
+            {
+                duration: 600, // Duration in milliseconds
+                fill: 'forwards'
+            }
+        );
+
+        currentFadeInAnimation.onfinish = () => {
+            currentFadeInAnimation = null;
+        };
+    }
+
+    function fadeOutPreview() {
+        // Cancel any ongoing fade-in animation
+        if (currentFadeInAnimation) {
+            currentFadeInAnimation.cancel();
+            currentFadeInAnimation = null;
+        }
+
+        // Cancel any ongoing fade-out animation
+        if (currentFadeOutAnimation) {
+            currentFadeOutAnimation.cancel();
+        }
+
+        // Start a fade-out animation
+        currentFadeOutAnimation = previewContainer.animate(
+            [{ opacity: 1 }, { opacity: 0 }],
+            {
+                duration: 200, // Duration in milliseconds
+                fill: 'forwards'
+            }
+        );
+
+        currentFadeOutAnimation.onfinish = () => {
+            // Hide the preview container after fade-out completes
+            previewContainer.style.visibility = 'hidden';
+            currentFadeOutAnimation = null;
+        };
     }
 
     navLinks.forEach((link, index) => {
@@ -104,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            previewContainer.classList.remove('active');
+            fadeOutPreview();
 
             // Smooth scroll to the target section
             targetSection.scrollIntoView({ behavior: 'smooth' });
@@ -136,8 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove 'hovered' class when mouse leaves
             this.classList.remove('hovered');
 
-            previewContainer.classList.remove('active');
-            previewOverlays.forEach(overlay => overlay.classList.remove('active'));
+            fadeOutPreview();
         });
 
         link.addEventListener('focus', function() {
@@ -158,8 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove 'hovered' class on blur
             this.classList.remove('hovered');
 
-            previewContainer.classList.remove('active');
-            previewOverlays.forEach(overlay => overlay.classList.remove('active'));
+            fadeOutPreview();
         });
     });
 
