@@ -56,7 +56,17 @@ body {
     position: relative;
 }
 
-
+.nav-links li a.active::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 50%;
+}
 
 /* Hovered state styling */
 .nav-links li a.hovered {
@@ -239,12 +249,14 @@ main {
     justify-content: center; /* Center content vertically */
     align-items: flex-start;
     opacity: 1;
-    transition: opacity 0.3s ease-out;
+    /* Removed transition to prevent flickering */
+    /* transition: opacity 0.3s ease-out; */
 }
 
 .section.dimmed {
     opacity: 0;
-    transition: opacity 0.3s ease-out;
+    /* Removed transition to prevent flickering */
+    /* transition: opacity 0.3s ease-out; */
 }
 
 .section-stack {
