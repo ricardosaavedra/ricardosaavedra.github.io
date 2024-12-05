@@ -34,10 +34,10 @@ const Navigation = (function() {
     function scrollToSection(index) {
         // Remove smooth scrolling behavior temporarily
         main.style.scrollBehavior = 'auto';
-        
+
         // Instantly scroll to section
         sections[index].scrollIntoView();
-        
+
         // Re-enable smooth scrolling after a short delay
         setTimeout(() => {
             main.style.scrollBehavior = 'smooth';
@@ -65,7 +65,7 @@ const Navigation = (function() {
         });
 
         sections.forEach(section => observer.observe(section));
-        
+
         // Initialize navigation click handlers
         navLinks.forEach((link, index) => {
             link.addEventListener('click', (event) => {
@@ -73,6 +73,10 @@ const Navigation = (function() {
                 scrollToSection(index);
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
+                
+                // Add these lines to ensure preview is hidden when clicking
+                document.querySelector('.preview-container').style.opacity = 0;
+                document.querySelector('.preview-container').style.visibility = 'hidden';
             });
         });
 
