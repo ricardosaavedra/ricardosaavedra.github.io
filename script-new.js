@@ -1,6 +1,7 @@
 // script-new.js
 
 document.addEventListener('DOMContentLoaded', function() {
+
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.nav-links li a');
     const previewContainer = document.querySelector('.preview-container');
@@ -62,9 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
         previewProjectName.textContent = projectName;
         previewTitle.textContent = title;
 
-        // Trigger transition
-        previewContainer.classList.add('active');
-        overlay.classList.add('active');
+        // Trigger transition with a small delay for smoothness
+        requestAnimationFrame(() => {
+            previewContainer.classList.add('active');
+            overlay.classList.add('active');
+        });
     }
 
     navLinks.forEach((link, index) => {
@@ -91,7 +94,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         link.addEventListener('mouseenter', function() {
-            // Add 'hovered' class to ensure consistent hover effect
+            // Don't show preview if link is active
+            if (this.classList.contains('active')) {
+                return;
+            }
+
             this.classList.add('hovered');
 
             const section = sections[index];
@@ -172,4 +179,5 @@ document.addEventListener('DOMContentLoaded', function() {
             ticking = true;
         }
     });
+
 });
