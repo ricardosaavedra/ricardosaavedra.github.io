@@ -2,7 +2,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-timeline: 100ms;  /* Adjust this value to control scroll speed */
+    /* Removed scroll-timeline */
 }
 
 * {
@@ -16,7 +16,7 @@ body {
     background: #000;
     color: #fff;
     font-family: Arial, sans-serif;
-    /* Removed overflow: hidden; */
+    overflow: hidden; /* Prevent body scroll */
 }
 
 .sidebar {
@@ -49,7 +49,6 @@ body {
     font-size: 14px;
     color: #fff;
     text-decoration: none;
-    /* Added transition for active state */
 }
 
 .nav-links li a.active {
@@ -57,17 +56,7 @@ body {
     position: relative;
 }
 
-.nav-links li a.active::after {
-    content: '';
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 4px;
-    background-color: #fff;
-    border-radius: 50%;
-}
+
 
 /* Hovered state styling */
 .nav-links li a.hovered {
@@ -78,11 +67,13 @@ main {
     margin-left: 200px;
     width: calc(100% - 200px);
     height: 100vh;
-    overflow-y: auto; /* Changed from scroll to auto */
-    /* Removed scroll-snap-type */
+    overflow-y: auto; /* Enable scrolling */
+    scroll-snap-type: y mandatory; /* Add scroll snapping */
+    scroll-behavior: smooth; /* Ensure smooth scrolling */
     perspective: none; /* Removed perspective for smoother transitions */
     transform-style: flat; /* Simplify transform style */
     background-color: #000; /* Ensures background covers underlying content */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .section-header {
@@ -170,14 +161,13 @@ main {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0; /* Added to prevent horizontal overflow */
-    bottom: 0; /* Added to prevent vertical overflow */
+    right: 0; /* Prevent horizontal overflow */
+    bottom: 0; /* Prevent vertical overflow */
     width: auto; /* Removed fixed width */
     height: auto; /* Removed fixed height */
     visibility: hidden; /* Start hidden */
     z-index: 50;
-    opacity: 0;         /* Start with zero opacity */
-    /* Removed transition properties */
+    opacity: 0; /* Start with zero opacity */
 }
 
 .preview-overlay {
@@ -186,7 +176,6 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Removed transition properties */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -240,16 +229,22 @@ main {
 
 .section {
     min-height: 100vh;
-    padding: 100px 60px 60px 60px; /* Added top padding of 100px */
-    /* Removed scroll-snap-align */
+    padding: 0px 60px; /* Removed top padding */
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
     position: relative; /* Changed from default static position */
     background-color: #000; /* Ensure background covers underlying content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: flex-start;
     opacity: 1;
-    /* Removed transform and scale */
+    transition: opacity 0.3s ease-out;
 }
 
-.section.fade-out {
+.section.dimmed {
     opacity: 0;
+    transition: opacity 0.3s ease-out;
 }
 
 .section-stack {
