@@ -85,27 +85,14 @@ main {
     background-color: #000; /* Ensures background covers underlying content */
 }
 
-.section {
-    min-height: 100vh;
-    padding: 0 60px 60px 60px;
-    /* Removed scroll-snap-align */
-    position: relative; /* Changed from default static position */
-    background-color: #000; /* Ensure background covers underlying content */
-    opacity: 1;
-    /* Removed transform and scale */
-}
-
-.section.fade-out {
-    opacity: 0;
-}
-
 .section-header {
-    position: sticky;
+    position: fixed; /* Changed from sticky to fixed */
     top: 0;
-    padding: 20px 0;
+    left: 200px; /* Offset to accommodate the sidebar width */
+    right: 0;
+    padding: 20px 60px; /* Adjust padding to match main content */
     z-index: 1000;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.95); /* Add semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(5px); /* Optional: adds blur effect */
 }
 
@@ -141,7 +128,7 @@ main {
     line-height: 1.2;
     max-width: 800px;
     margin-bottom: 40px;
-    margin-top: 40px;
+    margin-top: 100px; /* Adjusted top margin to account for fixed header */
 }
 
 .bullet-points {
@@ -254,12 +241,26 @@ main {
 
 /* Removed no-scroll classes to prevent disabling scroll */
 
-/* 
+/* Removed transitions on opacity and transform */
+/*
 .section {
-    /* Removed transitions on opacity and transform 
     transition: opacity 0.3s ease-out, transform 0.3s ease-out; 
-} 
+}
 */
+
+.section {
+    min-height: 100vh;
+    padding: 100px 60px 60px 60px; /* Added top padding of 100px */
+    /* Removed scroll-snap-align */
+    position: relative; /* Changed from default static position */
+    background-color: #000; /* Ensure background covers underlying content */
+    opacity: 1;
+    /* Removed transform and scale */
+}
+
+.section.fade-out {
+    opacity: 0;
+}
 
 .section-stack {
     max-width: 100%;

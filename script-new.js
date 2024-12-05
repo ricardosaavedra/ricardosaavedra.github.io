@@ -10,6 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const previewTitle = document.querySelector('.preview-title');
     let activeOverlayIndex = 0;
 
+    // Select the fixed section header elements
+    const sectionHeader = document.querySelector('.section-header');
+    const headerProjectName = sectionHeader.querySelector('.project-name');
+    const headerCompany = sectionHeader.querySelector('.company');
+    const headerYear = sectionHeader.querySelector('.year');
+    const headerCaseStudyBtn = sectionHeader.querySelector('.case-study-btn');
+
     // Create threshold list for smoother tracking
     function buildThresholdList() {
         let thresholds = [];
@@ -38,14 +45,30 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update active menu item
             const sectionId = maxEntry.target.id;
             const correspondingLink = document.querySelector(`.nav-links li a[data-section="${sectionId}"]`);
-            
+
             if (correspondingLink && !correspondingLink.classList.contains('active')) {
                 // Remove active class from all links
                 navLinks.forEach(link => link.classList.remove('active'));
-                
+
                 // Add active class to current link
                 correspondingLink.classList.add('active');
             }
+
+            // Update header content
+            const currentSection = maxEntry.target;
+            const projectName = currentSection.getAttribute('data-project-name');
+            const company = currentSection.getAttribute('data-company');
+            const year = currentSection.getAttribute('data-year');
+            const caseStudyUrl = currentSection.getAttribute('data-case-study-url');
+
+            headerProjectName.textContent = projectName;
+            headerCompany.textContent = company;
+            headerYear.textContent = year;
+
+            // Update Case Study button click event
+            headerCaseStudyBtn.onclick = function() {
+                window.location.href = caseStudyUrl;
+            };
         }
     }, options);
 
@@ -102,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('hovered');
 
             const section = sections[index];
-            const projectName = section.querySelector('.project-name').textContent;
+            const projectName = section.getAttribute('data-project-name');
             const title = section.querySelector('.big-title').textContent;
             const previewImage = section.getAttribute('data-preview-image');
 
@@ -123,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!this.classList.contains('active')) {
                 const section = sections[index];
-                const projectName = section.querySelector('.project-name').textContent;
+                const projectName = section.getAttribute('data-project-name');
                 const title = section.querySelector('.big-title').textContent;
                 const previewImage = section.getAttribute('data-preview-image');
 
@@ -179,5 +202,20 @@ document.addEventListener('DOMContentLoaded', function() {
             ticking = true;
         }
     });
+
+    // Set initial header content based on the first section
+    const firstSection = document.querySelector('.section');
+    const initialProjectName = firstSection.getAttribute('data-project-name');
+    const initialCompany = firstSection.getAttribute('data-company');
+    const initialYear = firstSection.getAttribute('data-year');
+    const initialCaseStudyUrl = firstSection.getAttribute('data-case-study-url');
+
+    headerProjectName.textContent = initialProjectName;
+    headerCompany.textContent = initialCompany;
+    headerYear.textContent = initialYear;
+
+    headerCaseStudyBtn.onclick = function() {
+        window.location.href = initialCaseStudyUrl;
+    };
 
 });
