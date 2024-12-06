@@ -11,13 +11,41 @@
     /* Make the page tall so we can scroll */
     height: 2000px;
     background: linear-gradient(to bottom, #f0f0f0, #ccc);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Container for title and subtitles */
+  .text-container {
+    margin-top: 10vh; 
+    text-align: center;
+  }
+
+  .big-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .subtitles-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Space between subtitles */
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  .subtitle {
+    font-size: 24px;
+    flex: 1;
+    max-width: 200px;
   }
 
   .image-container {
     position: fixed;
     top: 50%;
     left: 50%;
-    /* Initial transform moves it to center; scale(1) is the initial size */
     transform: translate(-50%, -50%) scale(1);
     transform-origin: center center;
     transition: transform 0.1s ease-out; /* Optional for smoother transitions */
@@ -31,7 +59,7 @@
 
   .content {
     position: relative;
-    top: 110vh; /* Place some text below the fold */
+    top: 110vh; /* Place some text below the fold so we can scroll */
     text-align: center;
     font-size: 24px;
     color: #333;
@@ -39,6 +67,15 @@
 </style>
 </head>
 <body>
+
+<div class="text-container">
+  <div class="big-title">Lorem Ipsum Dolor Sit Amet</div>
+  <div class="subtitles-row">
+    <div class="subtitle">Lorem ipsum dolor</div>
+    <div class="subtitle">Consectetur adipiscing</div>
+    <div class="subtitle">Elit sed do eiusmod</div>
+  </div>
+</div>
 
 <div class="image-container">
   <!-- Replace this src with any image you prefer -->
@@ -55,10 +92,8 @@
 <script>
   // On scroll, update the scale of the image based on scroll position
   window.addEventListener('scroll', function() {
-    // Get current scroll position
     const scrollY = window.scrollY;
-    // Calculate scale factor; adjust divisor for faster/slower growth
-    const scale = 1 + scrollY / 1000; 
+    const scale = 1 + scrollY / 150; 
     const imageContainer = document.querySelector('.image-container');
     imageContainer.style.transform = `translate(-50%, -50%) scale(${scale})`;
   });
