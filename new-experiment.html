@@ -3,20 +3,23 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Scrolling Image Scale Example</title>
+<title>Smoother Scrolling Example</title>
 <style>
   body {
     margin: 0;
     font-family: sans-serif;
-    /* Make the page tall so we can scroll */
-    height: 2000px;
+    height: 5000px; 
     background: linear-gradient(to bottom, #f0f0f0, #ccc);
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* If desired, you can experiment with a CSS-based smooth scroll for anchor links:
+       html {
+         scroll-behavior: smooth;
+       }
+    */
   }
 
-  /* Container for title and subtitles */
   .text-container {
     margin-top: 10vh; 
     text-align: center;
@@ -31,7 +34,7 @@
   .subtitles-row {
     display: flex;
     justify-content: center;
-    gap: 40px; /* Space between subtitles */
+    gap: 40px; 
     max-width: 80%;
     margin: 0 auto;
   }
@@ -42,13 +45,13 @@
     max-width: 200px;
   }
 
+  /* Image scaling section */
   .image-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
+    margin-top: 50vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transform-origin: center center;
-    transition: transform 0.1s ease-out; /* Optional for smoother transitions */
   }
 
   .image-container img {
@@ -59,7 +62,41 @@
 
   .content {
     position: relative;
-    top: 110vh; /* Place some text below the fold so we can scroll */
+    top: 180vh; 
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+  }
+
+  /* Horizontal gallery styles */
+  .gallery-section {
+    position: relative;
+    width: 100vw;
+    margin-top: 150vh; 
+  }
+
+  .gallery-container {
+    width: 100vw; 
+    overflow: hidden; 
+    border: 2px solid #000; 
+    position: relative;
+  }
+
+  .gallery-track {
+    display: flex;
+    width: 2500px; /* 5 images * 500px each */
+    will-change: transform; /* For smoother performance */
+  }
+
+  .gallery-track img {
+    width: 500px;
+    height: auto;
+    display: block;
+    user-select: none;
+  }
+
+  .gallery-content-below {
+    margin-top: 200vh; 
     text-align: center;
     font-size: 24px;
     color: #333;
@@ -77,25 +114,70 @@
   </div>
 </div>
 
+<!-- Scaling image section -->
 <div class="image-container">
-  <!-- Replace this src with any image you prefer -->
   <img src="https://picsum.photos/800?random=10" alt="Centered Image">
 </div>
 
-<div class="content">
-  <p>Scroll down to see the image grow.</p>
-  <p>Keep scrolling... Keep scrolling... </p>
-  <p>Almost there...</p>
-  <p>You can scroll back up and watch it shrink again.</p>
+<!-- Horizontal scrolling gallery section -->
+<div class="gallery-section">
+  <div class="gallery-container">
+    <div class="gallery-track">
+      <img src="https://picsum.photos/500?random=1" alt="Gallery Image 1">
+      <img src="https://picsum.photos/500?random=2" alt="Gallery Image 2">
+      <img src="https://picsum.photos/500?random=3" alt="Gallery Image 3">
+      <img src="https://picsum.photos/500?random=4" alt="Gallery Image 4">
+      <img src="https://picsum.photos/500?random=5" alt="Gallery Image 5">
+    </div>
+  </div>
 </div>
 
+<div class="gallery-content-below">
+  <p>You’ve finished scrolling through the horizontal gallery. More content here...</p>
+</div>
+
+<!-- Include GSAP and ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 <script>
-  // On scroll, update the scale of the image based on scroll position
-  window.addEventListener('scroll', function() {
-    const scrollY = window.scrollY;
-    const scale = 1 + scrollY / 150; 
-    const imageContainer = document.querySelector('.image-container');
-    imageContainer.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // SCALE IMAGE SECTION
+  gsap.to(".image-container img", {
+    scrollTrigger: {
+      trigger: ".image-container",
+      start: "top center",
+      end: "+=1000", 
+      pin: true,
+      scrub: true,
+      anticipatePin: 1, // Helps smooth out the pinning/unpinning
+      markers: false
+    },
+    scale: 2
+  });
+
+  // HORIZONTAL GALLERY SECTION
+  const galleryWidth = 2500; // width of .gallery-track
+  const viewportWidth = window.innerWidth; 
+  const horizontalScrollDistance = galleryWidth - viewportWidth; 
+
+  // We'll map a comfortable vertical scroll distance to ensure smoother transitions.
+  // For a 1500px horizontal move, we might allow around 2000px vertical scroll (adjust as needed).
+  const verticalScrollSpan = horizontalScrollDistance * 1.3; 
+
+  gsap.to(".gallery-track", {
+    x: -horizontalScrollDistance,
+    ease: "none", // Keep the motion linear with scroll
+    scrollTrigger: {
+      trigger: ".gallery-section",
+      start: "top center",
+      end: "+=" + verticalScrollSpan,
+      pin: true,
+      scrub: true,
+      anticipatePin: 1, // Reduce jumpiness at start/end
+      markers: false
+    }
   });
 </script>
 
