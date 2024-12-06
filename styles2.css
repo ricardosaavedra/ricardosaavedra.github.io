@@ -1,15 +1,18 @@
 /* styles2.css */
 
+
 html {
     scroll-behavior: smooth;
     /* Removed scroll-timeline */
 }
+
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 
 body {
     display: flex;
@@ -19,6 +22,7 @@ body {
     overflow: hidden; /* Prevent body scroll */
 }
 
+
 .sidebar {
     position: fixed;
     width: 200px;
@@ -26,6 +30,7 @@ body {
     padding: 20px;
     z-index: 1000;
 }
+
 
 .logo {
     margin-bottom: 40px;
@@ -36,9 +41,11 @@ body {
     display: inline-block;
 }
 
+
 .nav-links {
     list-style: none;
 }
+
 
 .nav-links li a {
     display: block;
@@ -51,10 +58,12 @@ body {
     text-decoration: none;
 }
 
+
 .nav-links li a.active {
     opacity: 1;
     position: relative;
 }
+
 
 .nav-links li a.active::after {
     content: '';
@@ -68,10 +77,12 @@ body {
     border-radius: 50%;
 }
 
+
 /* Hovered state styling */
 .nav-links li a.hovered {
     opacity: 1;
 }
+
 
 main {
     margin-left: 200px;
@@ -86,6 +97,7 @@ main {
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
+
 .section-header {
     position: fixed; /* Changed from sticky to fixed */
     top: 0;
@@ -97,6 +109,7 @@ main {
     backdrop-filter: blur(5px); /* Optional: adds blur effect */
 }
 
+
 .header-content {
     display: flex;
     justify-content: flex-end;
@@ -104,10 +117,12 @@ main {
     gap: 30px;
 }
 
+
 .header-content span {
     font-size: 14px;
     color: #fff;
 }
+
 
 .case-study-btn {
     background: #333;
@@ -120,9 +135,11 @@ main {
     transition: background 0.8s ease-in-out;
 }
 
+
 .case-study-btn:hover {
     background: #444;
 }
+
 
 .big-title {
     font-size: 48px;
@@ -132,9 +149,11 @@ main {
     margin-top: 100px; /* Adjusted top margin to account for fixed header */
 }
 
+
 .bullet-points {
     margin-bottom: 60px;
 }
+
 
 .bullet-points p {
     margin: 15px 0;
@@ -142,14 +161,17 @@ main {
     color: #888;
 }
 
+
 .image-grid {
     width: 100%;
 }
+
 
 .image-placeholder {
     background: #222;
     border-radius: 8px;
 }
+
 
 .main-image {
     width: 100%;
@@ -157,15 +179,18 @@ main {
     margin-bottom: 20px;
 }
 
+
 .image-row {
     display: flex;
     gap: 20px;
 }
 
+
 .half-width {
     width: 50%;
     height: 300px;
 }
+
 
 .preview-container {
     position: fixed;
@@ -180,6 +205,7 @@ main {
     opacity: 0; /* Start with zero opacity */
 }
 
+
 .preview-overlay {
     position: absolute;
     top: 0;
@@ -190,6 +216,7 @@ main {
     background-position: center;
     background-repeat: no-repeat;
 }
+
 
 .preview-overlay::after {
     content: '';
@@ -202,6 +229,7 @@ main {
     z-index: 2;
 }
 
+
 .preview-content {
     position: absolute;
     bottom: 40px;
@@ -212,30 +240,37 @@ main {
     color: white;
 }
 
+
 .preview-project-name {
     display: block;
     font-size: 24px;
     margin-bottom: 20px;
 }
 
+
 .preview-title {
     font-size: 36px;
 }
+
 
 .section-header.hidden {
     /* Removed hidden class to keep section headers always visible */
     /* visibility: hidden; */
 }
 
+
 /* Removed no-scroll classes to prevent disabling scroll */
 
+
 /* Removed transitions on opacity and transform */
+
 
 /*
 .section {
     transition: opacity 0.3s ease-out, transform 0.3s ease-out; 
 }
 */
+
 
 .section {
     min-height: 100vh;
@@ -253,14 +288,18 @@ main {
     /* transition: opacity 0.3s ease-out; */
 }
 
+
 .section.dimmed {
     opacity: 0;
     /* Removed transition to prevent flickering */
     /* transition: opacity 0.3s ease-out; */
 }
 
+
 .section-stack {
     max-width: 100%;
     margin: 0 auto;
     overflow: hidden; /* Prevent horizontal overflow */
 }
+
+

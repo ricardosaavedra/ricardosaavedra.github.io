@@ -1,6 +1,8 @@
 // navigation.js
 
+
 const Navigation = (function() {
+
 
     // Shared DOM elements
     const main = document.querySelector('main');
@@ -14,6 +16,7 @@ const Navigation = (function() {
         caseStudyBtn: sectionHeader.querySelector('.case-study-btn')
     };
 
+
     function buildThresholdList() {
         let thresholds = [];
         for (let i = 0; i <= 20; i++) {
@@ -21,6 +24,7 @@ const Navigation = (function() {
         }
         return thresholds;
     }
+
 
     function updateHeaderContent(section) {
         headerElements.projectName.textContent = section.getAttribute('data-project-name');
@@ -31,12 +35,15 @@ const Navigation = (function() {
         };
     }
 
+
     function scrollToSection(index) {
         // Remove smooth scrolling behavior temporarily
         main.style.scrollBehavior = 'auto';
 
+
         // Instantly scroll to section
         sections[index].scrollIntoView();
+
 
         // Re-enable smooth scrolling after a short delay
         setTimeout(() => {
@@ -44,11 +51,13 @@ const Navigation = (function() {
         }, 50);
     }
 
+
     function init() {
         const observer = new IntersectionObserver((entries) => {
             let maxEntry = entries.reduce((max, entry) => {
                 return (entry.intersectionRatio > max.intersectionRatio) ? entry : max;
             }, entries[0]);
+
 
             if (maxEntry.intersectionRatio > 0.5) {
                 const sectionId = maxEntry.target.id;
@@ -64,7 +73,9 @@ const Navigation = (function() {
             rootMargin: '0px'
         });
 
+
         sections.forEach(section => observer.observe(section));
+
 
         // Initialize navigation click handlers
         navLinks.forEach((link, index) => {
@@ -80,12 +91,18 @@ const Navigation = (function() {
             });
         });
 
+
         // Set initial header content
         updateHeaderContent(sections[0]);
     }
 
+
     return { init };
+
 
 })();
 
+
 document.addEventListener('DOMContentLoaded', Navigation.init);
+
+

@@ -1,6 +1,8 @@
 // preview.js
 
+
 const Preview = (function() {
+
 
     const previewContainer = document.querySelector('.preview-container');
     const previewOverlay = document.querySelector('.preview-overlay');
@@ -9,8 +11,10 @@ const Preview = (function() {
     const navLinks = document.querySelectorAll('.nav-links li a');
     const sections = document.querySelectorAll('.section');
 
+
     let currentFadeInAnimation = null;
     let currentFadeOutAnimation = null;
+
 
     function updatePreview(projectName, title, imageUrl) {
         if (currentFadeOutAnimation) {
@@ -21,20 +25,24 @@ const Preview = (function() {
             currentFadeInAnimation.cancel();
         }
 
+
         previewOverlay.style.backgroundImage = `url(${imageUrl})`;
         previewProjectName.textContent = projectName;
         previewTitle.textContent = title;
         previewContainer.style.visibility = 'visible';
+
 
         currentFadeInAnimation = previewContainer.animate(
             [{ opacity: 0 }, { opacity: 1 }],
             { duration: 200, fill: 'forwards' }
         );
 
+
         currentFadeInAnimation.onfinish = () => {
             currentFadeInAnimation = null;
         };
     }
+
 
     function fadeOutPreview() {
         if (currentFadeInAnimation) {
@@ -45,16 +53,19 @@ const Preview = (function() {
             currentFadeOutAnimation.cancel();
         }
 
+
         currentFadeOutAnimation = previewContainer.animate(
             [{ opacity: 1 }, { opacity: 0 }],
             { duration: 200, fill: 'forwards' }
         );
+
 
         currentFadeOutAnimation.onfinish = () => {
             previewContainer.style.visibility = 'hidden';
             currentFadeOutAnimation = null;
         };
     }
+
 
     function init() {
         navLinks.forEach((link, index) => {
@@ -65,6 +76,7 @@ const Preview = (function() {
                     return;
                 }
 
+
                 this.classList.add('hovered');
                 const section = sections[index];
                 updatePreview(
@@ -74,10 +86,12 @@ const Preview = (function() {
                 );
             });
 
+
             link.addEventListener('mouseleave', function() {
                 this.classList.remove('hovered');
                 fadeOutPreview();
             });
+
 
             // Keyboard navigation support
             link.addEventListener('focus', function() {
@@ -92,6 +106,7 @@ const Preview = (function() {
                 }
             });
 
+
             link.addEventListener('blur', function() {
                 this.classList.remove('hovered');
                 fadeOutPreview();
@@ -99,8 +114,13 @@ const Preview = (function() {
         });
     }
 
+
     return { init };
+
 
 })();
 
+
 document.addEventListener('DOMContentLoaded', Preview.init);
+
+
