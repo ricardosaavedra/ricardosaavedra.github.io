@@ -1,3 +1,5 @@
+// navigation.js
+
 const Navigation = (function () {
 
     // Shared DOM elements
@@ -13,7 +15,11 @@ const Navigation = (function () {
     };
 
     function buildThresholdList() {
-        return [0, 0.5, 1];
+        const thresholds = [];
+        for (let i = 0; i <= 1.0; i += 0.1) {
+            thresholds.push(i);
+        }
+        return thresholds;
     }
 
     function updateHeaderContent(section) {
@@ -34,6 +40,7 @@ const Navigation = (function () {
             entries.forEach(entry => {
                 if (entry.intersectionRatio > 0.5) {
                     entry.target.classList.add('visible');
+                    entry.target.classList.remove('dimmed');
 
                     const sectionId = entry.target.id;
                     navLinks.forEach(link => {
@@ -43,6 +50,7 @@ const Navigation = (function () {
                     updateHeaderContent(entry.target);
                 } else {
                     entry.target.classList.remove('visible');
+                    entry.target.classList.add('dimmed');
                 }
             });
         }, {
@@ -65,7 +73,9 @@ const Navigation = (function () {
                 const preview = document.querySelector('.preview-container');
                 preview.style.transition = 'opacity 0.3s ease';
                 preview.style.opacity = 0;
-                preview.style.visibility = 'hidden';
+                setTimeout(() => {
+                    preview.style.visibility = 'hidden';
+                }, 300);
             });
         });
 

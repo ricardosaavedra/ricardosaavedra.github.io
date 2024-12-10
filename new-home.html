@@ -203,7 +203,73 @@
 
     </main>
 
+<!-- Add the custom cursor -->
+    <div id="custom-cursor">
+        <span>drag</span>
+    </div>
+    <script>
+// custom-cursor.js
 
+document.addEventListener('DOMContentLoaded', () => {
+    const customCursor = document.getElementById('custom-cursor');
+    const galleries = document.querySelectorAll('.swiper');
+
+    let isDragging = false;
+
+    // Function to update cursor position
+    const moveCursor = (e) => {
+        customCursor.style.top = `${e.clientY}px`;
+        customCursor.style.left = `${e.clientX}px`;
+    };
+
+    // Function to handle dragging state
+    const handleDragStart = () => {
+        isDragging = true;
+        customCursor.classList.add('dragging');
+    };
+
+    const handleDragEnd = () => {
+        if (isDragging) {
+            isDragging = false;
+            customCursor.classList.remove('dragging');
+        }
+    };
+
+    // Add event listeners to each gallery
+    galleries.forEach(gallery => {
+        // Show custom cursor on pointer enter
+        gallery.addEventListener('pointerenter', () => {
+            customCursor.style.display = 'block';
+            window.addEventListener('pointermove', moveCursor, true); // Use capture phase
+        });
+
+        // Hide custom cursor on pointer leave
+        gallery.addEventListener('pointerleave', () => {
+            customCursor.style.display = 'none';
+            window.removeEventListener('pointermove', moveCursor, true);
+            // Ensure dragging state is reset if pointer leaves during drag
+            if (isDragging) {
+                handleDragEnd();
+            }
+        });
+
+        // Handle drag start
+        gallery.addEventListener('pointerdown', handleDragStart, true);
+
+        // Handle drag end
+        window.addEventListener('pointerup', handleDragEnd, true);
+    });
+
+    // Optional: Handle window blur to reset dragging state if the user switches tabs
+    window.addEventListener('blur', () => {
+        if (isDragging) {
+            handleDragEnd();
+        }
+    });
+});
+
+
+    </script>
     <!-- Add before closing body tag, replace existing script tag -->
     <script src="navigation.js"></script>
     <script src="preview.js"></script>

@@ -289,7 +289,7 @@ main {
     min-height: 100vh;
     padding: 0px 32px;
     scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-snap-stop: normal;
     position: relative;
     background-color: #000;
     display: flex;
@@ -298,6 +298,8 @@ main {
     align-items: flex-start;
     opacity: 0; /* Start with opacity 0 */
     transition: opacity 0.4s ease-in-out; /* Add transition */
+        transition: opacity 1.2s ease-in-out, transform 0.5s ease-in-out;
+
         will-change: opacity, transform;
 
     
@@ -321,5 +323,92 @@ main {
     margin: 0 auto;
     overflow: hidden; /* Prevent horizontal overflow */
 }
+
+/* styles2.css */
+
+/* Existing styles */
+
+/* Hide the default cursor when hovering over the gallery */
+.swiper {
+    cursor: none;
+}
+
+/* styles2.css */
+
+/* Existing styles */
+
+/* styles2.css */
+
+/* Existing styles */
+
+/* Custom Cursor Styles */
+#custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Allows clicks to pass through */
+    display: none; /* Hidden by default */
+    transform: translate(-50%, -50%); /* Center the cursor */
+    z-index: 10000; /* Ensure it's on top */
+    color: #fff;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#custom-cursor span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+}
+
+#custom-cursor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+}
+
+/* Styles for dragging state */
+#custom-cursor.dragging span {
+    display: none; /* Hide the "drag" text */
+}
+
+#custom-cursor.dragging::after {
+    /* Optionally, you can adjust the circle's size or appearance during dragging */
+    width: 40px;
+    height: 40px;
+    border-color: #ff0; /* Example: change border color to yellow */
+    /* Example animation */
+    /* animation: pulse 1s infinite; */
+}
+
+/* Optional: Pulse animation for dragging state */
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
 
 
