@@ -1,5 +1,3 @@
-// navigation.js
-
 const Navigation = (function () {
 
     // Shared DOM elements
@@ -15,8 +13,8 @@ const Navigation = (function () {
     };
 
     function buildThresholdList() {
-    return [0, 0.5, 1];
-}
+        return [0, 0.5, 1];
+    }
 
     function updateHeaderContent(section) {
         headerElements.projectName.textContent = section.getAttribute('data-project-name');
@@ -28,13 +26,12 @@ const Navigation = (function () {
     }
 
     function scrollToSection(index) {
-    sections[index].scrollIntoView({ behavior: 'smooth' });
-}
+        sections[index].scrollIntoView({ behavior: 'smooth' });
+    }
 
     function init() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                // Add or remove visible class based on intersection
                 if (entry.intersectionRatio > 0.5) {
                     entry.target.classList.add('visible');
 
@@ -47,7 +44,7 @@ const Navigation = (function () {
                 } else {
                     entry.target.classList.remove('visible');
                 }
-            }); 
+            });
         }, {
             root: main,
             threshold: buildThresholdList(),
@@ -64,9 +61,11 @@ const Navigation = (function () {
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
 
-                // Add these lines to ensure preview is hidden when clicking
-                document.querySelector('.preview-container').style.opacity = 0;
-                document.querySelector('.preview-container').style.visibility = 'hidden';
+                // Hide preview container smoothly
+                const preview = document.querySelector('.preview-container');
+                preview.style.transition = 'opacity 0.3s ease';
+                preview.style.opacity = 0;
+                preview.style.visibility = 'hidden';
             });
         });
 
