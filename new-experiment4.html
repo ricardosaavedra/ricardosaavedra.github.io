@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment 4 with Snapping</title>
+    
+    <!-- Locomotive Scroll CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.1/dist/locomotive-scroll.min.css">
+    
+    <style>
+        /* styles2.css */
+
+        html {
+            scroll-behavior: smooth;
+            /* Removed scroll-timeline */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevent body scroll */
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 128px;
+            height: 100vh;
+            padding-left: 24px;
+            z-index: 1000;
+            background-color: #111; /* Added background for better visibility */
+        }
+
+        .logo {
+            margin-bottom: 40px;
+            font-size: 18px;
+            color: #fff;
+            padding: 8px;
+            background: #333;
+            display: inline-block;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li a {
+            display: block;
+            padding: 10px 0;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s ease-out;
+            font-size: 14px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-links li a.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .nav-links li a.active::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+
+        /* Hovered state styling */
+        .nav-links li a.hovered {
+            opacity: 1;
+        }
+
+        main {
+            margin-left: 128px;
+            width: calc(100% - 128px);
+            height: 100vh;
+            /* Removed scroll-snap-type and scroll-behavior for Locomotive Scroll */
+            overflow: hidden; /* Changed from overflow-y: auto */
+            background-color: #000;
+        }
+
+        /* Locomotive Scroll specific styles */
+        [data-scroll-container] {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        [data-scroll-section] {
+            min-height: 100vh;
+            padding: 0px 32px;
+            position: relative; /* Changed from default static position */
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: flex-start;
+            opacity: 1;
+        }
+
+        .section-header {
+            position: fixed; /* Changed from sticky to fixed */
+            top: 0;
+            left: 128px; /* Offset to accommodate the sidebar width */
+            right: 0;
+            padding: 16px 32px; /* Adjust padding to match main content */
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px); /* Optional: adds blur effect */
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .header-content span {
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .case-study-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .case-study-btn:hover {
+            background: #444;
+        }
+
+        .big-title {
+            font-size: 48px;
+            line-height: 1.2;
+            max-width: 800px;
+            margin-bottom: 40px;
+            margin-top: 100px; /* Adjusted top margin to account for fixed header */
+        }
+
+        .bullet-points {
+            margin-bottom: 60px;
+        }
+
+        .bullet-points p {
+            margin: 15px 0;
+            font-size: 16px;
+            color: #888;
+        }
+
+        .image-grid {
+            width: 100%;
+        }
+
+        .image-placeholder {
+            background: #222;
+            border-radius: 8px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            object-fit: contain;
+        }
+
+        .image-row {
+            display: flex;
+            gap: 20px;
+            padding-bottom: 64px;
+        }
+
+        .half-width {
+            width: 50%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .preview-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0; /* Prevent horizontal overflow */
+            bottom: 0; /* Prevent vertical overflow */
+            width: auto; /* Removed fixed width */
+            height: auto; /* Removed fixed height */
+            visibility: hidden; /* Start hidden */
+            z-index: 50;
+            opacity: 0; /* Start with zero opacity */
+            transition: opacity 0.3s ease;
+        }
+
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .preview-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+
+        .preview-content {
+            position: absolute;
+            bottom: 40px;
+            left: 128px;
+            right: 60px;
+            z-index: 3;
+            text-align: left;
+            color: white;
+        }
+
+        .preview-project-name {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .preview-title {
+            font-size: 36px;
+        }
+
+        .section-header.hidden {
+            /* Removed hidden class to keep section headers always visible */
+            /* visibility: hidden; */
+        }
+
+        /* Removed no-scroll classes to prevent disabling scroll */
+
+        /* Removed transitions on opacity and transform */
+
+        /*
+        .section {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out; 
+        }
+        */
+
+        .section {
+            /* Already handled by [data-scroll-section] */
+        }
+
+        .section.dimmed {
+            opacity: 0;
+            /* Removed transition to prevent flickering */
+            /* transition: opacity 0.3s ease-out; */
+        }
+
+        /* Additional styles for Locomotive Smooth Scroll */
+        .smooth-scroll {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        /* Snap Trigger Styles */
+        .snap-trigger {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px; /* Minimal height */
+            pointer-events: none; /* Ignore pointer events */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="sidebar">
+        <div class="logo">About</div>
+        <ul class="nav-links">
+            <li>
+                <a href="#" data-section="section1" class="active">Meta Cube</a>
+            </li>
+            <li>
+                <a href="#" data-section="section2">Meta</a>
+            </li>
+            <li>
+                <a href="#" data-section="section3">2023</a>
+            </li>
+            <li>
+                <a href="#" data-section="section4">Case Study</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main data-scroll-container>
+        <!-- Single Fixed Section Header -->
+        <div class="section-header">
+            <div class="header-content">
+                <span class="project-name">Meta Cube</span>
+                <span class="company">Meta</span>
+                <span class="year">2023</span>
+                <button class="case-study-btn">Case Study</button>
+            </div>
+        </div>
+
+        <!-- Section 1 -->
+        <section
+            id="section1"
+            class="section section-stack"
+            data-scroll-section
+            data-preview-image="img/home/ds-cover.jpg"
+            data-project-name="Meta Cube"
+            data-company="Meta"
+            data-year="2023"
+            data-case-study-url="#"
+        >
+            <h1 class="big-title">Creating a More Intuitive Controller for VR Devices</h1>
+            <div class="bullet-points">
+                <p>• Executed on vague vision to create a clear proposal for the product</p>
+                <p>• Helped flesh out all the implementation details to help push the project forward</p>
+                <p>• Developed clear concepts to get teams excited about the vision</p>
+            </div>
+            <div class="image-grid">
+                <img src="img/home/ds-cover.jpg" alt="Meta Cube main visualization" class="main-image">
+                <div class="image-row">
+                    <img src="img/home/ds-cover.jpg" alt="Meta Cube detail view 1" class="half-width">
+                    <img src="img/home/ds-cover.jpg" alt="Meta Cube detail view 2" class="half-width">
+                </div>
+            </div>
+            
+            <!-- Snapping Trigger -->
+            <div class="snap-trigger" data-scroll-call="snap" data-scroll-repeat="false"></div>
+        </section>
+
+        <!-- Section 2 -->
+        <section
+            id="section2"
+            class="section section-stack"
+            data-scroll-section
+            data-preview-image="img/home/wonder-brand-full.png"
+            data-project-name="Project 2"
+            data-company="Meta"
+            data-year="2023"
+            data-case-study-url="#"
+        >
+            <h1 class="big-title">Enhancing User Engagement through Design</h1>
+            <div class="bullet-points">
+                <p>• Conducted user research to identify engagement metrics</p>
+                <p>• Implemented design improvements based on user feedback</p>
+                <p>• Increased user retention by 20% through targeted design changes</p>
+            </div>
+            <div class="image-grid">
+                <img src="img/home/wonder-brand-full.png" alt="Project 2 main visualization" class="main-image">
+                <div class="image-row">
+                    <img src="img/home/wonder-brand-full.png" alt="Project 2 detail view 1" class="half-width">
+                    <img src="img/home/wonder-brand-full.png" alt="Project 2 detail view 2" class="half-width">
+                </div>
+            </div>
+            
+            <!-- Snapping Trigger -->
+            <div class="snap-trigger" data-scroll-call="snap" data-scroll-repeat="false"></div>
+        </section>
+
+        <!-- Section 3 -->
+        <section
+            id="section3"
+            class="section section-stack"
+            data-scroll-section
+            data-preview-image="img/hunch/canvas.png"
+            data-project-name="Project 3"
+            data-company="Meta"
+            data-year="2023"
+            data-case-study-url="#"
+        >
+            <h1 class="big-title">Innovative Solutions for Modern Challenges</h1>
+            <div class="bullet-points">
+                <p>• Developed cutting-edge features to address user needs</p>
+                <p>• Collaborated with cross-functional teams to streamline processes</p>
+                <p>• Achieved a 30% increase in efficiency through automation</p>
+            </div>
+            <div class="image-grid">
+                <img src="img/hunch/canvas.png" alt="Project 3 main visualization" class="main-image">
+                <div class="image-row">
+                    <img src="img/hunch/canvas.png" alt="Project 3 detail view 1" class="half-width">
+                    <img src="img/hunch/canvas.png" alt="Project 3 detail view 2" class="half-width">
+                </div>
+            </div>
+            
+            <!-- Snapping Trigger -->
+            <div class="snap-trigger" data-scroll-call="snap" data-scroll-repeat="false"></div>
+        </section>
+
+        <!-- Section 4 -->
+        <section
+            id="section4"
+            class="section section-stack"
+            data-scroll-section
+            data-preview-image="img/home/status.jpg"
+            data-project-name="Project 4"
+            data-company="Meta"
+            data-year="2023"
+            data-case-study-url="#"
+        >
+            <h1 class="big-title">Comprehensive Case Studies for In-Depth Insights</h1>
+            <div class="bullet-points">
+                <p>• Compiled detailed case studies showcasing project successes</p>
+                <p>• Analyzed performance metrics to derive actionable insights</p>
+                <p>• Presented findings to stakeholders, influencing strategic decisions</p>
+            </div>
+            <div class="image-grid">
+                <img src="img/home/status.jpg" alt="Project 4 main visualization" class="main-image">
+                <div class="image-row">
+                    <img src="img/home/status.jpg" alt="Project 4 detail view 1" class="half-width">
+                    <img src="img/home/status.jpg" alt="Project 4 detail view 2" class="half-width">
+                </div>
+            </div>
+            
+            <!-- Snapping Trigger -->
+            <div class="snap-trigger" data-scroll-call="snap" data-scroll-repeat="false"></div>
+        </section>
+
+        <div class="preview-container">
+            <div class="preview-overlay"></div>
+            <div class="preview-content">
+                <span class="preview-project-name"></span>
+                <h2 class="preview-title"></h2>
+            </div>
+        </div>
+    </main>
+
+    <!-- Locomotive Scroll JS -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.1/dist/locomotive-scroll.min.js"></script>
+
+    <script>
+        // Combined JavaScript (preview.js, navigation.js, and Locomotive Scroll integration)
+
+        /* Preview Module */
+        const Preview = (function() {
+            const previewContainer = document.querySelector('.preview-container');
+            const previewOverlay = document.querySelector('.preview-overlay');
+            const previewProjectName = document.querySelector('.preview-project-name');
+            const previewTitle = document.querySelector('.preview-title');
+            const navLinks = document.querySelectorAll('.nav-links li a');
+            const sections = document.querySelectorAll('.section');
+
+            let currentFadeInAnimation = null;
+            let currentFadeOutAnimation = null;
+
+            function updatePreview(projectName, title, imageUrl) {
+                if (currentFadeOutAnimation) {
+                    currentFadeOutAnimation.cancel();
+                    currentFadeOutAnimation = null;
+                }
+                if (currentFadeInAnimation) {
+                    currentFadeInAnimation.cancel();
+                }
+
+                previewOverlay.style.backgroundImage = `url(${imageUrl})`;
+                previewProjectName.textContent = projectName;
+                previewTitle.textContent = title;
+                previewContainer.style.visibility = 'visible';
+
+                currentFadeInAnimation = previewContainer.animate(
+                    [{ opacity: 0 }, { opacity: 1 }],
+                    { duration: 200, fill: 'forwards' }
+                );
+
+                currentFadeInAnimation.onfinish = () => {
+                    currentFadeInAnimation = null;
+                };
+            }
+
+            function fadeOutPreview() {
+                if (currentFadeInAnimation) {
+                    currentFadeInAnimation.cancel();
+                    currentFadeInAnimation = null;
+                }
+                if (currentFadeOutAnimation) {
+                    currentFadeOutAnimation.cancel();
+                    currentFadeOutAnimation = null;
+                }
+
+                currentFadeOutAnimation = previewContainer.animate(
+                    [{ opacity: 1 }, { opacity: 0 }],
+                    { duration: 200, fill: 'forwards' }
+                );
+
+                currentFadeOutAnimation.onfinish = () => {
+                    previewContainer.style.visibility = 'hidden';
+                    currentFadeOutAnimation = null;
+                };
+            }
+
+            function init() {
+                navLinks.forEach((link, index) => {
+                    link.addEventListener('mouseenter', function() {
+                        // Don't show preview if link is active
+                        if (this.classList.contains('active')) {
+                            fadeOutPreview();
+                            return;
+                        }
+
+                        this.classList.add('hovered');
+                        const section = sections[index];
+                        updatePreview(
+                            section.getAttribute('data-project-name'),
+                            section.querySelector('.big-title').textContent,
+                            section.getAttribute('data-preview-image')
+                        );
+                    });
+
+                    link.addEventListener('mouseleave', function() {
+                        this.classList.remove('hovered');
+                        fadeOutPreview();
+                    });
+
+                    // Keyboard navigation support
+                    link.addEventListener('focus', function() {
+                        this.classList.add('hovered');
+                        if (!this.classList.contains('active')) {
+                            const section = sections[index];
+                            updatePreview(
+                                section.getAttribute('data-project-name'),
+                                section.querySelector('.big-title').textContent,
+                                section.getAttribute('data-preview-image')
+                            );
+                        }
+                    });
+
+                    link.addEventListener('blur', function() {
+                        this.classList.remove('hovered');
+                        fadeOutPreview();
+                    });
+                });
+            }
+
+            return { init };
+        })();
+
+        /* Navigation Module */
+        const Navigation = (function() {
+            // Shared DOM elements
+            const main = document.querySelector('main');
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-links li a');
+            const sectionHeader = document.querySelector('.section-header');
+            const headerElements = {
+                projectName: sectionHeader.querySelector('.project-name'),
+                company: sectionHeader.querySelector('.company'),
+                year: sectionHeader.querySelector('.year'),
+                caseStudyBtn: sectionHeader.querySelector('.case-study-btn')
+            };
+
+            let scroll; // Locomotive Scroll instance
+
+            function updateHeaderContent(section) {
+                headerElements.projectName.textContent = section.getAttribute('data-project-name');
+                headerElements.company.textContent = section.getAttribute('data-company');
+                headerElements.year.textContent = section.getAttribute('data-year');
+                headerElements.caseStudyBtn.onclick = () => {
+                    window.location.href = section.getAttribute('data-case-study-url');
+                };
+            }
+
+            function initScroll() {
+                scroll = new LocomotiveScroll({
+                    el: document.querySelector('[data-scroll-container]'),
+                    smooth: true,
+                    smoothMobile: false,
+                    getDirection: true
+                });
+
+                // Update header content based on scroll
+                scroll.on('scroll', (args) => {
+                    const scrollTop = args.scroll.y;
+                    sections.forEach((section, index) => {
+                        const sectionOffsetTop = section.offsetTop;
+                        const sectionHeight = section.offsetHeight;
+
+                        if (scrollTop >= sectionOffsetTop - window.innerHeight / 2 &&
+                            scrollTop < sectionOffsetTop + sectionHeight - window.innerHeight / 2) {
+                            // Update active link
+                            navLinks.forEach(link => link.classList.remove('active'));
+                            navLinks[index].classList.add('active');
+
+                            // Update header
+                            updateHeaderContent(section);
+                        }
+                    });
+                });
+
+                // Handle snapping via Locomotive Scroll's 'call' method
+                scroll.on('call', (func, way, obj) => {
+                    if (func === 'snap' && way === 'enter') {
+                        handleSnap(obj);
+                    }
+                });
+            }
+
+            let isSnapping = false; // Flag to prevent multiple snap triggers
+
+            function handleSnap(triggerElement) {
+                if (isSnapping) return; // Prevent multiple triggers
+                isSnapping = true;
+
+                // Find the current section
+                const currentSection = triggerElement.closest('.section');
+                const sectionsArray = Array.from(sections);
+                const currentIndex = sectionsArray.indexOf(currentSection);
+
+                if (currentIndex < sectionsArray.length - 1) {
+                    const nextSection = sectionsArray[currentIndex + 1];
+
+                    // Scroll to the next section
+                    scroll.scrollTo(nextSection, {
+                        offset: 0,
+                        duration: 1000,
+                        easing: [0.25, 0.00, 0.35, 1.00]
+                    });
+                }
+
+                // Reset the snapping flag after the scroll completes
+                setTimeout(() => {
+                    isSnapping = false;
+                }, 1200); // Duration slightly longer than scroll duration
+            }
+
+            function scrollToSection(index) {
+                const targetSection = sections[index];
+                scroll.scrollTo(targetSection, {
+                    offset: 0,
+                    duration: 1000,
+                    easing: [0.25, 0.00, 0.35, 1.00]
+                });
+            }
+
+            function init() {
+                initScroll();
+
+                // Initialize navigation click handlers
+                navLinks.forEach((link, index) => {
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        scrollToSection(index);
+
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+
+                        // Hide preview
+                        const previewContainer = document.querySelector('.preview-container');
+                        previewContainer.style.opacity = 0;
+                        previewContainer.style.visibility = 'hidden';
+                    });
+                });
+
+                // Set initial header content
+                updateHeaderContent(sections[0]);
+            }
+
+            return { init };
+        })();
+
+        /* Initialize all modules after DOM is loaded */
+        document.addEventListener('DOMContentLoaded', () => {
+            Preview.init();
+            Navigation.init();
+        });
+    </script>
+</body>
+
+</html>

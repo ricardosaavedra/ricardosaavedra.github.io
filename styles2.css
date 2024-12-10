@@ -106,7 +106,6 @@ main {
     padding: 16px 32px; /* Adjust padding to match main content */
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(5px); /* Optional: adds blur effect */
 }
 
 
@@ -299,6 +298,8 @@ main {
     align-items: flex-start;
     opacity: 0; /* Start with opacity 0 */
     transition: opacity 0.4s ease-in-out; /* Add transition */
+        will-change: opacity, transform;
+
     
 }
 
