@@ -1,185 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Smoother Scrolling Example</title>
-<style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-    height: 5000px; 
-    background: linear-gradient(to bottom, #f0f0f0, #ccc);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* If desired, you can experiment with a CSS-based smooth scroll for anchor links:
-       html {
-         scroll-behavior: smooth;
-       }
-    */
-  }
+  <meta charset="UTF-8">
+  <title>Tucan's Life</title>
+  
+  <!-- Embedded CSS -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-  .text-container {
-    margin-top: 10vh; 
-    text-align: center;
-  }
+    html, body {
+      overflow-x: hidden; /* Prevent horizontal scrollbar */
+      font-family: sans-serif;
+      font-size: 1.25em;
+      line-height: 1.5;
+      margin: 0;
+    }
 
-  .big-title {
-    font-size: 48px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
+    .wrapper {
+      /* Optional: Add any wrapper-specific styles here */
+    }
 
-  .subtitles-row {
-    display: flex;
-    justify-content: center;
-    gap: 40px; 
-    max-width: 80%;
-    margin: 0 auto;
-  }
+    .content {
+      /* Optional: Add any content-specific styles here */
+    }
 
-  .subtitle {
-    font-size: 24px;
-    flex: 1;
-    max-width: 200px;
-  }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 1em;
+      line-height: 1;
+      padding: 0;
+    }
 
-  /* Image scaling section */
-  .image-container {
-    margin-top: 50vh; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-origin: center center;
-  }
+    p {
+      margin-bottom: 2.5em;
+    }
 
-  .image-container img {
-    width: 200px;
-    height: auto;
-    display: block;
-  }
+    section {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 50px 0;
+    }
 
-  .content {
-    position: relative;
-    top: 180vh; 
-    text-align: center;
-    font-size: 24px;
-    color: #333;
-  }
+    .gallery-wrapper {
+      height: 100vh;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      overflow: hidden; /* Hide any overflow from the gallery */
+    }
 
-  /* Horizontal gallery styles */
-  .gallery-section {
-    position: relative;
-    width: 100vw;
-    margin-top: 150vh; 
-  }
+    .gallery {
+      position: relative;
+      z-index: 1;
+      height: 50vh;
+      white-space: nowrap;
+      display: block;
+      will-change: transform; /* Optimize for smoother animations */
+    }
 
-  .gallery-container {
-    width: 100vw; 
-    overflow: hidden; 
-    border: 2px solid #000; 
-    position: relative;
-  }
+    .gallery-box {
+      height: 50vh;
+      width: 50vh;
+      margin: 0 30px;
+      display: inline-block;
+    }
 
-  .gallery-track {
-    display: flex;
-    width: 2500px; /* 5 images * 500px each */
-    will-change: transform; /* For smoother performance */
-  }
-
-  .gallery-track img {
-    width: 500px;
-    height: auto;
-    display: block;
-    user-select: none;
-  }
-
-  .gallery-content-below {
-    margin-top: 200vh; 
-    text-align: center;
-    font-size: 24px;
-    color: #333;
-  }
-</style>
+    .gallery-box img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  
+  <!-- Include GSAP and ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- If using ScrollSmoother (part of GSAP's bonus plugins, requires a membership) -->
+  <!-- <script src="path-to-scrollsmoother.js"></script> -->
 </head>
 <body>
 
-<div class="text-container">
-  <div class="big-title">Lorem Ipsum Dolor Sit Amet</div>
-  <div class="subtitles-row">
-    <div class="subtitle">Lorem ipsum dolor</div>
-    <div class="subtitle">Consectetur adipiscing</div>
-    <div class="subtitle">Elit sed do eiusmod</div>
-  </div>
-</div>
+  <!-- Repeat this .wrapper section for as many galleries as needed -->
+  <div class="wrapper">
+    <div class="content">
 
-<!-- Scaling image section -->
-<div class="image-container">
-  <img src="https://picsum.photos/800?random=10" alt="Centered Image">
-</div>
+      <section>
+        <h1>Tucan's Life</h1>
+        <img src="https://images.unsplash.com/photo-1588617491022-023fa43c001d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+      </section>
 
-<!-- Horizontal scrolling gallery section -->
-<div class="gallery-section">
-  <div class="gallery-container">
-    <div class="gallery-track">
-      <img src="https://picsum.photos/500?random=1" alt="Gallery Image 1">
-      <img src="https://picsum.photos/500?random=2" alt="Gallery Image 2">
-      <img src="https://picsum.photos/500?random=3" alt="Gallery Image 3">
-      <img src="https://picsum.photos/500?random=4" alt="Gallery Image 4">
-      <img src="https://picsum.photos/500?random=5" alt="Gallery Image 5">
+      <div class="gallery-wrapper">
+        <div class="gallery">
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1588617491022-023fa43c001d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1595363530143-b913b4ea30dd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1611788542170-38cf842212f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1617752041172-5fee314079e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1584552356827-84601899716c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-</div>
 
-<div class="gallery-content-below">
-  <p>You’ve finished scrolling through the horizontal gallery. More content here...</p>
-</div>
+  <!-- Repeat this .wrapper section for as many galleries as needed -->
+  <div class="wrapper">
+    <div class="content">
 
-<!-- Include GSAP and ScrollTrigger -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+      <section>
+        <h1>Tucan's Life</h1>
+        <img src="https://images.unsplash.com/photo-1588617491022-023fa43c001d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+      </section>
 
-<script>
-  gsap.registerPlugin(ScrollTrigger);
+      <div class="gallery-wrapper">
+        <div class="gallery">
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1588617491022-023fa43c001d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1595363530143-b913b4ea30dd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1611788542170-38cf842212f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1617752041172-5fee314079e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+          <div class="gallery-box">
+            <img src="https://images.unsplash.com/photo-1584552356827-84601899716c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dHVjYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="tucan" />
+          </div>
+        </div>
+      </div>
 
-  // SCALE IMAGE SECTION
-  gsap.to(".image-container img", {
-    scrollTrigger: {
-      trigger: ".image-container",
-      start: "top center",
-      end: "+=1000", 
-      pin: true,
-      scrub: true,
-      anticipatePin: 1, // Helps smooth out the pinning/unpinning
-      markers: false
-    },
-    scale: 2
-  });
+    </div>
+  </div>
 
-  // HORIZONTAL GALLERY SECTION
-  const galleryWidth = 2500; // width of .gallery-track
-  const viewportWidth = window.innerWidth; 
-  const horizontalScrollDistance = galleryWidth - viewportWidth; 
+  <!-- Embedded JavaScript -->
+  <script>
+    // Register GSAP plugins
+    gsap.registerPlugin(ScrollTrigger);
 
-  // We'll map a comfortable vertical scroll distance to ensure smoother transitions.
-  // For a 1500px horizontal move, we might allow around 2000px vertical scroll (adjust as needed).
-  const verticalScrollSpan = horizontalScrollDistance * 1.3; 
+    // Initialize ScrollSmoother if available
+    // Note: ScrollSmoother is a bonus plugin and may require a license.
+    // Uncomment and adjust the path if you have access to ScrollSmoother.
+    // const scrollerSmoother = ScrollSmoother.create({
+    //   content: '.content',
+    //   wrapper: '.wrapper',
+    //   smooth: 1,
+    //   effects: true
+    // });
 
-  gsap.to(".gallery-track", {
-    x: -horizontalScrollDistance,
-    ease: "none", // Keep the motion linear with scroll
-    scrollTrigger: {
-      trigger: ".gallery-section",
-      start: "top center",
-      end: "+=" + verticalScrollSpan,
-      pin: true,
-      scrub: true,
-      anticipatePin: 1, // Reduce jumpiness at start/end
-      markers: false
-    }
-  });
-</script>
+    // Function to initialize gallery animations for each wrapper
+    document.querySelectorAll('.wrapper').forEach((wrapper) => {
+      const galleryWrapper = wrapper.querySelector('.gallery-wrapper');
+      const gallery = wrapper.querySelector('.gallery');
 
+      // Ensure the gallery exists within the wrapper
+      if (!galleryWrapper || !gallery) return;
+
+      // Calculate the total scroll distance based on gallery width
+      const galleryWidth = gallery.scrollWidth;
+      const viewportWidth = window.innerWidth;
+      const scrollDistance = galleryWidth - viewportWidth + (60); // Adding margins (30px on each side)
+
+      // Create a timeline for the gallery scroll
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: galleryWrapper,
+          start: 'top top',
+          end: () => `+=${scrollDistance}`,
+          scrub: 0.5,
+          pin: true,
+          anticipatePin: 1,
+          // markers: true, // Uncomment for debugging
+        }
+      })
+      .to(gallery, {
+        x: -scrollDistance,
+        ease: 'none'
+      });
+    });
+
+    // Optional: Refresh ScrollTrigger on window resize to recalculate measurements
+    window.addEventListener('resize', () => {
+      ScrollTrigger.refresh();
+    });
+  </script>
 </body>
 </html>

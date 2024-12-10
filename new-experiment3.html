@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Experiment 3</title>
+
+  <!-- Embedded CSS -->
+  <style>
+    /* Reset and Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      overflow-x: hidden; /* Prevent horizontal scrollbar */
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.5;
+      background: #000;
+      color: #fff;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      width: 200px;
+      height: 100vh;
+      padding: 20px;
+      background: #111;
+      z-index: 1000;
+    }
+
+    .logo {
+      margin-bottom: 40px;
+      font-size: 18px;
+      color: #fff;
+      padding: 8px;
+      background: #333;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .nav-links {
+      list-style: none;
+    }
+
+    .nav-links li a {
+      display: block;
+      padding: 10px 0;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.3s ease-out;
+      font-size: 14px;
+      color: #fff;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .nav-links li a.active {
+      opacity: 1;
+    }
+
+    .nav-links li a.active::after {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+
+    .nav-links li a.hovered {
+      opacity: 1;
+    }
+
+    /* Section Header Styles */
+    .section-header {
+      position: fixed;
+      top: 0;
+      left: 200px; /* Width of the sidebar */
+      right: 0;
+      padding: 20px 60px;
+      z-index: 999;
+      background-color: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: flex-end; /* Align items to the right */
+      align-items: center;
+      gap: 30px; /* Space between header elements */
+    }
+
+    .section-header span {
+      font-size: 14px;
+      color: #fff;
+      text-align: right;
+    }
+
+    .case-study-btn {
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease-in-out;
+    }
+
+    .case-study-btn:hover {
+      background: #444;
+    }
+
+    /* Main Content Styles */
+    .wrapper {
+      margin-left: 200px; /* Width of the sidebar */
+    }
+
+    .content {
+      max-width: 100%;
+      padding-top: 100px; /* Space for fixed header */
+    }
+
+    section {
+      max-width: 800px; /* Increased max-width for better content display */
+      margin: 0 auto 60px auto; /* Center align the section and add bottom margin */
+      padding: 60px 60px 50px; /* Top padding accounts for fixed header */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center-align content */
+      text-align: center; /* Center-align text */
+      opacity: 0; /* For fade-in effect */
+      transform: translateY(50px); /* For fade-in effect */
+    }
+
+    section h1 {
+      font-size: 3em;
+      margin-bottom: 1em;
+      line-height: 1.2;
+      padding: 0;
+      text-align: center; /* Center-align the title */
+    }
+
+    .bullet-points {
+      display: flex;
+      justify-content: center; /* Center the bullet points horizontally */
+      gap: 20px; /* Space between each bullet point */
+      margin-bottom: 2em; /* Space below the bullet points */
+      flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    }
+
+    .bullet-points p {
+      flex: 1; /* Distribute space evenly among bullet points */
+      text-align: center; /* Center-align the text within each bullet point */
+      font-size: 1em;
+      color: #888;
+      min-width: 150px; /* Ensure minimum width for readability */
+    }
+
+    .section-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    section img {
+      display: block; /* Ensure the image is treated as a block element */
+      margin: 20px auto; /* Center the image horizontally with vertical spacing */
+      max-width: 80%; /* Adjust the width as needed */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 8px; /* Optional: add rounded corners for a polished look */
+    }
+
+    /* Gallery Section Styles */
+    .gallery-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      overflow: hidden; /* Hide any overflow from the gallery */
+      height: 100vh;
+    }
+
+    .gallery {
+      height: 50vh;
+      display: flex; /* Flex for better control */
+      will-change: transform; /* Optimize for smoother animations */
+    }
+
+    .gallery-box {
+      height: 50vh;
+      width: 50vh;
+      margin: 0 30px;
+      flex-shrink: 0; /* Prevent shrinking */
+    }
+
+    .gallery-box img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+      border-radius: 8px;
+      transform: translate3d(0, 0, 0); /* Hardware acceleration */
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 150px;
+      }
+
+      .section-header {
+        left: 150px;
+        padding: 15px 30px;
+        gap: 20px;
+      }
+
+      .wrapper {
+        margin-left: 150px;
+      }
+
+      section {
+        padding: 80px 30px 40px;
+        max-width: 90%; /* Adjust max-width for smaller screens */
+      }
+
+      .bullet-points {
+        flex-direction: column; /* Stack bullet points vertically on smaller screens */
+        gap: 10px;
+      }
+
+      .section-header span {
+        font-size: 12px; /* Slightly smaller text on smaller screens */
+      }
+
+      section h1 {
+        font-size: 2.5em; /* Adjust title size for smaller screens */
+      }
+
+      section img {
+        max-width: 90%; /* Adjust image width for smaller screens */
+      }
+    }
+  </style>
+
+  <!-- Include GSAP and ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Include ScrollSmoother (Replace 'path-to-scrollsmoother.js' with your actual path) -->
+  <script src="https://assets.codepen.io/16327/ScrollSmoother.min.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="logo">About</div>
+    <ul class="nav-links">
+      <li>
+        <a href="#section1" data-section="section1" class="active">Meta Cube</a>
+      </li>
+      <li>
+        <a href="#section2" data-section="section2">Meta</a>
+      </li>
+      <li>
+        <a href="#section3" data-section="section3">2023</a>
+      </li>
+      <li>
+        <a href="#section4" data-section="section4">Case Study</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Section Header -->
+  <div class="section-header">
+    <span class="project-name">Meta Cube</span>
+    <span class="company">Meta</span>
+    <span class="year">2023</span>
+    <button class="case-study-btn">Case Study</button>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="wrapper">
+    <div class="content">
+
+      <!-- Section 1 -->
+      <section id="section1" class="section section-stack" data-preview-image="img/home/ds-cover.jpg" data-project-name="Meta Cube" data-company="Meta" data-year="2023" data-case-study-url="#">
+        <h1>Creating a More Intuitive Controller for VR Devices</h1>
+        <div class="bullet-points">
+          <p>• Executed on vague vision to create a clear proposal for the product</p>
+          <p>• Helped flesh out all the implementation details to help push the project forward</p>
+          <p>• Developed clear concepts to get teams excited about the vision</p>
+        </div>
+        <div class="section-image-container">
+          <img src="img/home/wonder-brand-full.jpg" alt="Meta Cube Visualization" />
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <div class="gallery-wrapper">
+        <div class="gallery">
+          <div class="gallery-box">
+            <img src="img/wonder/3.jpg" alt="Gallery Image 1" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/wonder/final-logo.jpg" alt="Gallery Image 2" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/wonder/4.jpg" alt="Gallery Image 3" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <section id="section2" class="section section-stack" data-preview-image="img/home/wonder-brand-full.png" data-project-name="Project 2" data-company="Meta" data-year="2023" data-case-study-url="#">
+        <h1>Innovative Solutions in 2023</h1>
+        <div class="bullet-points">
+          <p>• Executed on vague vision to create a clear proposal for the product</p>
+          <p>• Helped flesh out all the implementation details to help push the project forward</p>
+          <p>• Developed clear concepts to get teams excited about the vision</p>
+        </div>
+        <div class="section-image-container">
+          <img src="img/home/input-square.jpg" alt="Innovative Solutions Visualization" />
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <div class="gallery-wrapper">
+        <div class="gallery">
+          <div class="gallery-box">
+            <img src="img/home/meat-input-square.jpg" alt="Gallery Image 1" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/meta-input/extended-ui.png" alt="Gallery Image 2" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/meta-input/input-horizontal.jpg" alt="Gallery Image 3" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/meta-input/weather.png" alt="Gallery Image 4" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3 -->
+      <section id="section3" class="section section-stack" data-preview-image="img/hunch/canvas.png" data-project-name="Project 3" data-company="Meta" data-year="2023" data-case-study-url="#">
+        <h1>Enhancing User Experience in VR</h1>
+        <div class="bullet-points">
+          <p>• Executed on vague vision to create a clear proposal for the product</p>
+          <p>• Helped flesh out all the implementation details to help push the project forward</p>
+          <p>• Developed clear concepts to get teams excited about the vision</p>
+        </div>
+        <div class="section-image-container">
+          <img src="img/home/wonder-v3.jpg" alt="Enhancing UX Visualization" />
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <div class="gallery-wrapper">
+        <div class="gallery">
+          <div class="gallery-box">
+            <img src="img/wonder-v3/conversation-view.jpg" alt="Gallery Image 1" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/wonder-v3/space-conversations.jpg" alt="Gallery Image 2" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4 -->
+      <section id="section4" class="section section-stack" data-preview-image="img/home/status.jpg" data-project-name="Project 4" data-company="Meta" data-year="2023" data-case-study-url="#">
+        <h1>Case Study: Meta Innovates</h1>
+        <div class="bullet-points">
+          <p>• Executed on vague vision to create a clear proposal for the product</p>
+          <p>• Helped flesh out all the implementation details to help push the project forward</p>
+          <p>• Developed clear concepts to get teams excited about the vision</p>
+        </div>
+        <div class="section-image-container">
+          <img src="img/hunch/canvas.png" alt="Case Study Visualization" />
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <div class="gallery-wrapper">
+        <div class="gallery">
+          <div class="gallery-box">
+            <img src="img/hunch/login.png" alt="Gallery Image 1" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/hunch/mobile.png" alt="Gallery Image 2" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/hunch/share.png" alt="Gallery Image 3" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/hunch/sidebar.png" alt="Gallery Image 4" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5 -->
+      <section id="section5" class="section section-stack" data-preview-image="img/pure/cover.png" data-project-name="Project 5" data-company="Meta" data-year="2023" data-case-study-url="#">
+        <h1>Case Study: Meta Innovates</h1>
+        <div class="bullet-points">
+          <p>• Executed on vague vision to create a clear proposal for the product</p>
+          <p>• Helped flesh out all the implementation details to help push the project forward</p>
+          <p>• Developed clear concepts to get teams excited about the vision</p>
+        </div>
+        <div class="section-image-container">
+          <img src="img/pure/cover.png" alt="Case Study Visualization" />
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <div class="gallery-wrapper">
+        <div class="gallery">
+          <div class="gallery-box">
+            <img src="img/pure/device.png" alt="Gallery Image 1" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/pure/task-s.png" alt="Gallery Image 2" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/pure/widgets.png" alt="Gallery Image 3" />
+          </div>
+        </div>
+      </div>
+        
+        <!-- Section 5 -->
+      <section id="section4" class="section section-stack" data-preview-image="img/home/status.jpg" data-project-name="Project 4" data-company="Meta" data-year="2023" data-case-study-url="#">
+        <h1>Case Study: Meta Innovates</h1>
+        <div class="bullet-points">
+          <p>• Executed on vague vision to create a clear proposal for the product</p>
+          <p>• Helped flesh out all the implementation details to help push the project forward</p>
+          <p>• Developed clear concepts to get teams excited about the vision</p>
+        </div>
+        <div class="section-image-container">
+          <img src="img/optik/4.jpg"
+            alt="Case Study Visualization" />
+        </div>
+      </section>
+
+
+      <!-- Gallery Section -->
+      <div class="gallery-wrapper">
+        <div class="gallery">
+          <div class="gallery-box">
+            <img src="img/optik/id-1.png"
+              alt="Gallery Image 1" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/optik/id-3.png"
+              alt="Gallery Image 2" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/optik/id-4.png"
+              alt="Gallery Image 3" />
+          </div>
+          <div class="gallery-box">
+            <img src="img/optik/id-5.png"
+              alt="Gallery Image 4" />
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- Embedded JavaScript -->
+  <script>
+    // Register GSAP plugins
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+    // Initialize ScrollSmoother
+    const scrollerSmoother = ScrollSmoother.create({
+      wrapper: ".wrapper",
+      content: ".content",
+      smooth: 1.5,
+      effects: true
+    });
+
+    // Navigation Logic
+    const navLinks = document.querySelectorAll('.nav-links li a');
+    const sections = document.querySelectorAll('.section');
+    const sectionHeader = document.querySelector('.section-header');
+    const headerElements = {
+      projectName: sectionHeader.querySelector('.project-name'),
+      company: sectionHeader.querySelector('.company'),
+      year: sectionHeader.querySelector('.year'),
+      caseStudyBtn: sectionHeader.querySelector('.case-study-btn')
+    };
+
+    // Function to update the section header content
+    function updateHeaderContent(section) {
+      headerElements.projectName.textContent = section.getAttribute('data-project-name');
+      headerElements.company.textContent = section.getAttribute('data-company');
+      headerElements.year.textContent = section.getAttribute('data-year');
+      headerElements.caseStudyBtn.onclick = () => {
+        window.location.href = section.getAttribute('data-case-study-url');
+      };
+    }
+
+    // Intersection Observer to handle active link and header update
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.6 // Trigger when 60% of the section is visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Remove active class from all links
+          navLinks.forEach(link => link.classList.remove('active'));
+
+          // Add active class to the corresponding link
+          const activeLink = document.querySelector(`.nav-links li a[data-section="${entry.target.id}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+
+          // Update the section header
+          updateHeaderContent(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Smooth Scrolling on Navigation Click
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          scrollerSmoother.scrollTo(targetElement, true); // Use ScrollSmoother's scrollTo method
+
+          // Optionally, you can update the URL hash without jumping
+          history.pushState(null, null, targetId);
+        }
+
+        // Remove active class from all links and add to the clicked one
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        // Update the section header content
+        updateHeaderContent(targetElement);
+      });
+    });
+
+    // GSAP ScrollTrigger for Gallery Animation
+    const galleryWrappers = document.querySelectorAll('.gallery-wrapper');
+
+    galleryWrappers.forEach((galleryWrapper) => {
+      const gallery = galleryWrapper.querySelector('.gallery');
+
+      gsap.to(gallery, {
+        x: () => `-${gallery.scrollWidth - galleryWrapper.offsetWidth + 60}px`, // 60px accounts for margins
+        ease: "none",
+        scrollTrigger: {
+          trigger: galleryWrapper,
+          start: "top top",
+          end: () => `+=${gallery.scrollWidth - galleryWrapper.offsetWidth + 60}px`,
+          scrub: true,
+          pin: true,
+          anticipatePin: 1,
+          scroller: ".wrapper", // Specify the scroller if using ScrollSmoother
+          // markers: true, // Uncomment for debugging
+        }
+      });
+    });
+
+    // Optional: Add fade-in effect for sections on scroll
+    const fadeInSections = document.querySelectorAll('.section-stack');
+    fadeInSections.forEach(section => {
+      gsap.fromTo(section, {
+        opacity: 0,
+        y: 50
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: section,
+          scroller: ".wrapper", // Specify the scroller if using ScrollSmoother
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+          // markers: true, // Uncomment for debugging
+        }
+      });
+    });
+
+    // Refresh ScrollTrigger when the window is resized to recalculate measurements
+    window.addEventListener('resize', () => {
+      ScrollTrigger.refresh();
+    });
+  </script>
+
+</body>
+</html>

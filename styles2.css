@@ -25,9 +25,9 @@ body {
 
 .sidebar {
     position: fixed;
-    width: 200px;
+    width: 128px;
     height: 100vh;
-    padding: 20px;
+    padding-left: 24px;
     z-index: 1000;
 }
 
@@ -85,8 +85,8 @@ body {
 
 
 main {
-    margin-left: 200px;
-    width: calc(100% - 200px);
+    margin-left: 128px;
+    width: calc(100% - 128px);
     height: 100vh;
     overflow-y: auto; /* Enable scrolling */
     scroll-snap-type: y mandatory; /* Add scroll snapping */
@@ -101,9 +101,9 @@ main {
 .section-header {
     position: fixed; /* Changed from sticky to fixed */
     top: 0;
-    left: 200px; /* Offset to accommodate the sidebar width */
+    left: 128px; /* Offset to accommodate the sidebar width */
     right: 0;
-    padding: 20px 60px; /* Adjust padding to match main content */
+    padding: 16px 32px; /* Adjust padding to match main content */
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(5px); /* Optional: adds blur effect */
@@ -184,6 +184,7 @@ main {
 .image-row {
     display: flex;
     gap: 20px;
+    padding-bottom: 64px;
 }
 
 
@@ -234,7 +235,7 @@ main {
 .preview-content {
     position: absolute;
     bottom: 40px;
-    left: 200px;
+    left: 128px;
     right: 60px;
     z-index: 3;
     text-align: left;
@@ -275,7 +276,7 @@ main {
 
 .section {
     min-height: 100vh;
-    padding: 0px 60px; /* Removed top padding */
+    padding: 0px 32px; /* Removed top padding */
     scroll-snap-align: start;
     scroll-snap-stop: always;
     position: relative; /* Changed from default static position */
