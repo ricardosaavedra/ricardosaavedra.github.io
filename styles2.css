@@ -180,17 +180,28 @@ main {
     object-fit: contain;
 }
 
-
 .image-row {
-    display: flex;
-    gap: 20px;
+    width: 100%;
+    position: relative;
     padding-bottom: 64px;
 }
 
+.swiper {
+    width: 100%;
+    height: 100%;
+}
 
-.half-width {
-    width: 50%;
-    height: 300px;
+.swiper-slide {
+    /* Set a fixed width that makes sense for your layout */
+    width: 500px; /* or whatever width you want your slides to be */
+    height: 100%;
+}
+
+.swiper-slide img {
+    width: 100%; /* Make image fill the slide */
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 
