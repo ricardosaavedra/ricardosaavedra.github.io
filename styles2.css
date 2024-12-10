@@ -285,20 +285,26 @@ main {
 */
 
 
+/* Modify the .section class in styles2.css */
 .section {
     min-height: 100vh;
-    padding: 0px 32px; /* Removed top padding */
+    padding: 0px 32px;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    position: relative; /* Changed from default static position */
-    background-color: #000; /* Ensure background covers underlying content */
+    position: relative;
+    background-color: #000;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content vertically */
+    justify-content: center;
     align-items: flex-start;
+    opacity: 0; /* Start with opacity 0 */
+    transition: opacity 0.4s ease-in-out; /* Add transition */
+    
+}
+
+
+.section.visible {
     opacity: 1;
-    /* Removed transition to prevent flickering */
-    /* transition: opacity 0.3s ease-out; */
 }
 
 

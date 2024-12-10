@@ -1,8 +1,6 @@
 // navigation.js
 
-
 const Navigation = (function() {
-
 
     // Shared DOM elements
     const main = document.querySelector('main');
@@ -16,7 +14,6 @@ const Navigation = (function() {
         caseStudyBtn: sectionHeader.querySelector('.case-study-btn')
     };
 
-
     function buildThresholdList() {
         let thresholds = [];
         for (let i = 0; i <= 20; i++) {
@@ -24,7 +21,6 @@ const Navigation = (function() {
         }
         return thresholds;
     }
-
 
     function updateHeaderContent(section) {
         headerElements.projectName.textContent = section.getAttribute('data-project-name');
@@ -35,15 +31,12 @@ const Navigation = (function() {
         };
     }
 
-
     function scrollToSection(index) {
         // Remove smooth scrolling behavior temporarily
         main.style.scrollBehavior = 'auto';
 
-
         // Instantly scroll to section
         sections[index].scrollIntoView();
-
 
         // Re-enable smooth scrolling after a short delay
         setTimeout(() => {
@@ -51,31 +44,30 @@ const Navigation = (function() {
         }, 50);
     }
 
-
     function init() {
         const observer = new IntersectionObserver((entries) => {
-            let maxEntry = entries.reduce((max, entry) => {
-                return (entry.intersectionRatio > max.intersectionRatio) ? entry : max;
-            }, entries[0]);
-
-
-            if (maxEntry.intersectionRatio > 0.5) {
-                const sectionId = maxEntry.target.id;
-                navLinks.forEach(link => {
-                    link.classList.toggle('active', 
-                        link.getAttribute('data-section') === sectionId);
-                });
-                updateHeaderContent(maxEntry.target);
-            }
+            entries.forEach(entry => {
+                // Add or remove visible class based on intersection
+                if (entry.intersectionRatio > 0.5) {
+                    entry.target.classList.add('visible');
+                    
+                    const sectionId = entry.target.id;
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', 
+                            link.getAttribute('data-section') === sectionId);
+                    });
+                    updateHeaderContent(entry.target);
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
         }, {
             root: main,
             threshold: buildThresholdList(),
             rootMargin: '0px'
         });
 
-
         sections.forEach(section => observer.observe(section));
-
 
         // Initialize navigation click handlers
         navLinks.forEach((link, index) => {
@@ -91,18 +83,13 @@ const Navigation = (function() {
             });
         });
 
-
-        // Set initial header content
+        // Set initial header content and visibility for first section
         updateHeaderContent(sections[0]);
+        sections[0].classList.add('visible'); // Make first section visible initially
     }
-
 
     return { init };
 
-
 })();
 
-
 document.addEventListener('DOMContentLoaded', Navigation.init);
-
-
