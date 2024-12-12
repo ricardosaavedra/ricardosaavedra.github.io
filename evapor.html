@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Image Gallery</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .gallery-container {
+            width: 100%;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* Loading State */
+        .gallery-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(240, 240, 240, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #007bff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Main Gallery */
+        .main-gallery {
+            height: 70%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-gallery-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.3s ease-out;
+        }
+
+        .main-image {
+            min-width: 33.333%;
+            height: 100%;
+            padding: 0 10px;
+        }
+
+        .main-image-content {
+            background: #ddd;
+            height: 100%;
+            border-radius: 8px;
+            aspect-ratio: 3/4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .main-image-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Thumbnail Gallery */
+        .thumbnail-gallery {
+            height: 15%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thumbnail-gallery-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.3s ease-out;
+        }
+
+        .thumbnail-image {
+            min-width: 12.5%;
+            height: 100%;
+            padding: 0 5px;
+        }
+
+        .thumbnail-image-content {
+            background: #ddd;
+            height: 100%;
+            border-radius: 4px;
+            aspect-ratio: 3/4;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .thumbnail-image-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .thumbnail-image-content:hover {
+            opacity: 0.8;
+        }
+
+        .active {
+            border: 2px solid #007bff;
+        }
+
+        /* Progress Indicator */
+        .gallery-progress {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            height: 5px;
+            background: #ccc;
+            width: 100%;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .gallery-progress-inner {
+            height: 100%;
+            background: #007bff;
+            width: 0%;
+            transition: width 0.3s ease-out;
+        }
+
+        /* Accessibility Focus Indicators */
+        .thumbnail-image-content:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        .main-image-content:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-container" tabindex="0" aria-label="Image Gallery">
+        <!-- Loading State -->
+        <div class="gallery-loading" aria-live="polite" aria-busy="true">
+            <div class="loading-spinner"></div>
+            <span>Loading your gallery...</span>
+        </div>
+
+        <!-- Main Gallery -->
+        <div class="main-gallery" aria-label="Main Image Gallery">
+            <div class="main-gallery-track">
+                <!-- Images will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery" aria-label="Thumbnail Image Gallery">
+            <div class="thumbnail-gallery-track">
+                <!-- Thumbnails will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="gallery-progress" aria-hidden="true">
+            <div class="gallery-progress-inner"></div>
+        </div>
+    </div>
+
+    <script>
+        const numberOfImages = 12;
+        const mainTrack = document.querySelector('.main-gallery-track');
+        const thumbnailTrack = document.querySelector('.thumbnail-gallery-track');
+        const galleryContainer = document.querySelector('.gallery-container');
+        const loadingOverlay = document.querySelector('.gallery-loading');
+        const progressInner = document.querySelector('.gallery-progress-inner');
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationID;
+        let velocity = 0;
+        const MOMENTUM_FACTOR = 0.95;
+        const VELOCITY_THRESHOLD = 0.5;
+
+        // Generate images
+        for (let i = 1; i <= numberOfImages; i++) {
+            // Main gallery images
+            const mainImage = document.createElement('div');
+            mainImage.className = 'main-image';
+            mainImage.innerHTML = `
+                <div class="main-image-content" tabindex="0" aria-label="Main Image ${i}">
+                    <img src="https://via.placeholder.com/300x400?text=Image+${i}" alt="Image ${i}">
+                </div>
+            `;
+            mainTrack.appendChild(mainImage);
+
+            // Thumbnail gallery images
+            const thumbnailImage = document.createElement('div');
+            thumbnailImage.className = 'thumbnail-image';
+            thumbnailImage.innerHTML = `
+                <div class="thumbnail-image-content" tabindex="0" data-index="${i - 1}" aria-label="Thumbnail Image ${i}">
+                    <img src="https://via.placeholder.com/150x200?text=Thumb+${i}" alt="Thumbnail ${i}">
+                </div>
+            `;
+            thumbnailTrack.appendChild(thumbnailImage);
+        }
+
+        // Hide loading state after images are loaded
+        window.addEventListener('load', () => {
+            loadingOverlay.style.display = 'none';
+            progressInner.style.width = '100%';
+        });
+
+        // Add drag functionality
+        [mainTrack, thumbnailTrack].forEach(track => {
+            track.addEventListener('mousedown', dragStart);
+            track.addEventListener('mousemove', drag);
+            track.addEventListener('mouseup', dragEnd);
+            track.addEventListener('mouseleave', dragEnd);
+            track.addEventListener('touchstart', dragStart);
+            track.addEventListener('touchmove', drag);
+            track.addEventListener('touchend', dragEnd);
+        });
+
+        // Add click functionality to thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail-image-content');
+        thumbnails.forEach((thumb, index) => {
+            thumb.addEventListener('click', () => {
+                snapToImage(index);
+            });
+            thumb.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    snapToImage(index);
+                }
+            });
+        });
+
+        function dragStart(e) {
+            isDragging = true;
+            startPos = getPositionX(e);
+            velocity = 0;
+            animationID = requestAnimationFrame(animation);
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                const currentPosition = getPositionX(e);
+                const delta = currentPosition - startPos;
+                currentTranslate = prevTranslate + delta;
+                velocity = delta;
+            }
+        }
+
+        function dragEnd() {
+            isDragging = false;
+            cancelAnimationFrame(animationID);
+            prevTranslate = currentTranslate;
+            if (Math.abs(velocity) > VELOCITY_THRESHOLD) {
+                momentumScroll();
+            } else {
+                snapToImage();
+            }
+        }
+
+        function getPositionX(e) {
+            return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        }
+
+        function animation() {
+            if (isDragging) {
+                setSliderPosition();
+                requestAnimationFrame(animation);
+            }
+        }
+
+        function setSliderPosition() {
+            const mainMaxScroll = getMaxScroll(mainTrack);
+            const thumbMaxScroll = getMaxScroll(thumbnailTrack);
+            currentTranslate = Math.max(Math.min(currentTranslate, 0), mainMaxScroll);
+            const syncRatio = thumbMaxScroll / mainMaxScroll;
+            mainTrack.style.transform = `translateX(${currentTranslate}px)`;
+            thumbnailTrack.style.transform = `translateX(${currentTranslate * syncRatio}px)`;
+            updateProgress();
+        }
+
+        function getMaxScroll(track) {
+            return window.innerWidth - track.scrollWidth;
+        }
+
+        function momentumScroll() {
+            currentTranslate += velocity;
+            velocity *= MOMENTUM_FACTOR;
+            setSliderPosition();
+            if (Math.abs(velocity) > VELOCITY_THRESHOLD) {
+                requestAnimationFrame(momentumScroll);
+            } else {
+                snapToImage();
+            }
+        }
+
+        function snapToImage(index = null) {
+            const images = document.querySelectorAll('.main-image');
+            const imageWidth = images[0].offsetWidth + 20; // include padding
+            let snapPoint;
+            if (index !== null) {
+                snapPoint = -imageWidth * index;
+            } else {
+                snapPoint = Math.round(currentTranslate / imageWidth) * imageWidth;
+            }
+            currentTranslate = Math.max(Math.min(snapPoint, 0), getMaxScroll(mainTrack));
+            prevTranslate = currentTranslate;
+            setSliderPosition();
+            highlightActiveThumbnail();
+        }
+
+        function highlightActiveThumbnail() {
+            const thumbnails = document.querySelectorAll('.thumbnail-image-content');
+            const activeIndex = Math.round(-currentTranslate / (document.querySelector('.main-image').offsetWidth + 20));
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            if (thumbnails[activeIndex]) {
+                thumbnails[activeIndex].classList.add('active');
+                thumbnails[activeIndex].focus();
+            }
+        }
+
+        function updateProgress() {
+            const totalScroll = Math.abs(getMaxScroll(mainTrack));
+            const currentPosition = Math.abs(currentTranslate);
+            const percentage = (currentPosition / totalScroll) * 100;
+            progressInner.style.width = `${percentage}%`;
+        }
+
+        // Keyboard Navigation & Accessibility
+        galleryContainer.addEventListener('keydown', (e) => {
+            const SCROLL_AMOUNT = document.querySelector('.main-image').offsetWidth + 20;
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    snapToImage(Math.max(Math.round(-currentTranslate / SCROLL_AMOUNT) - 1, 0));
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    snapToImage(Math.min(Math.round(-currentTranslate / SCROLL_AMOUNT) + 1, numberOfImages - 1));
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    snapToImage(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    snapToImage(numberOfImages - 1);
+                    break;
+            }
+        });
+
+        // Initialize Gallery State
+        snapToImage();
+    </script>
+</body>
+</html>
