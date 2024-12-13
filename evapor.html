@@ -320,8 +320,10 @@
             const thumbGallery = document.querySelector('.thumbnail-gallery');
 
             // Calculate dimensions
-            const mainImageWidth = document.querySelector('.main-image').offsetWidth + 20; // include padding
-            const thumbImageWidth = document.querySelector('.thumbnail-image').offsetWidth + 10; // include padding
+            const mainImage = document.querySelector('.main-image');
+            const mainImageWidth = mainImage.offsetWidth + 20; // include padding
+            const thumbImage = document.querySelector('.thumbnail-image');
+            const thumbImageWidth = thumbImage.offsetWidth + 10; // include padding
 
             const mainGalleryWidth = mainGallery.offsetWidth;
             const thumbGalleryWidth = thumbGallery.offsetWidth;
@@ -333,8 +335,13 @@
             const mainCenterOffset = (mainGalleryWidth - (mainImageWidth * visibleCount)) / 2;
             const thumbCenterOffset = (thumbGalleryWidth - (thumbImageWidth * Math.ceil(visibleCount / 2))) / 2;
 
-            // Position for initial images considering cloned images
-            const initialTranslateMain = -(mainImageWidth * visibleCount) + mainCenterOffset;
+            // **Adjusted Initial Translation to Center Image 1**
+            // Original line:
+            // const initialTranslateMain = -(mainImageWidth * visibleCount) + mainCenterOffset;
+
+            // Updated line to center Image 1:
+            const initialTranslateMain = -(mainImageWidth * (visibleCount - 1)) + mainCenterOffset;
+
             const initialTranslateThumb = -(thumbImageWidth * 0) + thumbCenterOffset; // Start at first thumbnail
 
             // Set positions for both galleries
@@ -605,7 +612,7 @@
             const viewportCenter = mainGalleryWidth / 2;
 
             // Calculate the absolute position relative to the first real image (after clones)
-            const absolutePosition = -currentTranslateMain - (mainImageWidth * visibleCount);
+            const absolutePosition = -currentTranslateMain - (mainImageWidth * (visibleCount - 1));
 
             // Calculate the center position offset
             const centerPosition = absolutePosition + viewportCenter - (mainImageWidth / 2);
@@ -692,11 +699,11 @@
         function snapToImage(index, animate = true) {
             const mainImage = document.querySelector('.main-image');
             if (!mainImage) return;
-            const mainImageWidth = mainImage.offsetWidth + 20;
+            const mainImageWidth = mainImage.offsetWidth + 20; // include padding
             const visibleCount = getVisibleCount();
 
             // Calculate the target position that centers the selected image
-            let snapPoint = -(mainImageWidth * (index + visibleCount));
+            let snapPoint = -(mainImageWidth * (index + (visibleCount - 1)));
 
             if (animate) {
                 animateToPosition(snapPoint, () => {
@@ -720,16 +727,16 @@
             const visibleCount = getVisibleCount();
 
             // If scrolled past the cloned first images
-            if (currentTranslateMain <= -(mainImageWidth * (numberOfImages + visibleCount))) {
-                currentTranslateMain = -(mainImageWidth * visibleCount);
+            if (currentTranslateMain <= -(mainImageWidth * (numberOfImages + (visibleCount - 1)))) {
+                currentTranslateMain = -(mainImageWidth * (visibleCount - 1));
                 prevTranslateMain = currentTranslateMain;
                 mainTrack.style.transition = 'none';
                 mainTrack.style.transform = `translateX(${currentTranslateMain}px)`;
             }
 
             // If scrolled before the cloned last images
-            if (currentTranslateMain >= -mainImageWidth * (visibleCount - 1)) {
-                currentTranslateMain = -(mainImageWidth * (numberOfImages + visibleCount - 1));
+            if (currentTranslateMain >= -mainImageWidth * (visibleCount - 2)) {
+                currentTranslateMain = -(mainImageWidth * (numberOfImages + (visibleCount - 2)));
                 prevTranslateMain = currentTranslateMain;
                 mainTrack.style.transition = 'none';
                 mainTrack.style.transform = `translateX(${currentTranslateMain}px)`;
@@ -743,8 +750,8 @@
             const mainImageWidth = mainImage.offsetWidth + 20;
             const visibleCount = getVisibleCount();
 
-            // Set initial position to center the first image
-            currentTranslateMain = -(mainImageWidth * visibleCount);
+            // **Set initial position to center Image 1**
+            currentTranslateMain = -(mainImageWidth * (visibleCount - 1));
             prevTranslateMain = currentTranslateMain;
 
             setMainSliderPosition();
