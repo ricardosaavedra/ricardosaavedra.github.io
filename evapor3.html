@@ -27,7 +27,7 @@
 
     .swiper {
       width: 100%;
-      height: 300px;
+      height: 100%;
       margin-left: auto;
       margin-right: auto;
     }
@@ -52,10 +52,23 @@
     }
 
     .mySwiper .swiper-slide {
-      width: 25%;
+      width: auto; /* Let nth-child rules determine width */
       height: 100%;
       opacity: 0.4;
       cursor: pointer;
+    }
+
+    .mySwiper2 .swiper-slide {
+      width: auto; /* Let nth-child rules determine width */
+      height: 100%;
+      cursor: pointer;
+      justify-content: center;
+      background-position: center;
+      align-items: center;
+      display: flex;
+
+
+
     }
 
     .mySwiper .swiper-slide-thumb-active {
@@ -64,7 +77,7 @@
 
     .swiper-slide img {
       display: block;
-      width: 100%;
+      width: 100%; /* Let nth-child rules determine width */
       height: 100%;
       object-fit: cover;
     }
@@ -76,72 +89,70 @@
   <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-1.jpg" alt="Nature 1" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/26285191/original_a49c4809ab2f36b29375dbea3e51797d.jpg?1707694217?bc=0" alt="Nature 1" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-2.jpg" alt="Nature 2" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/27123470/original_18d1cf0dd624a17317e50b1b7935e826.png?1711056528?bc=0" alt="Nature 2" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-3.jpg" alt="Nature 3" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/23890805/original_568ea4146724101e0b8c8a564102b857.png?1695938532?bc=0" alt="Nature 3" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-4.jpg" alt="Nature 4" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/30133968/original_c8857adaadd0f133a347f1769f689b84.gif?1724230584?bc=0" alt="Nature 4" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-5.jpg" alt="Nature 5" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/24909890/original_ffeeb29c67d3568d5205d23b4be48b9a.png?1700961560?bc=0" alt="Nature 5" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-6.jpg" alt="Nature 6" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/23489578/original_2c3705a7a1e99db7b2c31e39ba0f4439.jpg?1694003319?bc=0" alt="Nature 6" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-7.jpg" alt="Nature 7" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/19051523/original_46d2597b3b3967af75a4af5991e58123.gif?1668789147?bc=0" alt="Nature 7" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-8.jpg" alt="Nature 8" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/20176281/original_51f4bf04dd3789b1094076408155df1f.png?1675353374?bc=0" alt="Nature 8" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-2.jpg" alt="Nature 9" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/24183630/original_00c489a2f00fbf69dc41ee5c6dedb9a2.png?1697460293?bc=0" alt="Nature 9" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-10.jpg" alt="Nature 10" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/26827057/original_e5f61da12bbb0a4e095b9ddd6967a224.png?1709795647?bc=0" alt="Nature 10" />
       </div>
     </div>
-    <!-- Navigation buttons -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
+   
   </div>
   
   <div thumbsSlider="" class="swiper mySwiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-1.jpg" alt="Thumb 1" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/26285191/original_a49c4809ab2f36b29375dbea3e51797d.jpg?1707694217?bc=0" alt="Thumb 1" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-2.jpg" alt="Thumb 2" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/27123470/original_18d1cf0dd624a17317e50b1b7935e826.png?1711056528?bc=0" alt="Thumb 2" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-3.jpg" alt="Thumb 3" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/23890805/original_568ea4146724101e0b8c8a564102b857.png?1695938532?bc=0" alt="Thumb 3" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-4.jpg" alt="Thumb 4" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/30133968/original_c8857adaadd0f133a347f1769f689b84.gif?1724230584?bc=0" alt="Thumb 4" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-5.jpg" alt="Thumb 5" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/24909890/original_ffeeb29c67d3568d5205d23b4be48b9a.png?1700961560?bc=0" alt="Thumb 5" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-6.jpg" alt="Thumb 6" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/23489578/original_2c3705a7a1e99db7b2c31e39ba0f4439.jpg?1694003319?bc=0" alt="Thumb 6" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-7.jpg" alt="Thumb 7" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/19051523/original_46d2597b3b3967af75a4af5991e58123.gif?1668789147?bc=0" alt="Thumb 7" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-8.jpg" alt="Thumb 8" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/20176281/original_51f4bf04dd3789b1094076408155df1f.png?1675353374?bc=0" alt="Thumb 8" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-2.jpg" alt="Thumb 9" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/24183630/original_00c489a2f00fbf69dc41ee5c6dedb9a2.png?1697460293?bc=0" alt="Thumb 9" />
       </div>
       <div class="swiper-slide">
-        <img src="https://swiperjs.com/demos/images/nature-10.jpg" alt="Thumb 10" />
+        <img src="https://d2w9rnfcy7mm78.cloudfront.net/26827057/original_e5f61da12bbb0a4e095b9ddd6967a224.png?1709795647?bc=0" alt="Thumb 10" />
       </div>
     </div>
   </div>
@@ -154,9 +165,11 @@
     // Initialize Thumbnail Swiper
     var swiperThumbs = new Swiper(".mySwiper", {
       spaceBetween: 10,
-      slidesPerView: 4,
+      slidesPerView: 'auto',
       freeMode: true,
       watchSlidesProgress: true,
+      
+
       loop: true, // Enable looping on thumbnail swiper
       loopedSlides: 10, // Number of slides to loop (should be >= slidesPerView)
     });
@@ -164,10 +177,8 @@
     // Initialize Main Swiper and link it with Thumbnail Swiper
     var swiperMain = new Swiper(".mySwiper2", {
       spaceBetween: 10,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
+      slidesPerView: 'auto',
+
       loop: true, // Enable looping on main swiper
       loopedSlides: 10, // Number of slides to loop (should match thumbnail swiper)
       thumbs: {
