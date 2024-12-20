@@ -81,11 +81,11 @@
         }
 
         .main-image {
-            min-width: 33.3333%; /* Show three images at once */
+            flex: 0 0 33.3333%;
+            max-width: 33.3333%;
             height: 100%;
             padding: 0 10px;
             box-sizing: border-box;
-            flex-shrink: 0;
         }
 
         .main-image-content {
@@ -215,9 +215,30 @@
         .thumbnail-gallery::-webkit-scrollbar {
             display: none;
         }
+
+        /* Add this to your existing styles */
+        .dummy-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+        }
     </style>
+
+
 </head>
 <body>
+    <div class="dummy-loading">Loading...</div>
+
     <div class="gallery-container" tabindex="0" aria-label="Image Gallery">
         <!-- Loading Overlay -->
         <div class="gallery-loading" aria-live="polite" aria-busy="true">
@@ -245,652 +266,723 @@
         </div>
     </div>
 
-    <script>
-        (function() {
-            const numberOfImages = 12;
-            const mainTrack = document.querySelector('.main-gallery-track');
-            const thumbnailTrack = document.querySelector('.thumbnail-gallery-track');
-            const galleryContainer = document.querySelector('.gallery-container');
-            const loadingOverlay = document.querySelector('.gallery-loading');
-            const progressInner = document.querySelector('.gallery-progress-inner');
+<script>
 
-            // Dragging State Variables
-            let isMainDragging = false;
-            let isThumbDragging = false;
-            let startPosMain = 0;
-            let startPosThumb = 0;
-            let currentTranslateMain = 0;
-            let currentTranslateThumb = 0;
-            let prevTranslateMain = 0;
-            let prevTranslateThumb = 0;
-            let animationIDMain;
-            let animationIDThumb;
+     // Add this at the start of your existing script
+     document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const dummyLoading = document.querySelector('.dummy-loading');
+            dummyLoading.style.transition = 'opacity 0.3s ease';
+            dummyLoading.style.opacity = '0';
+            setTimeout(() => {
+                dummyLoading.remove();
+            }, 300);
+        }, 1000);
+    });
 
-            const SNAP_THRESHOLD = 0.5;
-            const TRANSITION_DURATION = 150;
+    (function() {
+    const numberOfImages = 18;
 
-            // Synchronization Flags to Prevent Recursive Updates
-            let isSyncingMain = false;
-            let isSyncingThumb = false;
+    const mainImageUrls = [
+'https://images.unsplash.com/photo-1731429945593-61610daebc11?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731636117974-5eab41e59504?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734355489469-1aaeb6a621b5?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731008948799-a23081ddf419?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731140495981-1ac6eaa425ae?q=80&w=2894&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734275689167-5f458aacde63?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731429945593-61610daebc11?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731636117974-5eab41e59504?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734355489469-1aaeb6a621b5?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731008948799-a23081ddf419?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731140495981-1ac6eaa425ae?q=80&w=2894&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734275689167-5f458aacde63?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731429945593-61610daebc11?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731636117974-5eab41e59504?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734355489469-1aaeb6a621b5?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731008948799-a23081ddf419?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731140495981-1ac6eaa425ae?q=80&w=2894&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734275689167-5f458aacde63?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://yourdomain.com/images/image19.jpg',
+'https://yourdomain.com/images/image20.jpg',
+];
 
-            /**
-             * Generate Images for Main and Thumbnail Galleries
-             */
-            function generateImages() {
-                for (let i = 1; i <= numberOfImages; i++) {
-                    // Main Gallery Images
-                    const mainImage = document.createElement('div');
-                    mainImage.className = 'main-image';
-                    mainImage.innerHTML = `
-                        <div class="main-image-content" tabindex="0" aria-label="Main Image ${i}">
-                            <img src="https://via.placeholder.com/800x1067?text=Image+${i}" alt="Image ${i}" loading="lazy">
-                        </div>
-                    `;
-                    mainTrack.appendChild(mainImage);
+const thumbnailImageUrls = [
+'https://images.unsplash.com/photo-1731429945593-61610daebc11?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731636117974-5eab41e59504?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734355489469-1aaeb6a621b5?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731008948799-a23081ddf419?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731140495981-1ac6eaa425ae?q=80&w=2894&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734275689167-5f458aacde63?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731429945593-61610daebc11?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731636117974-5eab41e59504?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734355489469-1aaeb6a621b5?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731008948799-a23081ddf419?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731140495981-1ac6eaa425ae?q=80&w=2894&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734275689167-5f458aacde63?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731429945593-61610daebc11?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731636117974-5eab41e59504?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734355489469-1aaeb6a621b5?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731008948799-a23081ddf419?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1731140495981-1ac6eaa425ae?q=80&w=2894&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://images.unsplash.com/photo-1734275689167-5f458aacde63?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+'https://yourdomain.com/images/image19.jpg',
+'https://yourdomain.com/images/image20.jpg',
+];
 
-                    // Thumbnail Gallery Images
-                    const thumbnailImage = document.createElement('div');
-                    thumbnailImage.className = 'thumbnail-image';
-                    thumbnailImage.innerHTML = `
-                        <div class="thumbnail-image-content" tabindex="0" data-index="${i - 1}" aria-label="Thumbnail Image ${i}">
-                            <img src="https://via.placeholder.com/150x200?text=Thumb+${i}" alt="Thumbnail ${i}" loading="lazy">
-                        </div>
-                    `;
-                    thumbnailTrack.appendChild(thumbnailImage);
-                }
-            }
+    const mainTrack = document.querySelector('.main-gallery-track');
+    const thumbnailTrack = document.querySelector('.thumbnail-gallery-track');
+    const galleryContainer = document.querySelector('.gallery-container');
+    const loadingOverlay = document.querySelector('.gallery-loading');
+    const progressInner = document.querySelector('.gallery-progress-inner');
 
-            /**
-             * Initialize Galleries After DOM is Loaded
-             */
-            function initializeGalleries() {
-                const mainGallery = document.querySelector('.main-gallery');
-                const thumbGallery = document.querySelector('.thumbnail-gallery');
+    // Dragging State Variables
+    let isMainDragging = false;
+    let isThumbDragging = false;
+    let startPosMain = 0;
+    let startPosThumb = 0;
+    let currentTranslateMain = 0;
+    let currentTranslateThumb = 0;
+    let prevTranslateMain = 0;
+    let prevTranslateThumb = 0;
+    let animationIDMain;
+    let animationIDThumb;
 
-                const mainImage = document.querySelector('.main-image');
-                const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
+    const SNAP_THRESHOLD = 0.5;
+    const TRANSITION_DURATION = 300;
 
-                const thumbImage = document.querySelector('.thumbnail-image');
-                const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
+    // Synchronization Flags to Prevent Recursive Updates
+    let isSyncingMain = false;
+    let isSyncingThumb = false;
 
-                const mainGalleryWidth = mainGallery.offsetWidth;
-                const thumbGalleryWidth = thumbGallery.offsetWidth;
+    /**
+     * Generate Images for Main and Thumbnail Galleries
+     */
+    function generateImages() {
+        for (let i = 0; i < numberOfImages; i++) {
+            // Main Gallery Images
+            const mainImage = document.createElement('div');
+            mainImage.className = 'main-image';
+            mainImage.innerHTML = `
+                <div class="main-image-content" tabindex="0" aria-label="Main Image ${i + 1}">
+                    <img src="${mainImageUrls[i]}" alt="Image ${i + 1}" loading="lazy">
+                </div>
+            `;
+            mainTrack.appendChild(mainImage);
 
-                // Calculate Initial Positions to Center the First Image
-                const mainCenterOffset = (mainGalleryWidth - mainImageWidth) / 2;
-                const thumbCenterOffset = (thumbGalleryWidth - thumbImageWidth) / 2;
+            // Thumbnail Gallery Images
+            const thumbnailImage = document.createElement('div');
+            thumbnailImage.className = 'thumbnail-image';
+            thumbnailImage.innerHTML = `
+                <div class="thumbnail-image-content" tabindex="0" data-index="${i}" aria-label="Thumbnail Image ${i + 1}">
+                    <img src="${thumbnailImageUrls[i]}" alt="Thumbnail ${i + 1}" loading="lazy">
+                </div>
+            `;
+            thumbnailTrack.appendChild(thumbnailImage);
+        }
+    }
 
-                // Set Initial Positions with No Transition
-                function setInitialPosition(track, translate) {
-                    track.style.transition = 'none';
-                    track.style.transform = `translateX(${translate}px)`;
-                    track.offsetHeight; // Force reflow
-                    track.style.transition = `transform ${TRANSITION_DURATION}ms ease-out`;
-                }
+    /**
+     * Initialize Galleries After DOM is Loaded
+     */
+    function initializeGalleries() {
+        const mainGallery = document.querySelector('.main-gallery');
+        const thumbGallery = document.querySelector('.thumbnail-gallery');
 
-                setInitialPosition(mainTrack, mainCenterOffset);
-                setInitialPosition(thumbnailTrack, thumbCenterOffset);
+        const mainImage = document.querySelector('.main-image');
+        const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
 
-                currentTranslateMain = mainCenterOffset;
-                prevTranslateMain = mainCenterOffset;
-                currentTranslateThumb = thumbCenterOffset;
-                prevTranslateThumb = thumbCenterOffset;
+        const thumbImage = document.querySelector('.thumbnail-image');
+        const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
 
-                // Center the First Image
-                snapToImage(0, false);
-            }
+        const mainGalleryWidth = mainGallery.offsetWidth;
+        const thumbGalleryWidth = thumbGallery.offsetWidth;
 
-            /**
-             * Debounce Function to Limit the Rate at Which a Function Can Fire
-             * @param {Function} func 
-             * @param {number} wait 
-             * @returns {Function}
-             */
-            function debounce(func, wait) {
-                let timeout;
-                return function(...args) {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => func.apply(this, args), wait);
-                };
-            }
+        // Calculate Initial Positions to Center the Desired Image
+        const mainCenterOffset = (mainGalleryWidth - mainImageWidth) / 2;
+        const thumbCenterOffset = (thumbGalleryWidth - thumbImageWidth) / 2;
 
-            /**
-             * Add Drag Listeners to Gallery Elements
-             * @param {string} selector 
-             * @param {Object} callbacks 
-             */
-            function addDragListeners(selector, callbacks) {
-                const element = document.querySelector(selector);
+        // Set Initial Positions with No Transition
+        function setInitialPosition(track, translate) {
+            track.style.transition = 'none';
+            track.style.transform = `translateX(${translate}px)`;
+            track.offsetHeight; // Force reflow
+            track.style.transition = `transform ${TRANSITION_DURATION}ms ease-out`;
+        }
 
-                // Mouse Events
-                element.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    callbacks.onDragStart(getPositionX(e));
-                    window.addEventListener('mousemove', onMouseMove);
-                    window.addEventListener('mouseup', onMouseUp);
-                });
+        setInitialPosition(mainTrack, mainCenterOffset);
+        setInitialPosition(thumbnailTrack, thumbCenterOffset);
 
-                // Touch Events
-                element.addEventListener('touchstart', (e) => {
-                    callbacks.onDragStart(getPositionX(e));
-                    window.addEventListener('touchmove', onTouchMove, { passive: false });
-                    window.addEventListener('touchend', onTouchEnd);
-                });
+        currentTranslateMain = mainCenterOffset;
+        prevTranslateMain = mainCenterOffset;
+        currentTranslateThumb = thumbCenterOffset;
+        prevTranslateThumb = thumbCenterOffset;
 
-                // Mouse Move Handler
-                function onMouseMove(e) {
-                    e.preventDefault();
-                    callbacks.onDragMove(getPositionX(e));
-                }
+        // Center the Desired Image (10th image, index 9)
+        snapToImage(9, false);
+    }
 
-                // Mouse Up Handler
-                function onMouseUp() {
-                    callbacks.onDragEnd();
-                    window.removeEventListener('mousemove', onMouseMove);
-                    window.removeEventListener('mouseup', onMouseUp);
-                }
+    /**
+     * Debounce Function to Limit the Rate at Which a Function Can Fire
+     * @param {Function} func 
+     * @param {number} wait 
+     * @returns {Function}
+     */
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
 
-                // Touch Move Handler
-                function onTouchMove(e) {
-                    e.preventDefault();
-                    callbacks.onDragMove(getPositionX(e));
-                }
+    /**
+     * Add Drag Listeners to Gallery Elements
+     * @param {string} selector 
+     * @param {Object} callbacks 
+     */
+    function addDragListeners(selector, callbacks) {
+        const element = document.querySelector(selector);
 
-                // Touch End Handler
-                function onTouchEnd() {
-                    callbacks.onDragEnd();
-                    window.removeEventListener('touchmove', onTouchMove);
-                    window.removeEventListener('touchend', onTouchEnd);
-                }
-            }
+        // Mouse Events
+        element.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            callbacks.onDragStart(getPositionX(e));
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+        });
 
-            /**
-             * Get X Position from Event
-             * @param {Event} e 
-             * @returns {number}
-             */
-            function getPositionX(e) {
-                return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            }
+        // Touch Events
+        element.addEventListener('touchstart', (e) => {
+            callbacks.onDragStart(getPositionX(e));
+            window.addEventListener('touchmove', onTouchMove, { passive: false });
+            window.addEventListener('touchend', onTouchEnd);
+        });
 
-            /**
-             * Animation Loop for Main Gallery
-             */
-            function mainAnimation() {
-                if (isMainDragging) {
-                    setMainSliderPosition();
-                    animationIDMain = requestAnimationFrame(mainAnimation);
-                }
-            }
+        // Mouse Move Handler
+        function onMouseMove(e) {
+            e.preventDefault();
+            callbacks.onDragMove(getPositionX(e));
+        }
 
-            /**
-             * Set Main Slider Position with Bounds
-             */
-            function setMainSliderPosition() {
-                const mainGallery = document.querySelector('.main-gallery');
-                const mainImage = document.querySelector('.main-image');
-                const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
-                const mainGalleryWidth = mainGallery.offsetWidth;
-                const mainCenterOffset = (mainGalleryWidth - mainImageWidth) / 2;
+        // Mouse Up Handler
+        function onMouseUp() {
+            callbacks.onDragEnd();
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+        }
 
-                // Calculate Boundary Constraints
-                const maxSnap = mainCenterOffset;
-                const minSnap = -(mainImageWidth * (numberOfImages - 1)) + mainCenterOffset;
+        // Touch Move Handler
+        function onTouchMove(e) {
+            e.preventDefault();
+            callbacks.onDragMove(getPositionX(e));
+        }
 
-                // Apply Bounds
-                currentTranslateMain = Math.max(Math.min(currentTranslateMain, maxSnap), minSnap);
-                mainTrack.style.transform = `translateX(${currentTranslateMain}px)`;
+        // Touch End Handler
+        function onTouchEnd() {
+            callbacks.onDragEnd();
+            window.removeEventListener('touchmove', onTouchMove);
+            window.removeEventListener('touchend', onTouchEnd);
+        }
+    }
 
-                updateProgressMain();
+    /**
+     * Get X Position from Event
+     * @param {Event} e 
+     * @returns {number}
+     */
+    function getPositionX(e) {
+        return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    }
 
-                // Synchronize Thumbnail Gallery Based on Main Gallery's Position
-                if (!isSyncingThumb) {
-                    syncGalleriesFromMain();
-                }
-            }
+    /**
+     * Animation Loop for Main Gallery
+     */
+    function mainAnimation() {
+        if (isMainDragging) {
+            setMainSliderPosition();
+            animationIDMain = requestAnimationFrame(mainAnimation);
+        }
+    }
 
-            /**
-             * Animation Loop for Thumbnail Gallery
-             */
-            function thumbAnimation() {
-                if (isThumbDragging) {
-                    setThumbSliderPosition();
-                    animationIDThumb = requestAnimationFrame(thumbAnimation);
-                }
-            }
+    /**
+     * Set Main Slider Position with Bounds
+     */
+    function setMainSliderPosition() {
+        const mainGallery = document.querySelector('.main-gallery');
+        const mainImage = document.querySelector('.main-image');
+        const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
+        const mainGalleryWidth = mainGallery.offsetWidth;
+        const mainCenterOffset = (mainGalleryWidth - mainImageWidth) / 2;
 
-            /**
-             * Set Thumbnail Slider Position with Bounds
-             */
-            function setThumbSliderPosition() {
-                const thumbGallery = document.querySelector('.thumbnail-gallery');
-                const thumbImage = document.querySelector('.thumbnail-image');
-                const thumbGalleryWidth = thumbGallery.offsetWidth;
-                const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
+        // Calculate Boundary Constraints
+        const maxSnap = mainCenterOffset;
+        const minSnap = -(mainImageWidth * (numberOfImages - 1)) + mainCenterOffset;
 
-                // Calculate Bounds to Allow Centering of First and Last Thumbnails
-                const maxTranslate = (thumbGalleryWidth - thumbImageWidth) / 2;
-                const minTranslate = -((numberOfImages * thumbImageWidth) - thumbGalleryWidth + maxTranslate);
+        // Apply Bounds
+        currentTranslateMain = Math.max(Math.min(currentTranslateMain, maxSnap), minSnap);
+        mainTrack.style.transform = `translateX(${currentTranslateMain}px)`;
 
-                // Apply Bounds
-                currentTranslateThumb = Math.min(Math.max(currentTranslateThumb, minTranslate), maxTranslate);
-                thumbnailTrack.style.transform = `translateX(${currentTranslateThumb}px)`;
+        updateProgressMain();
 
-                syncGalleries();
-            }
+        // Synchronize Thumbnail Gallery Based on Main Gallery's Position
+        if (!isSyncingThumb) {
+            syncGalleriesFromMain();
+        }
+    }
 
-            /**
-             * Snap Main Gallery to Nearest Image
-             */
-            function snapToMainImage() {
-                const mainImage = document.querySelector('.main-image');
-                if (!mainImage) return;
+    /**
+     * Animation Loop for Thumbnail Gallery
+     */
+    function thumbAnimation() {
+        if (isThumbDragging) {
+            setThumbSliderPosition();
+            animationIDThumb = requestAnimationFrame(thumbAnimation);
+        }
+    }
 
-                const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
-                const currentPosition = currentTranslateMain;
-                let currentIndex = Math.round(-currentPosition / mainImageWidth);
-                currentIndex = Math.max(0, Math.min(currentIndex, numberOfImages - 1)); // Ensure within bounds
+    /**
+     * Set Thumbnail Slider Position with Bounds
+     */
+    function setThumbSliderPosition() {
+        const thumbGallery = document.querySelector('.thumbnail-gallery');
+        const thumbImage = document.querySelector('.thumbnail-image');
+        const thumbGalleryWidth = thumbGallery.offsetWidth;
+        const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
 
-                const snapPoint = -currentIndex * mainImageWidth + (document.querySelector('.main-gallery').offsetWidth - mainImageWidth) / 2;
+        // Calculate Bounds to Allow Centering of First and Last Thumbnails
+        const maxTranslate = (thumbGalleryWidth - thumbImageWidth) / 2;
+        const minTranslate = -((numberOfImages * thumbImageWidth) - thumbGalleryWidth + maxTranslate);
 
-                animateToPositionMain(snapPoint, () => {
-                    prevTranslateMain = snapPoint;
-                    setMainSliderPosition();
-                });
-            }
+        // Apply Bounds
+        currentTranslateThumb = Math.min(Math.max(currentTranslateThumb, minTranslate), maxTranslate);
+        thumbnailTrack.style.transform = `translateX(${currentTranslateThumb}px)`;
 
-            /**
-             * Snap Thumbnail Gallery to Nearest Thumbnail
-             */
-            function snapToThumbImage() {
-                const thumbGallery = document.querySelector('.thumbnail-gallery');
-                const thumbImage = document.querySelector('.thumbnail-image');
-                const thumbGalleryWidth = thumbGallery.offsetWidth;
-                const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
-                const thumbCenterOffset = (thumbGalleryWidth - thumbImageWidth) / 2;
+        syncGalleries();
+    }
 
-                const currentPosition = currentTranslateThumb;
-                let currentIndex = Math.round((thumbCenterOffset - currentPosition) / thumbImageWidth);
-                currentIndex = Math.max(0, Math.min(currentIndex, numberOfImages - 1)); // Ensure within bounds
+    /**
+     * Snap Main Gallery to Nearest Image
+     */
+    function snapToMainImage() {
+        const mainImage = document.querySelector('.main-image');
+        if (!mainImage) return;
 
-                const snapPoint = thumbCenterOffset - (currentIndex * thumbImageWidth);
+        const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
+        const currentPosition = currentTranslateMain;
+        let currentIndex = Math.round(-currentPosition / mainImageWidth);
+        currentIndex = Math.max(0, Math.min(currentIndex, numberOfImages - 1)); // Ensure within bounds
 
-                animateToPositionThumb(snapPoint, () => {
-                    prevTranslateThumb = snapPoint;
-                    setThumbSliderPosition();
-                });
+        const snapPoint = -currentIndex * mainImageWidth + (document.querySelector('.main-gallery').offsetWidth - mainImageWidth) / 2;
 
-                // Also snap the main gallery to the same index
-                snapToImage(currentIndex, false);
-            }
+        animateToPositionMain(snapPoint, () => {
+            prevTranslateMain = snapPoint;
+            setMainSliderPosition();
+        });
+    }
 
-            /**
-             * Animate Main Gallery to Target Position
-             * @param {number} targetPosition 
-             * @param {Function} callback 
-             */
-            function animateToPositionMain(targetPosition, callback) {
-                const startPosition = currentTranslateMain;
-                const distance = targetPosition - startPosition;
-                const startTime = performance.now();
+    /**
+     * Snap Thumbnail Gallery to Nearest Thumbnail
+     */
+    function snapToThumbImage() {
+        const thumbGallery = document.querySelector('.thumbnail-gallery');
+        const thumbImage = document.querySelector('.thumbnail-image');
+        const thumbGalleryWidth = thumbGallery.offsetWidth;
+        const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
+        const thumbCenterOffset = (thumbGalleryWidth - thumbImageWidth) / 2;
 
-                function animate(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / TRANSITION_DURATION, 1);
-                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+        const currentPosition = currentTranslateThumb;
+        let currentIndex = Math.round((thumbCenterOffset - currentPosition) / thumbImageWidth);
+        currentIndex = Math.max(0, Math.min(currentIndex, numberOfImages - 1)); // Ensure within bounds
 
-                    currentTranslateMain = startPosition + (distance * easeProgress);
-                    mainTrack.style.transform = `translateX(${currentTranslateMain}px)`;
+        const snapPoint = thumbCenterOffset - (currentIndex * thumbImageWidth);
 
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        if (callback) callback();
-                    }
-                }
+        animateToPositionThumb(snapPoint, () => {
+            prevTranslateThumb = snapPoint;
+            setThumbSliderPosition();
+        });
 
+        // Also snap the main gallery to the same index
+        snapToImage(currentIndex, false);
+    }
+
+    /**
+     * Animate Main Gallery to Target Position
+     * @param {number} targetPosition 
+     * @param {Function} callback 
+     */
+    function animateToPositionMain(targetPosition, callback) {
+        const startPosition = currentTranslateMain;
+        const distance = targetPosition - startPosition;
+        const startTime = performance.now();
+
+        function animate(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / TRANSITION_DURATION, 1);
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+            currentTranslateMain = startPosition + (distance * easeProgress);
+            mainTrack.style.transform = `translateX(${currentTranslateMain}px)`;
+
+            if (progress < 1) {
                 requestAnimationFrame(animate);
+            } else {
+                if (callback) callback();
             }
+        }
 
-            /**
-             * Animate Thumbnail Gallery to Target Position
-             * @param {number} targetPosition 
-             * @param {Function} callback 
-             */
-            function animateToPositionThumb(targetPosition, callback) {
-                const startPosition = currentTranslateThumb;
-                const distance = targetPosition - startPosition;
-                const startTime = performance.now();
+        requestAnimationFrame(animate);
+    }
 
-                function animate(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / TRANSITION_DURATION, 1);
-                    const easeProgress = progress; // Linear easing
+    /**
+     * Animate Thumbnail Gallery to Target Position
+     * @param {number} targetPosition 
+     * @param {Function} callback 
+     */
+    function animateToPositionThumb(targetPosition, callback) {
+        const startPosition = currentTranslateThumb;
+        const distance = targetPosition - startPosition;
+        const startTime = performance.now();
 
-                    currentTranslateThumb = startPosition + (distance * easeProgress);
-                    thumbnailTrack.style.transform = `translateX(${currentTranslateThumb}px)`;
+        function animate(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / TRANSITION_DURATION, 1);
+            const easeProgress = progress; // Linear easing
 
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        if (callback) callback();
-                    }
-                }
+            currentTranslateThumb = startPosition + (distance * easeProgress);
+            thumbnailTrack.style.transform = `translateX(${currentTranslateThumb}px)`;
 
+            if (progress < 1) {
                 requestAnimationFrame(animate);
+            } else {
+                if (callback) callback();
             }
+        }
 
-            /**
-             * Get Currently Centered Thumbnail Index
-             * @returns {number}
-             */
-            function getCurrentCenteredThumbnailIndex() {
-                const thumbGallery = document.querySelector('.thumbnail-gallery');
-                const thumbImage = document.querySelector('.thumbnail-image');
-                const thumbGalleryWidth = thumbGallery.offsetWidth;
-                const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
-                const thumbCenterOffset = (thumbGalleryWidth - thumbImageWidth) / 2;
+        requestAnimationFrame(animate);
+    }
 
-                // Calculate the center position relative to the track
-                const centerPosition = -currentTranslateThumb + thumbCenterOffset;
-                const centerIndex = Math.round(centerPosition / thumbImageWidth - 0.5);
+    /**
+     * Get Currently Centered Thumbnail Index
+     * @returns {number}
+     */
+    function getCurrentCenteredThumbnailIndex() {
+        const thumbGallery = document.querySelector('.thumbnail-gallery');
+        const thumbImage = document.querySelector('.thumbnail-image');
+        const thumbGalleryWidth = thumbGallery.offsetWidth;
+        const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
+        const thumbCenterOffset = (thumbGalleryWidth - thumbImageWidth) / 2;
 
-                // Ensure the index stays within bounds
-                return Math.max(0, Math.min(centerIndex, numberOfImages - 1));
-            }
+        // Calculate the center position relative to the track
+        const centerPosition = -currentTranslateThumb + thumbCenterOffset;
+        const centerIndex = Math.round(centerPosition / thumbImageWidth - 0.5);
 
-            /**
-             * Synchronize Galleries Based on Thumbnail Position
-             */
-            function syncGalleries() {
-                if (isSyncingThumb) return;
-                isSyncingMain = true;
+        // Ensure the index stays within bounds
+        return Math.max(0, Math.min(centerIndex, numberOfImages - 1));
+    }
 
-                const centerIndex = getCurrentCenteredThumbnailIndex();
+    /**
+     * Synchronize Galleries Based on Thumbnail Position
+     */
+    function syncGalleries() {
+        if (isSyncingThumb) return;
+        isSyncingMain = true;
 
-                // Remove active class from all thumbnails
-                const thumbnails = document.querySelectorAll('.thumbnail-image-content');
-                thumbnails.forEach(thumb => {
-                    thumb.classList.remove('active');
-                    thumb.removeAttribute('aria-current');
-                });
+        const centerIndex = getCurrentCenteredThumbnailIndex();
 
-                // Add active class to the centered thumbnail
-                if (centerIndex >= 0 && centerIndex < thumbnails.length) {
-                    thumbnails[centerIndex].classList.add('active');
-                    thumbnails[centerIndex].setAttribute('aria-current', 'true');
-                }
+        // Remove active class from all thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail-image-content');
+        thumbnails.forEach(thumb => {
+            thumb.classList.remove('active');
+            thumb.removeAttribute('aria-current');
+        });
 
-                // Update the main gallery's translateX based on the centered thumbnail
-                snapToImage(centerIndex, false);
-                updateProgressMain();
+        // Add active class to the centered thumbnail
+        if (centerIndex >= 0 && centerIndex < thumbnails.length) {
+            thumbnails[centerIndex].classList.add('active');
+            thumbnails[centerIndex].setAttribute('aria-current', 'true');
+        }
 
-                isSyncingMain = false;
-                return centerIndex;
-            }
+        // Update the main gallery's translateX based on the centered thumbnail
+        snapToImage(centerIndex, false);
+        updateProgressMain();
 
-            /**
-             * Synchronize Galleries Based on Main Gallery Position
-             */
-            function syncGalleriesFromMain() {
-                if (isSyncingMain) return;
-                isSyncingThumb = true;
+        isSyncingMain = false;
+        return centerIndex;
+    }
 
-                const centerIndex = getCurrentCenteredMainIndex();
+    /**
+     * Synchronize Galleries Based on Main Gallery Position
+     */
+    function syncGalleriesFromMain() {
+        if (isSyncingMain) return;
+        isSyncingThumb = true;
 
-                // Remove active class from all thumbnails
-                const thumbnails = document.querySelectorAll('.thumbnail-image-content');
-                thumbnails.forEach(thumb => {
-                    thumb.classList.remove('active');
-                    thumb.removeAttribute('aria-current');
-                });
+        const centerIndex = getCurrentCenteredMainIndex();
 
-                // Add active class to the centered thumbnail
-                if (centerIndex >= 0 && centerIndex < thumbnails.length) {
-                    thumbnails[centerIndex].classList.add('active');
-                    thumbnails[centerIndex].setAttribute('aria-current', 'true');
-                }
+        // Remove active class from all thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail-image-content');
+        thumbnails.forEach(thumb => {
+            thumb.classList.remove('active');
+            thumb.removeAttribute('aria-current');
+        });
 
-                // Update the thumbnail gallery's translateX based on the centered main gallery
-                snapToThumbImageFromMain(centerIndex);
-                updateProgressMain();
+        // Add active class to the centered thumbnail
+        if (centerIndex >= 0 && centerIndex < thumbnails.length) {
+            thumbnails[centerIndex].classList.add('active');
+            thumbnails[centerIndex].setAttribute('aria-current', 'true');
+        }
 
-                isSyncingThumb = false;
-                return centerIndex;
-            }
+        // Update the thumbnail gallery's translateX based on the centered main gallery
+        snapToThumbImageFromMain(centerIndex);
+        updateProgressMain();
 
-            /**
-             * Get Currently Centered Main Gallery Index
-             * @returns {number}
-             */
-            function getCurrentCenteredMainIndex() {
-                const mainImage = document.querySelector('.main-image');
-                if (!mainImage) return 0;
+        isSyncingThumb = false;
+        return centerIndex;
+    }
 
-                const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
-                const currentPosition = currentTranslateMain;
-                let currentIndex = Math.round(-currentPosition / mainImageWidth);
-                currentIndex = Math.max(0, Math.min(currentIndex, numberOfImages - 1));
+    /**
+     * Get Currently Centered Main Gallery Index
+     * @returns {number}
+     */
+    function getCurrentCenteredMainIndex() {
+        const mainImage = document.querySelector('.main-image');
+        if (!mainImage) return 0;
 
-                return currentIndex;
-            }
+        const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
+        const currentPosition = currentTranslateMain;
+        let currentIndex = Math.round(-currentPosition / mainImageWidth);
+        currentIndex = Math.max(0, Math.min(currentIndex, numberOfImages - 1));
 
-            /**
-             * Snap to Specific Image Index
-             * @param {number} index 
-             * @param {boolean} animate 
-             */
-            function snapToImage(index, animate = true) {
-                const mainImage = document.querySelector('.main-image');
-                if (!mainImage) return;
+        return currentIndex;
+    }
 
-                const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
-                const mainGallery = document.querySelector('.main-gallery');
-                const mainGalleryWidth = mainGallery.offsetWidth;
-                const mainCenterOffset = (mainGalleryWidth - mainImageWidth) / 2;
+    /**
+     * Snap to Specific Image Index
+     * @param {number} index 
+     * @param {boolean} animate 
+     */
+    function snapToImage(index, animate = true) {
+        const mainImage = document.querySelector('.main-image');
+        if (!mainImage) return;
 
-                let snapPoint;
+        const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
+        const mainGallery = document.querySelector('.main-gallery');
+        const mainGalleryWidth = mainGallery.offsetWidth;
+        const mainCenterOffset = (mainGalleryWidth - mainImageWidth) / 2;
 
-                if (index === 0) {
-                    // Center the first image
-                    snapPoint = mainCenterOffset;
-                } else if (index === numberOfImages - 1) {
-                    // Center the last image
-                    snapPoint = -(mainImageWidth * (numberOfImages - 1)) + mainCenterOffset;
-                } else {
-                    // Center intermediate images
-                    snapPoint = -mainImageWidth * index + mainCenterOffset;
-                }
+        let snapPoint;
 
-                // Boundary Constraints
-                const maxSnap = mainCenterOffset;
-                const minSnap = -(mainImageWidth * (numberOfImages - 1)) + mainCenterOffset;
-                snapPoint = Math.max(Math.min(snapPoint, maxSnap), minSnap);
+        if (index === 0) {
+            // Center the first image
+            snapPoint = mainCenterOffset;
+        } else if (index === numberOfImages - 1) {
+            // Center the last image
+            snapPoint = -(mainImageWidth * (numberOfImages - 1)) + mainCenterOffset;
+        } else {
+            // Center intermediate images
+            snapPoint = -mainImageWidth * index + mainCenterOffset;
+        }
 
-                if (animate) {
-                    animateToPositionMain(snapPoint, () => {
-                        prevTranslateMain = snapPoint;
-                        setMainSliderPosition();
-                        syncGalleries();
-                    });
-                } else {
-                    currentTranslateMain = snapPoint;
-                    prevTranslateMain = snapPoint;
-                    setMainSliderPosition();
-                    syncGalleries();
-                }
-            }
+        // Boundary Constraints
+        const maxSnap = mainCenterOffset;
+        const minSnap = -(mainImageWidth * (numberOfImages - 1)) + mainCenterOffset;
+        snapPoint = Math.max(Math.min(snapPoint, maxSnap), minSnap);
 
-            /**
-             * Snap Thumbnail Gallery Based on Main Gallery Index
-             * @param {number} index 
-             */
-            function snapToThumbImageFromMain(index) {
-                const thumbGallery = document.querySelector('.thumbnail-gallery');
-                const thumbImage = document.querySelector('.thumbnail-image');
-                const thumbGalleryWidth = thumbGallery.offsetWidth;
-                const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
-                const thumbCenterOffset = (thumbGalleryWidth - thumbImageWidth) / 2;
-
-                let snapPoint = thumbCenterOffset - (index * thumbImageWidth);
-
-                // Ensure snapPoint doesn't exceed bounds
-                const maxSnap = thumbCenterOffset;
-                const minSnap = -((numberOfImages * thumbImageWidth) - thumbGalleryWidth + maxSnap);
-                snapPoint = Math.max(Math.min(snapPoint, maxSnap), minSnap);
-
-                animateToPositionThumb(snapPoint, () => {
-                    prevTranslateThumb = snapPoint;
-                    setThumbSliderPosition();
-                });
-            }
-
-            /**
-             * Update Progress Indicator Based on Main Gallery Scroll
-             */
-            function updateProgressMain() {
-                const mainGallery = document.querySelector('.main-gallery');
-                const mainImage = document.querySelector('.main-image');
-                const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
-                const totalScroll = Math.abs((numberOfImages - 1) * mainImageWidth);
-                const currentPosition = Math.abs(currentTranslateMain - (mainGallery.offsetWidth - mainImageWidth) / 2);
-                const percentage = totalScroll === 0 ? 100 : (currentPosition / totalScroll) * 100;
-                progressInner.style.width = `${percentage}%`;
-            }
-
-            /**
-             * Initialize Gallery Synchronization
-             */
-            function initializeGallerySync() {
-                const mainImage = document.querySelector('.main-image');
-                if (!mainImage) return;
-
-                const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
-                const mainGallery = document.querySelector('.main-gallery');
-                const mainGalleryWidth = mainGallery.offsetWidth;
-                const mainCenterOffset = (mainGalleryWidth - mainImageWidth) / 2;
-
-                currentTranslateMain = -mainImageWidth * 0 + mainCenterOffset; // Start at first image centered
-                prevTranslateMain = currentTranslateMain;
+        if (animate) {
+            animateToPositionMain(snapPoint, () => {
+                prevTranslateMain = snapPoint;
                 setMainSliderPosition();
+                syncGalleries();
+            });
+        } else {
+            currentTranslateMain = snapPoint;
+            prevTranslateMain = snapPoint;
+            setMainSliderPosition();
+            syncGalleries();
+        }
+    }
+
+    /**
+     * Snap Thumbnail Gallery Based on Main Gallery Index
+     * @param {number} index 
+     */
+    function snapToThumbImageFromMain(index) {
+        const thumbGallery = document.querySelector('.thumbnail-gallery');
+        const thumbImage = document.querySelector('.thumbnail-image');
+        const thumbGalleryWidth = thumbGallery.offsetWidth;
+        const thumbImageWidth = thumbImage.offsetWidth + 10; // Including padding
+        const thumbCenterOffset = (thumbGalleryWidth - thumbImageWidth) / 2;
+
+        let snapPoint = thumbCenterOffset - (index * thumbImageWidth);
+
+        // Ensure snapPoint doesn't exceed bounds
+        const maxSnap = thumbCenterOffset;
+        const minSnap = -((numberOfImages * thumbImageWidth) - thumbGalleryWidth + maxSnap);
+        snapPoint = Math.max(Math.min(snapPoint, maxSnap), minSnap);
+
+        animateToPositionThumb(snapPoint, () => {
+            prevTranslateThumb = snapPoint;
+            setThumbSliderPosition();
+        });
+    }
+
+    /**
+     * Update Progress Indicator Based on Main Gallery Scroll
+     */
+    function updateProgressMain() {
+        const mainGallery = document.querySelector('.main-gallery');
+        const mainImage = document.querySelector('.main-image');
+        const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
+        const totalScroll = Math.abs((numberOfImages - 1) * mainImageWidth);
+        const currentPosition = Math.abs(currentTranslateMain - (mainGallery.offsetWidth - mainImageWidth) / 2);
+        const percentage = totalScroll === 0 ? 100 : (currentPosition / totalScroll) * 100;
+        progressInner.style.width = `${percentage}%`;
+    }
+
+    /**
+     * Initialize Gallery Synchronization
+     */
+    function initializeGallerySync() {
+        const mainImage = document.querySelector('.main-image');
+        if (!mainImage) return;
+
+        const mainImageWidth = mainImage.offsetWidth + 20; // Including padding
+        const mainGallery = document.querySelector('.main-gallery');
+        const mainGalleryWidth = mainGallery.offsetWidth;
+        const mainCenterOffset = (mainGalleryWidth - mainImageWidth) / 2;
+
+        currentTranslateMain = -mainImageWidth * 9 + mainCenterOffset; // Start at 10th image (index 9) centered
+        prevTranslateMain = currentTranslateMain;
+        setMainSliderPosition();
+    }
+
+    /**
+     * Handle Keyboard Navigation for Accessibility
+     */
+    function handleKeyboardNavigation() {
+        galleryContainer.addEventListener('keydown', (e) => {
+            const mainImage = document.querySelector('.main-image');
+            if (!mainImage) return;
+
+            let currentIndex = getCurrentCenteredThumbnailIndex();
+
+            switch (e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    currentIndex = Math.max(currentIndex - 1, 0);
+                    snapToImage(currentIndex, true);
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    currentIndex = Math.min(currentIndex + 1, numberOfImages - 1);
+                    snapToImage(currentIndex, true);
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    snapToImage(0, true);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    snapToImage(numberOfImages - 1, true);
+                    break;
             }
+        });
+    }
 
-            /**
-             * Handle Keyboard Navigation for Accessibility
-             */
-            function handleKeyboardNavigation() {
-                galleryContainer.addEventListener('keydown', (e) => {
-                    const mainImage = document.querySelector('.main-image');
-                    if (!mainImage) return;
+ 
 
-                    let currentIndex = getCurrentCenteredThumbnailIndex();
+    /**
+     * Initialize All Event Listeners and Functionality
+     */
+    function initializeAll() {
+        // Generate Images
+        generateImages();
 
-                    switch (e.key) {
-                        case 'ArrowLeft':
-                            e.preventDefault();
-                            currentIndex = Math.max(currentIndex - 1, 0);
-                            snapToImage(currentIndex, true);
-                            break;
-                        case 'ArrowRight':
-                            e.preventDefault();
-                            currentIndex = Math.min(currentIndex + 1, numberOfImages - 1);
-                            snapToImage(currentIndex, true);
-                            break;
-                        case 'Home':
-                            e.preventDefault();
-                            snapToImage(0, true);
-                            break;
-                        case 'End':
-                            e.preventDefault();
-                            snapToImage(numberOfImages - 1, true);
-                            break;
-                    }
-                });
+        // Hide Loading Overlay and Initialize Galleries
+        document.addEventListener('DOMContentLoaded', () => {
+            loadingOverlay.style.display = 'none';
+            progressInner.style.width = '0%'; // Initialize progress
+            initializeGalleries();
+            initializeGallerySync();
+            snapToImage(9, false); // Initial snap to 10th image (index 9)
+        });
+
+        // Handle Window Load for Progress Indicator
+        window.addEventListener('load', () => {
+            // Ensure progress reaches 100% after all resources are loaded
+            progressInner.style.width = '100%';
+        });
+
+        // Add Drag Listeners to Galleries
+        addDragListeners('.main-gallery', {
+            onDragStart: (position) => {
+                isMainDragging = true;
+                startPosMain = position;
+                cancelAnimationFrame(animationIDMain);
+                animationIDMain = requestAnimationFrame(mainAnimation);
+            },
+            onDragMove: (position) => {
+                if (isMainDragging) {
+                    const delta = position - startPosMain;
+                    currentTranslateMain = prevTranslateMain + delta;
+                    setMainSliderPosition();
+                }
+            },
+            onDragEnd: () => {
+                isMainDragging = false;
+                snapToMainImage();
             }
+        });
 
-            /**
-             * Handle Thumbnail Clicks and Keyboard Activation
-             */
-            
-
-            /**
-             * Initialize All Event Listeners and Functionality
-             */
-            function initializeAll() {
-                // Generate Images
-                generateImages();
-
-                // Hide Loading Overlay and Initialize Galleries
-                document.addEventListener('DOMContentLoaded', () => {
-                    loadingOverlay.style.display = 'none';
-                    progressInner.style.width = '0%'; // Initialize progress
-                    initializeGalleries();
-                    initializeGallerySync();
-                    snapToImage(0, false); // Initial snap to first image
-                });
-
-                // Handle Window Load for Progress Indicator
-                window.addEventListener('load', () => {
-                    // Ensure progress reaches 100% after all resources are loaded
-                    progressInner.style.width = '100%';
-                });
-
-                // Add Drag Listeners to Galleries
-                addDragListeners('.main-gallery', {
-                    onDragStart: (position) => {
-                        isMainDragging = true;
-                        startPosMain = position;
-                        cancelAnimationFrame(animationIDMain);
-                        animationIDMain = requestAnimationFrame(mainAnimation);
-                    },
-                    onDragMove: (position) => {
-                        if (isMainDragging) {
-                            const delta = position - startPosMain;
-                            currentTranslateMain = prevTranslateMain + delta;
-                            setMainSliderPosition();
-                        }
-                    },
-                    onDragEnd: () => {
-                        isMainDragging = false;
-                        snapToMainImage();
-                    }
-                });
-
-                addDragListeners('.thumbnail-gallery', {
-                    onDragStart: (position) => {
-                        isThumbDragging = true;
-                        startPosThumb = position;
-                        cancelAnimationFrame(animationIDThumb);
-                        animationIDThumb = requestAnimationFrame(thumbAnimation);
-                    },
-                    onDragMove: (position) => {
-                        if (isThumbDragging) {
-                            const delta = position - startPosThumb;
-                            currentTranslateThumb = prevTranslateThumb + delta;
-                            setThumbSliderPosition();
-                        }
-                    },
-                    onDragEnd: () => {
-                        isThumbDragging = false;
-                        snapToThumbImage();
-                    }
-                });
-
-                // Handle Window Resize with Debounce
-                window.addEventListener('resize', debounce(() => {
-                    initializeGalleries();
-                    initializeGallerySync();
-                    snapToImage(getCurrentCenteredThumbnailIndex(), false);
-                }, 250));
-
-                // Initialize Keyboard Navigation and Thumbnail Interactions
-                handleKeyboardNavigation();
-                handleThumbnailInteractions();
+        addDragListeners('.thumbnail-gallery', {
+            onDragStart: (position) => {
+                isThumbDragging = true;
+                startPosThumb = position;
+                cancelAnimationFrame(animationIDThumb);
+                animationIDThumb = requestAnimationFrame(thumbAnimation);
+            },
+            onDragMove: (position) => {
+                if (isThumbDragging) {
+                    const delta = position - startPosThumb;
+                    currentTranslateThumb = prevTranslateThumb + delta;
+                    setThumbSliderPosition();
+                }
+            },
+            onDragEnd: () => {
+                isThumbDragging = false;
+                snapToThumbImage();
             }
+        });
 
-            // Initialize Everything
-            initializeAll();
-        })();
-    </script>
+        // Handle Window Resize with Debounce
+        window.addEventListener('resize', debounce(() => {
+            initializeGalleries();
+            initializeGallerySync();
+            snapToImage(getCurrentCenteredThumbnailIndex(), false);
+        }, 250));
+
+        // Initialize Keyboard Navigation and Thumbnail Interactions
+        handleKeyboardNavigation();
+        handleThumbnailInteractions();
+    }
+
+    // Initialize Everything
+    initializeAll();
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const dummyLoading = document.querySelector('.dummy-loading');
+            dummyLoading.style.transition = 'opacity 0.3s ease';
+            dummyLoading.style.opacity = '0';
+            setTimeout(() => {
+                dummyLoading.remove();
+            }, 300);
+        }, 1000);
+    });
+})();
+
+</script>
 </body>
 </html>
+
+
