@@ -32,7 +32,7 @@ const Navigation = (function () {
             navigation: false,
             
             // Scrolling
-            scrollingSpeed: 600,
+            scrollingSpeed: 900,
             easing: 'easeInOutCubic',
             easingcss3: 'ease-in-out',
             touchSensitivity: 10,

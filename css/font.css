@@ -1,0 +1,74 @@
+:root {
+  /* Display */
+  --font-size-display-1: 120px;
+  --font-size-display-2: 96px;
+  --font-size-display-3: 80px;
+
+  /* Heading */
+  --font-size-heading-1: 64px;
+  --font-size-heading-2: 48px;
+  --font-size-heading-3: 40px;
+
+  /* Subheading */
+  --font-size-subheading-1: 32px;
+  --font-size-subheading-2: 24px;
+
+  /* Body */
+  --font-size-body-1: 20px;
+  --font-size-body-2: 16px;
+  --font-size-body-3: 12px;
+  --font-size-body-4: 10px;
+} 
+
+
+
+@font-face {
+    font-family: 'Items';
+    src: url('Items-Light.woff2') format('woff2'),
+        url('Items-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Items';
+    src: url('Items-Thin.woff2') format('woff2'),
+        url('Items-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Items';
+    src: url('Items-Regular.woff2') format('woff2'),
+        url('Items-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.item-display2 {
+    color: #FFF;
+    font-family: Items;
+    font-size: var(--font-size-display-2);
+    font-style: normal;
+    font-weight: 300;
+    line-height: 100px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+.item-body1 {
+  font-family: Items;
+  font-size: var(--font-size-body-1);
+  font-style: normal;
+  font-weight: 300;
+  line-height: 28px;
+  letter-spacing: 0.8px;
+}
+
+.text-center {
+    text-align: center;
+}
