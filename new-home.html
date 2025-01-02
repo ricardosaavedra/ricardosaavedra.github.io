@@ -8,20 +8,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Current</title>
+    
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://unpkg.com">
+    
+    <!-- Critical CSS -->
+    <link rel="preload" href="css/styles2.css" as="style">
+    <link rel="preload" href="css/font.css" as="style">
+    
+    <!-- Critical Scripts -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js" as="script">
+    <link rel="preload" href="https://unpkg.com/fullpage.js/dist/fullpage.min.js" as="script">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="css/styles2.css">
     <link rel="stylesheet" href="css/font.css">
-    <!-- Add these in the <head> section -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    
-    <!-- Add fullPage.js -->
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/fullpage.js/dist/fullpage.min.css">
-    <script src="https://unpkg.com/fullpage.js/dist/fullpage.min.js"></script>
+    
+    <!-- Deferred Scripts -->
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script defer src="https://unpkg.com/fullpage.js/dist/fullpage.min.js"></script>
 
     <style>
-        /* Hide fullPage.js credit */
-        .fp-watermark {
-            display: none !important;
+        /* Critical inline styles */
+        .fp-watermark { display: none !important; }
+        .section { opacity: 0; transition: opacity 0.5s ease-in-out; }
+        .section.active { opacity: 1; }
+        
+        /* Remove stagger animations */
+        .image-grid img, .image-row img {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
         }
     </style>
 
@@ -291,7 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
     <script src="js/navigation.js"></script>
     <script src="js/preview.js"></script>
     <script src="js/gallery-scroll.js"></script>
-    <script src="js/image-loader.js"></script>
 
 
 </body>

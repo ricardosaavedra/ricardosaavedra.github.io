@@ -92,7 +92,6 @@ body {
     color: #fff;
     text-decoration: none;
     margin-bottom: 8px;
-    backdrop-filter: blur(5px);
     white-space: nowrap;
     width: fit-content;
     border: 1px solid transparent; /* Add transparent border by default */
@@ -139,7 +138,6 @@ main {
     margin-left: 212px;
     width: calc(100% - 212px);
     height: 100vh;
-    background-color: #000;
     padding-right: var(--spacing-md);
 }
 
@@ -152,8 +150,6 @@ main {
     padding: var(--spacing-sm) var(--spacing-md) 0 0;
     z-index: 1000;
     height: 60px;
-    transform: translateZ(0);
-    will-change: transform;
 }
 
 
@@ -233,9 +229,6 @@ main {
 
 .image-grid {
     width: 100%;
-    transform: translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
 }
 
 
@@ -252,19 +245,12 @@ main {
     height: auto;
     margin-bottom: 20px;
     object-fit: cover;
-    transform: translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
 .image-row {
     width: 100%;
     position: relative;
     padding-bottom: 64px;
-    transform: translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
 }
 
 .swiper {
@@ -283,10 +269,6 @@ main {
     height: 100%;
     object-fit: cover;
     border-radius: 4px;
-    transform: translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
 
@@ -294,17 +276,14 @@ main {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    width: auto;
-    height: auto;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
     visibility: hidden;
-    z-index: 50;
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    will-change: opacity;
+    transition: opacity 0.3s ease-out;
+    pointer-events: none;
 }
-
 
 .preview-overlay {
     position: absolute;
@@ -314,44 +293,49 @@ main {
     height: 100%;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    transform: translateZ(0);
+    transition: transform 0.3s ease-out;
+    transform: scale(1.02) translateZ(0);
     will-change: transform;
+    backface-visibility: hidden;
+    opacity: 1;
 }
 
+.preview-container[style*="visible"] .preview-overlay {
+    transform: scale(1) translateZ(0);
+}
 
+/* Remove the additional overlay since we don't need it */
 .preview-overlay::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    z-index: 2;
+    display: none;
 }
-
 
 .preview-content {
     position: absolute;
-    bottom: 40px;
-    left: 128px;
-    right: 60px;
+    bottom: var(--spacing-md);
+    left: calc(212px + var(--spacing-md)); /* Align with main content */
+    color: #fff;
     z-index: 3;
-    text-align: left;
-    color: white;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s ease-out;
+    will-change: transform, opacity;
 }
 
+.preview-container[style*="visible"] .preview-content {
+    transform: translateY(0);
+    opacity: 1;
+}
 
 .preview-project-name {
+    font-size: 14px;
+    margin-bottom: 8px;
     display: block;
-    font-size: 24px;
-    margin-bottom: 20px;
 }
 
 
 .preview-title {
-    font-size: 36px;
+    font-size: 24px;
+    max-width: 600px;
 }
 
 
@@ -386,8 +370,7 @@ main {
     transition: opacity 0.6s ease-in-out;
     overflow: hidden;
     padding-top: 60px;
-    transform: translateZ(0);
-    will-change: transform, opacity;
+    will-change: opacity;
 }
 
 
@@ -553,16 +536,15 @@ main {
 
 .reveal-item {
     opacity: 0;
-    transform: translateY(30px) translateZ(0);
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, opacity;
-    backface-visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .reveal-item.reveal {
     opacity: 1;
-    transform: translateY(0) translateZ(0);
+    transform: translateY(0);
+    transition-delay: var(--stagger-delay, 0ms);
 }
 
 /* Stagger child elements reveal */
@@ -578,6 +560,7 @@ img {
     background: rgba(0, 0, 0, 0.1);
     aspect-ratio: 16/9;
     object-fit: cover;
+    border-radius: 4px;
 }
 
 /* Image loading and transition styles */
@@ -600,9 +583,6 @@ img.loaded {
 /* Swiper gallery improvements */
 .swiper {
     overflow: visible !important;
-    transform: translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
 }
 
 .swiper-wrapper {
@@ -632,8 +612,7 @@ img.loaded {
 
 /* Prevent layout shifts */
 .image-grid, .image-row {
-    contain: layout style paint;
-    content-visibility: auto;
+    contain: layout style;
 }
 
 /* Smooth section transitions */
@@ -645,6 +624,33 @@ img.loaded {
 
 .section.active {
     opacity: 1;
+}
+
+/* Add these transition styles */
+.section-transition {
+    transition: transform 0.6s ease, opacity 0.6s ease;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.section-entering {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.section-leaving {
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+.preview-container {
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.preview-container.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 

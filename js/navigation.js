@@ -1,102 +1,244 @@
 // navigation.js
 
 const Navigation = (function () {
-
-    // Shared DOM elements
-    const main = document.querySelector('main');
-    const sections = document.querySelectorAll('.section');
-    const navLinks = document.querySelectorAll('.nav-links li a');
-    const sectionHeader = document.querySelector('.section-header');
-    const headerElements = {
-        projectName: sectionHeader.querySelector('.project-name'),
-        company: sectionHeader.querySelector('.company'),
-        year: sectionHeader.querySelector('.year'),
-        caseStudyBtn: sectionHeader.querySelector('.case-study-btn')
+    // DOM Cache object to store all queried elements
+    const DOM = {
+        main: null,
+        sections: null,
+        navLinks: null,
+        sectionHeader: null,
+        headerElements: null,
+        previewContainer: null,
+        init() {
+            this.main = document.querySelector('main');
+            this.sections = document.querySelectorAll('.section');
+            this.navLinks = document.querySelectorAll('.nav-links li a');
+            this.sectionHeader = document.querySelector('.section-header');
+            this.previewContainer = document.querySelector('.preview-container');
+            this.headerElements = {
+                projectName: this.sectionHeader.querySelector('.project-name'),
+                company: this.sectionHeader.querySelector('.company'),
+                year: this.sectionHeader.querySelector('.year'),
+                caseStudyBtn: this.sectionHeader.querySelector('.case-study-btn')
+            };
+        }
     };
 
-    function updateHeaderContent(section) {
-        headerElements.projectName.textContent = section.getAttribute('data-project-name');
-        headerElements.company.textContent = section.getAttribute('data-company');
-        headerElements.year.textContent = section.getAttribute('data-year');
-        headerElements.caseStudyBtn.onclick = () => {
-            window.location.href = section.getAttribute('data-case-study-url');
+    // Animation Queue for managing transitions
+    const AnimationQueue = {
+        queue: [],
+        isProcessing: false,
+        maxQueueLength: 3, // Prevent queue from growing too large
+
+        add(animation, priority = 'normal') {
+            // Clear existing animations of same type if queue is too long
+            if (this.queue.length >= this.maxQueueLength) {
+                this.queue = this.queue.filter(item => item.priority === 'high');
+            }
+
+            this.queue.push({
+                animation,
+                priority,
+                timestamp: Date.now()
+            });
+
+            if (!this.isProcessing) {
+                this.process();
+            }
+        },
+
+        async process() {
+            if (this.queue.length === 0) {
+                this.isProcessing = false;
+                return;
+            }
+
+            this.isProcessing = true;
+
+            // Sort queue by priority and timestamp
+            this.queue.sort((a, b) => {
+                if (a.priority === 'high' && b.priority !== 'high') return -1;
+                if (a.priority !== 'high' && b.priority === 'high') return 1;
+                return a.timestamp - b.timestamp;
+            });
+
+            const item = this.queue.shift();
+
+            try {
+                await item.animation();
+            } catch (error) {
+                console.error('Animation error:', error);
+            }
+
+            // Use requestAnimationFrame for smoother animations
+            requestAnimationFrame(() => this.process());
+        }
+    };
+
+    // Improved throttle function
+    function throttle(func, limit) {
+        let inThrottle;
+        let lastFunc;
+        let lastRan;
+        return function (...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                lastRan = Date.now();
+                inThrottle = true;
+            } else {
+                clearTimeout(lastFunc);
+                lastFunc = setTimeout(() => {
+                    if ((Date.now() - lastRan) >= limit) {
+                        func.apply(this, args);
+                        lastRan = Date.now();
+                    }
+                }, limit - (Date.now() - lastRan));
+            }
         };
     }
 
+    // Optimized header updates
+    const updateHeaderContent = throttle((section) => {
+        if (!section) return;
+        
+        AnimationQueue.add(async () => {
+            const data = {
+                projectName: section.getAttribute('data-project-name'),
+                company: section.getAttribute('data-company'),
+                year: section.getAttribute('data-year'),
+                caseStudyUrl: section.getAttribute('data-case-study-url')
+            };
+
+            // Batch DOM updates
+            requestAnimationFrame(() => {
+                DOM.headerElements.projectName.textContent = data.projectName;
+                DOM.headerElements.company.textContent = data.company;
+                DOM.headerElements.year.textContent = data.year;
+                DOM.headerElements.caseStudyBtn.onclick = () => {
+                    window.location.href = data.caseStudyUrl;
+                };
+            });
+        });
+    }, 100);
+
     function init() {
-        // Initialize fullPage.js
+        // Initialize DOM cache
+        DOM.init();
+
+        // Initialize fullPage.js with optimized settings
         new fullpage('#fullpage', {
             // Navigation
             menu: '.nav-links',
             anchors: ['section1', 'section2', 'section3', 'section4'],
             navigation: false,
+            lockAnchors: true,  // Prevent URL updates during scroll
             
-            // Scrolling
-            scrollingSpeed: 900,
-            easing: 'easeInOutCubic',
-            easingcss3: 'ease-in-out',
-            touchSensitivity: 10,
-            scrollingThreshold: 40,
-
+            // Scrolling optimization
+            scrollingSpeed: 1000,  // Slightly longer for smoother feel
+            easingcss3: 'cubic-bezier(0.22, 1, 0.36, 1)',  // Smooth easing with slight bounce
+            fitToSection: true,
+            fitToSectionDelay: 800,
+            scrollBar: false,
+            autoScrolling: true,
+            touchSensitivity: 15,
+            bigSectionsDestination: 'top',
+            scrollingThreshold: 5,  // Smoother threshold detection
+            
+            // Performance optimizations
+            css3: true,
+            scrollHorizontally: false,
+            continuousVertical: false,
+            loopBottom: false,
+            loopTop: false,
+            recordHistory: false,  // Reduce browser operations
+            animateAnchor: false,  // Smoother direct navigation
+            
+            // Disable unnecessary features
+            fadingEffect: false,
+            parallax: false,
+            cards: false,
+            lazyLoading: false,
+            
             // Design
             verticalCentered: false,
             paddingTop: '0px',
             paddingBottom: '20px',
             
-            // Events
-            afterLoad: function(origin, destination, direction) {
-                // Update header content
-                updateHeaderContent(destination.item);
+            // Optimized events
+            beforeLeave: function(origin, destination, direction) {
+                // Cancel scroll if animation queue is processing
+                if (AnimationQueue.isProcessing && AnimationQueue.queue.length > 0) {
+                    return false;
+                }
                 
-                // Update navigation
-                navLinks.forEach(link => {
-                    link.classList.toggle('active', 
-                        link.getAttribute('data-section') === destination.anchor);
-                });
-
-                // Show section with fade effect
-                destination.item.style.opacity = '1';
-            },
-            
-            onLeave: function(origin, destination, direction) {
-                // Fade out the leaving section
-                origin.item.style.opacity = '0';
-                
-                // Hide preview container smoothly
-                const preview = document.querySelector('.preview-container');
-                preview.style.transition = 'opacity 0.3s ease';
-                preview.style.opacity = '0';
-                setTimeout(() => {
-                    preview.style.visibility = 'hidden';
-                }, 300);
-                
+                AnimationQueue.add(async () => {
+                    destination.item.classList.add('section-entering');
+                    origin.item.classList.add('section-leaving');
+                }, 'high');
                 return true;
             },
 
-            // Performance optimizations
-            scrollBar: false,
-            css3: true,
-            normalScrollElements: '',
-            animateAnchor: true,
-            keyboardScrolling: true
+            onLeave: function(origin, destination, direction) {
+                // Prepare next section early
+                requestAnimationFrame(() => {
+                    destination.item.style.willChange = 'opacity, transform';
+                });
+            },
+
+            afterLoad: function(origin, destination, direction) {
+                // Header updates are high priority
+                AnimationQueue.add(async () => {
+                    updateHeaderContent(destination.item);
+                }, 'high');
+
+                // Navigation updates are normal priority
+                AnimationQueue.add(async () => {
+                    DOM.navLinks.forEach(link => {
+                        link.classList.toggle('active', 
+                            link.getAttribute('data-section') === destination.anchor);
+                    });
+                }, 'normal');
+
+                // Cleanup is lower priority
+                AnimationQueue.add(async () => {
+                    if (origin && origin.item) {
+                        origin.item.style.willChange = 'auto';
+                    }
+                    DOM.sections.forEach(section => {
+                        section.classList.remove('section-entering', 'section-leaving');
+                    });
+                    if (DOM.previewContainer) {
+                        DOM.previewContainer.classList.add('hidden');
+                    }
+                }, 'normal');
+            },
+
+            // Scroll handling
+            normalScrollElements: '.swiper',
+            normalScrollElementTouchThreshold: 5,
+            
+            // Responsive
+            responsiveWidth: 900,
+            responsiveHeight: 600,
+            observer: true
         });
 
-        // Initialize navigation click handlers
-        navLinks.forEach((link) => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
-                // fullPage.js will handle the scrolling
-            });
+        // Optimize event listeners
+        DOM.navLinks.forEach(link => {
+            link.addEventListener('click', (e) => e.preventDefault(), { passive: true });
         });
 
-        // Set initial header content
-        updateHeaderContent(sections[0]);
+        // Set initial content
+        updateHeaderContent(DOM.sections[0]);
     }
 
-    return {
-        init
-    };
-
+    // Public API
+    return { init };
 })();
 
-document.addEventListener('DOMContentLoaded', Navigation.init);
+// Initialize based on document readiness
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', Navigation.init);
+} else {
+    Navigation.init();
+}
