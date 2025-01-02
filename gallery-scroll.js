@@ -5,7 +5,7 @@ const Slider = (function() {
         
         swipers.forEach(swiperElement => {
             new Swiper(swiperElement, {
-                slidesPerView: 2, // Show 2 slides at once
+                slidesPerView: 2,
                 spaceBetween: 20,
                 grabCursor: true,
                 resistance: true,
@@ -13,16 +13,18 @@ const Slider = (function() {
                 touchRatio: 1,
                 speed: 400,
                 
-                // Remove freeMode and add these options for snapping
-                slidesPerGroup: 1, // Number of slides to snap at once
+                // Disable mousewheel control
+                mousewheel: {
+                    enabled: false
+                },
+                
+                slidesPerGroup: 1,
                 centeredSlides: false,
                 slideToClickedSlide: true,
                 
-                // Add snapping effect
                 snapOnRelease: true,
-                snapGrid: [20], // Snap points
+                snapGrid: [20],
                 
-                // Optional: Add navigation
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',

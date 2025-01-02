@@ -202,13 +202,15 @@ main {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0; /* Prevent horizontal overflow */
-    bottom: 0; /* Prevent vertical overflow */
-    width: auto; /* Removed fixed width */
-    height: auto; /* Removed fixed height */
-    visibility: hidden; /* Start hidden */
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    visibility: hidden;
     z-index: 50;
-    opacity: 0; /* Start with zero opacity */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    will-change: opacity;
 }
 
 
@@ -221,6 +223,8 @@ main {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 
@@ -287,20 +291,13 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    opacity: 1;
-    transition: opacity 1s ease-in-out;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
 }
 
 
 .section.visible {
     opacity: 1;
-}
-
-
-.section.dimmed {
-    opacity: 0;
-    /* Removed transition to prevent flickering */
-    /* transition: opacity 0.3s ease-out; */
 }
 
 

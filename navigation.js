@@ -32,18 +32,11 @@ const Navigation = (function () {
             navigation: false,
             
             // Scrolling
-            scrollingSpeed: 800,
+            scrollingSpeed: 600,
             easing: 'easeInOutCubic',
             easingcss3: 'ease-in-out',
-
-        
-            touchSensitivity: 10,    // Default balanced setting
-            
-            
-            // Balanced (current setup)
-            scrollingSpeed: 600,
+            touchSensitivity: 10,
             scrollingThreshold: 40,
-            easingcss3: 'ease-in-out',
 
             // Design
             verticalCentered: false,
@@ -77,13 +70,13 @@ const Navigation = (function () {
                     preview.style.visibility = 'hidden';
                 }, 300);
                 
-                return true; // Allow scrolling to the next section
+                return true;
             },
 
-            // Customize scrolling behavior
+            // Performance optimizations
             scrollBar: false,
             css3: true,
-            normalScrollElements: '.swiper',
+            normalScrollElements: '',
             animateAnchor: true,
             keyboardScrolling: true
         });

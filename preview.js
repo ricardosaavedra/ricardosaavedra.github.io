@@ -1,9 +1,6 @@
 // preview.js
 
-
 const Preview = (function() {
-
-
     const previewContainer = document.querySelector('.preview-container');
     const previewOverlay = document.querySelector('.preview-overlay');
     const previewProjectName = document.querySelector('.preview-project-name');
@@ -11,71 +8,29 @@ const Preview = (function() {
     const navLinks = document.querySelectorAll('.nav-links li a');
     const sections = document.querySelectorAll('.section');
 
-
-    let currentFadeInAnimation = null;
-    let currentFadeOutAnimation = null;
-
-
     function updatePreview(projectName, title, imageUrl) {
-        if (currentFadeOutAnimation) {
-            currentFadeOutAnimation.cancel();
-            currentFadeOutAnimation = null;
-        }
-        if (currentFadeInAnimation) {
-            currentFadeInAnimation.cancel();
-        }
-
-
+        // Use CSS transitions instead of Web Animations API
+        previewContainer.style.visibility = 'visible';
+        previewContainer.style.opacity = '1';
         previewOverlay.style.backgroundImage = `url(${imageUrl})`;
         previewProjectName.textContent = projectName;
         previewTitle.textContent = title;
-        previewContainer.style.visibility = 'visible';
-
-
-        currentFadeInAnimation = previewContainer.animate(
-            [{ opacity: 0 }, { opacity: 1 }],
-            { duration: 200, fill: 'forwards' }
-        );
-
-
-        currentFadeInAnimation.onfinish = () => {
-            currentFadeInAnimation = null;
-        };
     }
-
 
     function fadeOutPreview() {
-        if (currentFadeInAnimation) {
-            currentFadeInAnimation.cancel();
-            currentFadeInAnimation = null;
-        }
-        if (currentFadeOutAnimation) {
-            currentFadeOutAnimation.cancel();
-        }
-
-
-        currentFadeOutAnimation = previewContainer.animate(
-            [{ opacity: 1 }, { opacity: 0 }],
-            { duration: 200, fill: 'forwards' }
-        );
-
-
-        currentFadeOutAnimation.onfinish = () => {
+        previewContainer.style.opacity = '0';
+        setTimeout(() => {
             previewContainer.style.visibility = 'hidden';
-            currentFadeOutAnimation = null;
-        };
+        }, 300); // Match transition duration in CSS
     }
-
 
     function init() {
         navLinks.forEach((link, index) => {
-            link.addEventListener('mouseenter', function() {
-                // Don't show preview if link is active
+            const handlePreview = function() {
                 if (this.classList.contains('active')) {
                     fadeOutPreview();
                     return;
                 }
-
 
                 this.classList.add('hovered');
                 const section = sections[index];
@@ -84,42 +39,25 @@ const Preview = (function() {
                     section.querySelector('.big-title').textContent,
                     section.getAttribute('data-preview-image')
                 );
-            });
+            };
 
-
-            link.addEventListener('mouseleave', function() {
+            const handlePreviewEnd = function() {
                 this.classList.remove('hovered');
                 fadeOutPreview();
-            });
+            };
 
+            // Mouse events
+            link.addEventListener('mouseenter', handlePreview);
+            link.addEventListener('mouseleave', handlePreviewEnd);
 
-            // Keyboard navigation support
-            link.addEventListener('focus', function() {
-                this.classList.add('hovered');
-                if (!this.classList.contains('active')) {
-                    const section = sections[index];
-                    updatePreview(
-                        section.getAttribute('data-project-name'),
-                        section.querySelector('.big-title').textContent,
-                        section.getAttribute('data-preview-image')
-                    );
-                }
-            });
-
-
-            link.addEventListener('blur', function() {
-                this.classList.remove('hovered');
-                fadeOutPreview();
-            });
+            // Keyboard events
+            link.addEventListener('focus', handlePreview);
+            link.addEventListener('blur', handlePreviewEnd);
         });
     }
 
-
     return { init };
-
-
 })();
-
 
 document.addEventListener('DOMContentLoaded', Preview.init);
 
