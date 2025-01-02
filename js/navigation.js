@@ -140,9 +140,13 @@ const Navigation = (function () {
             fitToSectionDelay: 800,
             scrollBar: false,
             autoScrolling: true,
-            touchSensitivity: 15,
+            touchSensitivity: 20,
             bigSectionsDestination: 'top',
             scrollingThreshold: 5,  // Smoother threshold detection
+            
+            // Remove normalScrollElements to allow scrolling while hovering Swiper
+            // normalScrollElements: '.swiper',
+            // normalScrollElementTouchThreshold: 5,
             
             // Performance optimizations
             css3: true,
@@ -213,10 +217,6 @@ const Navigation = (function () {
                 }, 'normal');
             },
 
-            // Scroll handling
-            normalScrollElements: '.swiper',
-            normalScrollElementTouchThreshold: 5,
-            
             // Responsive
             responsiveWidth: 900,
             responsiveHeight: 600,

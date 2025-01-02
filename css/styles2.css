@@ -49,7 +49,6 @@ body {
     font-size: 14px;
     color: #fff;
     text-decoration: none;
-    backdrop-filter: blur(5px);
     white-space: nowrap;
     width: fit-content;
     border: 1px solid transparent;
@@ -182,7 +181,6 @@ main {
     font-size: 14px;
     color: #fff;
     text-decoration: none;
-    backdrop-filter: blur(5px);
     white-space: nowrap;
     width: fit-content;
     border: 1px solid transparent;
@@ -407,14 +405,16 @@ main {
     position: fixed;
     top: 0;
     left: 0;
-    pointer-events: none; /* Allows clicks to pass through */
-    display: none; /* Hidden by default */
-    transform: translate(-50%, -50%); /* Center the cursor */
-    z-index: 10000; /* Ensure it's on top */
+    pointer-events: none;
+    display: none;
+    z-index: 10000;
     color: #fff;
     font-size: 14px;
     font-family: Arial, sans-serif;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    will-change: transform;
+    transform: translate3d(-50%, -50%, 0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
 #custom-cursor span {
@@ -426,6 +426,7 @@ main {
     padding: 8px 12px;
     background: rgba(0, 0, 0, 0.7);
     white-space: nowrap;
+    transform: translateZ(0);
 }
 
 #custom-cursor::after {
@@ -437,22 +438,22 @@ main {
     height: 30px;
     border: 2px solid #fff;
     border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.3s ease;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 /* Styles for dragging state */
 #custom-cursor.dragging span {
-    display: none; /* Hide the "drag" text */
+    display: none;
 }
 
 #custom-cursor.dragging::after {
-    /* Optionally, you can adjust the circle's size or appearance during dragging */
     width: 40px;
     height: 40px;
-    border-color: #ff0; /* Example: change border color to yellow */
-    /* Example animation */
-    /* animation: pulse 1s infinite; */
+    border-color: #fff;
+    transform: translate3d(-50%, -50%, 0) scale(1.2);
+    transition: all 0.2s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 /* Optional: Pulse animation for dragging state */
@@ -651,6 +652,90 @@ img.loaded {
 .preview-container.hidden {
     opacity: 0;
     pointer-events: none;
+}
+
+/* Consolidated button styles */
+.logo,
+.nav-links li a,
+.case-study-btn {
+    display: inline-flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 27px;
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    color: #fff;
+    text-decoration: none;
+    backdrop-filter: blur(5px);
+    white-space: nowrap;
+    width: fit-content;
+    border: 1px solid transparent;
+}
+
+.logo:hover,
+.nav-links li a:hover,
+.nav-links li a.hovered,
+.case-study-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.logo span,
+.nav-links li a span,
+.case-study-btn span {
+    transition: text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo:hover span,
+.nav-links li a:hover span,
+.nav-links li a.active span,
+.case-study-btn:hover span {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Optimized image styles */
+img {
+    width: 100%;
+    height: auto;
+    background: rgba(0, 0, 0, 0.1);
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 4px;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    backface-visibility: hidden;
+}
+
+/* Only use will-change for elements that actually change frequently */
+.section.active {
+    opacity: 1;
+    will-change: auto; /* Reset will-change after transition */
+}
+
+.preview-content {
+    will-change: transform, opacity;
+}
+
+/* Consolidated swiper styles */
+.swiper {
+    width: 100%;
+    height: 100%;
+    cursor: none;
+    overflow: visible !important;
+}
+
+.swiper-wrapper {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.swiper-slide {
+    width: 500px;
+    height: 100%;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    transition: transform 0.3s ease-out;
 }
 
 

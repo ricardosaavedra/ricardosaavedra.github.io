@@ -13,10 +13,17 @@ const Slider = (function() {
                 touchRatio: 1,
                 speed: 400,
                 
-                // Disable mousewheel control
+                // Disable mousewheel control and allow page scrolling
                 mousewheel: {
-                    enabled: false
+                    enabled: false,
+                    forceToAxis: true,
+                    releaseOnEdges: true
                 },
+                
+                // Prevent Swiper from capturing scroll events
+                nested: false,
+                allowTouchMove: true,
+                preventInteractionOnTransition: false,
                 
                 slidesPerGroup: 1,
                 centeredSlides: false,
