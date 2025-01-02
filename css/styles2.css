@@ -29,16 +29,42 @@ body {
     height: 100vh;
     padding-left: var(--spacing-md);
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 
 .logo {
-    margin-bottom: 40px;
-    font-size: 18px;
+    position: absolute;
+    top: var(--spacing-md);
+    display: inline-flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 27px;
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
     color: #fff;
-    padding: 8px;
-    background: #333;
-    display: inline-block;
+    text-decoration: none;
+    backdrop-filter: blur(5px);
+    white-space: nowrap;
+    width: fit-content;
+    border: 1px solid transparent;
+}
+
+.logo:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.logo span {
+    transition: text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo:hover span {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 
@@ -110,8 +136,8 @@ body {
 
 
 main {
-    margin-left: 164px;
-    width: calc(100% - 164px);
+    margin-left: 212px;
+    width: calc(100% - 212px);
     height: 100vh;
     background-color: #000;
     padding-right: var(--spacing-md);
@@ -121,8 +147,8 @@ main {
 .section-header {
     position: fixed;
     top: 0;
-    left: 164px; /* Match the margin-left of main */
-    width: calc(100% - 164px); /* Match the width of main */
+    left: 212px; /* Match the margin-left of main */
+    width: calc(100% - 212px); /* Match the width of main */
     padding-right: var(--spacing-md); /* Match main's padding */
     padding-top: var(--spacing-sm);
     z-index: 1000;
@@ -131,32 +157,53 @@ main {
 
 .header-content {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    gap: 30px;
+    width: 100%;
+    gap: 0;
 }
 
 
 .header-content span {
     font-size: 14px;
     color: #fff;
+    min-width: max-content;
 }
 
 
 .case-study-btn {
-    background: #333;
-    color: #fff;
-    border: none;
+    display: inline-flex;
     padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
+    align-items: center;
+    gap: 10px;
+    border-radius: 27px;
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 14px;
-    transition: background 0.8s ease-in-out;
+    color: #fff;
+    text-decoration: none;
+    backdrop-filter: blur(5px);
+    white-space: nowrap;
+    width: fit-content;
+    border: 1px solid transparent;
+    cursor: pointer;
+    margin-left: var(--spacing-xl);
 }
 
 
 .case-study-btn:hover {
-    background: #444;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+
+.case-study-btn span {
+    transition: text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.case-study-btn:hover span {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 
