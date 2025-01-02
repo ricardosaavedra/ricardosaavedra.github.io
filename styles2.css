@@ -88,13 +88,7 @@ main {
     margin-left: 128px;
     width: calc(100% - 128px);
     height: 100vh;
-    overflow-y: auto; /* Enable scrolling */
-    scroll-snap-type: y mandatory; /* Add scroll snapping */
-    scroll-behavior: smooth; /* Ensure smooth scrolling */
-    perspective: none; /* Removed perspective for smoother transitions */
-    transform-style: flat; /* Simplify transform style */
-    background-color: #000; /* Ensures background covers underlying content */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    background-color: #000;
 }
 
 
@@ -287,22 +281,14 @@ main {
 /* Modify the .section class in styles2.css */
 .section {
     min-height: 100vh;
-    padding: 0px 32px;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-    position: relative;
+    padding: 32px;
     background-color: #000;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    opacity: 0; /* Start with opacity 0 */
-    transition: opacity 0.4s ease-in-out; /* Add transition */
-        transition: opacity 1.2s ease-in-out, transform 0.5s ease-in-out;
-
-        will-change: opacity, transform;
-
-    
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
 }
 
 
@@ -408,6 +394,16 @@ main {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
     }
+}
+
+/* fullPage.js specific styles */
+#fp-nav ul li a span, 
+.fp-slidesNav ul li a span {
+    background: #fff;
+}
+
+#fp-nav ul li .fp-tooltip {
+    color: #fff;
 }
 
 
