@@ -37,32 +37,60 @@ main {
     position: fixed;
     top: 0;
     left: 212px;
-    width: calc(100% - 212px);
-    padding-right: var(--spacing-md);
+    width: calc(100% - 236px);
     z-index: 1000;
-    height: 48px;
+    height: 98px;
+    padding-top: var(--spacing-lg);
+    padding-right: var(--spacing-md);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-top: var(--spacing-sm);
+    background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.1) 85%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 40%,
+        rgba(0, 0, 0, 0.6) 70%,
+        rgba(0, 0, 0, 0.2) 85%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 40%,
+        rgba(0, 0, 0, 0.6) 70%,
+        rgba(0, 0, 0, 0.4) 85%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    backdrop-filter: blur(80px) saturate(180%);
+    -webkit-backdrop-filter: blur(80px) saturate(180%);
+    will-change: backdrop-filter;
+    transform: translateZ(0);
 }
-
+/*
 .section-header.over-image {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
     margin-top: var(--spacing-sm);
-    padding-right: var(--spacing-sm);
-    padding-left: var(--spacing-sm);
-    left: 228px;
-    width: calc(100% - 268px);
+    padding-right:8px;
+    padding-left: var(--spacing-md);
+    left: 290px;
+    width: calc(100% - 364px);
+    border-radius: 26px;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px); 
+
 
 }
+*/
 
 
 .header-content {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     gap: var(--spacing-lg);
-    height: 100%;
+    height: auto;
     transition: gap 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -598,6 +626,11 @@ img.loaded {
     white-space: nowrap;
     width: fit-content;
     border: 1px solid transparent;
+}
+
+.logo.white {
+    background-color: rgba(255, 255, 255);
+    color: #000;
 }
 
 .logo:hover {

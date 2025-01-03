@@ -1,57 +1,79 @@
 document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.section-header');
+    let lastCheckTime = 0;
+    const throttleTime = 16; // Approximately 60fps
     
-    // Create intersection observer for the entire image sections
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            const headerRect = header.getBoundingClientRect();
-            const containerRect = entry.target.getBoundingClientRect();
-            
-            // Check if we're in the image section area
-            if (headerRect.bottom > containerRect.top && 
-                containerRect.bottom > headerRect.top) {
+    function checkHeaderImageIntersection(forceCheck = false) {
+        const now = Date.now();
+        if (!forceCheck && now - lastCheckTime < throttleTime) return;
+        lastCheckTime = now;
+        
+        const headerRect = header.getBoundingClientRect();
+        const currentSection = document.querySelector('.section.active');
+        if (!currentSection) return;
+        
+        const imageGrid = currentSection.querySelector('.image-grid');
+        if (!imageGrid) {
+            header.classList.remove('over-image');
+            return;
+        }
+        
+        const imageRect = imageGrid.getBoundingClientRect();
+        const isOverImage = headerRect.bottom > imageRect.top && 
+                          headerRect.top < imageRect.bottom &&
+                          imageRect.top < window.innerHeight;
+        
+        // Immediate state update without requestAnimationFrame for forced checks
+        if (forceCheck) {
+            if (isOverImage) {
                 header.classList.add('over-image');
             } else {
-                // Only remove the class if we're not intersecting with any image section
-                const allImageSections = document.querySelectorAll('#fullpage .image-grid, #fullpage .image-row');
-                const isOverAnyImage = Array.from(allImageSections).some(section => {
-                    const sectionRect = section.getBoundingClientRect();
-                    return headerRect.bottom > sectionRect.top && 
-                           sectionRect.bottom > headerRect.top;
-                });
-                
-                if (!isOverAnyImage) {
+                header.classList.remove('over-image');
+            }
+        } else {
+            requestAnimationFrame(() => {
+                if (isOverImage) {
+                    header.classList.add('over-image');
+                } else {
                     header.classList.remove('over-image');
                 }
-            }
-        });
-    }, {
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-        rootMargin: '0px 0px -20% 0px'
-    });
-    
-    // Function to observe ALL image sections in the fullpage
-    function observeAllImageSections() {
-        // First disconnect existing observations
-        observer.disconnect();
-        
-        // Observe ALL image sections in the fullpage, not just the active section
-        const allImageSections = document.querySelectorAll('#fullpage .image-grid, #fullpage .image-row');
-        allImageSections.forEach(section => observer.observe(section));
+            });
+        }
     }
     
     // For fullPage.js scrolling
     if (window.fullpage_api) {
+        // Optimize scroll check
+        document.querySelectorAll('.fp-overflow').forEach(section => {
+            section.addEventListener('scroll', () => checkHeaderImageIntersection(false), { passive: true });
+        });
+        
+        // Handle section changes
         window.fullpage_api.onLeave = (origin, destination, direction) => {
-            // Re-observe all sections after any section change
-            setTimeout(observeAllImageSections, 50);
+            // Force immediate check when leaving a section
+            checkHeaderImageIntersection(true);
         };
         
         window.fullpage_api.afterLoad = (origin, destination, direction) => {
-            observeAllImageSections();
+            // Multiple immediate checks after loading new section
+            checkHeaderImageIntersection(true);
+            // Additional checks to catch any transitions
+            setTimeout(() => checkHeaderImageIntersection(true), 50);
+            setTimeout(() => checkHeaderImageIntersection(true), 100);
         };
         
-        // Initial observation of all sections
-        observeAllImageSections();
+        // Watch for any fullpage movements
+        document.addEventListener('wheel', () => checkHeaderImageIntersection(true), { passive: true });
+        document.addEventListener('keydown', (e) => {
+            if (e.key.startsWith('Arrow')) {
+                checkHeaderImageIntersection(true);
+            }
+        });
+        
+        // Handle resize
+        window.addEventListener('resize', () => checkHeaderImageIntersection(true), { passive: true });
+        
+        // Initial check
+        checkHeaderImageIntersection(true);
     }
 }); 
