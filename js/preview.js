@@ -123,12 +123,161 @@ const Preview = (function() {
         }, fadeOutDelay);
     }
 
+    // Add new function for hero transition
+    async function createHeroTransition(fromImageUrl, toSection) {
+        return new Promise((resolve) => {
+            // Get target image first to calculate proportions
+            const targetImage = toSection.querySelector('.main-image');
+            if (!targetImage) {
+                resolve();
+                return;
+            }
+
+            // Create transitioning element and container immediately
+            const clipContainer = document.createElement('div');
+            const transitionEl = document.createElement('div');
+            
+            clipContainer.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+                z-index: 1000;
+            `;
+            
+            transitionEl.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-image: url(${fromImageUrl});
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                z-index: 1000;
+                pointer-events: none;
+                opacity: 1;
+                transform-origin: center;
+                will-change: transform;
+                transition: none;
+            `;
+
+            // Add to DOM immediately
+            document.body.appendChild(clipContainer);
+            clipContainer.appendChild(transitionEl);
+            
+            // Force initial render
+            transitionEl.offsetHeight;
+
+            // Pre-calculate initial dimensions
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const rect = targetImage.getBoundingClientRect();
+            const targetAspectRatio = rect.width / rect.height;
+            const viewportAspectRatio = viewportWidth / viewportHeight;
+
+            // Create a mutation observer to watch for section becoming active
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.target === toSection && 
+                        mutation.type === 'attributes' && 
+                        mutation.attributeName === 'class' &&
+                        toSection.classList.contains('active')) {
+                        
+                        observer.disconnect();
+                        
+                        // Recalculate position after section is active
+                        const updatedRect = targetImage.getBoundingClientRect();
+                        
+                        let scale;
+                        if (viewportAspectRatio > targetAspectRatio) {
+                            scale = updatedRect.height / viewportHeight;
+                        } else {
+                            scale = updatedRect.width / viewportWidth;
+                        }
+
+                        const translateX = updatedRect.left + (updatedRect.width / 2) - (viewportWidth / 2);
+                        const translateY = updatedRect.top + (updatedRect.height / 2) - (viewportHeight / 2);
+
+                        // Hide target image
+                        targetImage.style.opacity = '0';
+
+                        // Enable and apply transition immediately
+                        transitionEl.style.transition = `transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)`;
+                        transitionEl.style.transform = `
+                            translate(${translateX}px, ${translateY}px)
+                            scale(${scale})
+                        `;
+                        transitionEl.style.backgroundSize = 'contain';
+
+                        // Single cleanup listener
+                        transitionEl.addEventListener('transitionend', function onTransitionEnd(e) {
+                            if (e.propertyName === 'transform') {
+                                // Remove this listener
+                                transitionEl.removeEventListener('transitionend', onTransitionEnd);
+                                
+                                // Show target image
+                                targetImage.style.opacity = '1';
+                                
+                                // Fade out transition element
+                                transitionEl.style.transition = 'opacity 0.6s ease-out';
+                                setTimeout(() => {
+                                    transitionEl.style.opacity = '0';
+                                    transitionEl.addEventListener('transitionend', (e) => {
+                                        if (e.propertyName === 'opacity') {
+                                            clipContainer.remove(); // Remove both container and transition element
+                                            resolve();
+                                        }
+                                    }, { once: true });
+                                }, 200);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Start observing immediately
+            observer.observe(toSection, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        });
+    }
+
+    function cleanupPreview() {
+        // Immediate cleanup of all preview elements
+        previewContainer.style.opacity = '0';
+        previewContainer.style.visibility = 'hidden';
+        isPreviewVisible = false;
+        currentImageUrl = '';
+        
+        // Remove all overlays
+        const overlays = previewContainer.querySelectorAll('.preview-overlay');
+        overlays.forEach(overlay => {
+            overlay.style.opacity = '0';
+            overlay.remove();
+        });
+        
+        // Remove preview-specific classes
+        body.classList.remove('preview-visible');
+        previewContainer.classList.add('hidden');
+        
+        // Clear any pending timeouts
+        if (fadeOutTimeout) {
+            clearTimeout(fadeOutTimeout);
+            fadeOutTimeout = null;
+        }
+    }
+
     function init() {
         navItems.forEach((item, index) => {
             const link = item.querySelector('a');
             
             const handlePreview = function() {
-                if (link.classList.contains('active')) {
+                if (link.classList.contains('active') || link.classList.contains('clicked')) {
                     fadeOutPreview();
                     return;
                 }
@@ -144,7 +293,10 @@ const Preview = (function() {
 
             const handlePreviewEnd = function() {
                 link.classList.remove('hovered');
-                fadeOutPreview();
+                // Only fade out if the link wasn't clicked
+                if (!link.classList.contains('clicked')) {
+                    fadeOutPreview();
+                }
             };
 
             // Mouse events on the list item instead of the anchor
@@ -154,6 +306,32 @@ const Preview = (function() {
             // Keep keyboard events on the anchor
             link.addEventListener('focus', handlePreview);
             link.addEventListener('blur', handlePreviewEnd);
+
+            // Modify click handler
+            link.addEventListener('click', async () => {
+                const section = sections[index];
+                const imageUrl = section.getAttribute('data-preview-image');
+                
+                if (isPreviewVisible && imageUrl) {
+                    // Start transition first
+                    const transitionPromise = createHeroTransition(imageUrl, section);
+                    
+                    // Then cleanup and navigate
+                    cleanupPreview();
+                    const sectionId = link.getAttribute('data-section');
+                    if (sectionId && window.fullpage_api) {
+                        window.fullpage_api.moveTo(sectionId);
+                    }
+                    
+                    // Wait for transition to complete
+                    await transitionPromise;
+                }
+                
+                link.classList.add('clicked');
+                setTimeout(() => {
+                    link.classList.remove('clicked');
+                }, 1000);
+            });
         });
     }
 

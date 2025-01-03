@@ -129,6 +129,9 @@ const Navigation = (function () {
         // Initialize DOM cache
         DOM.init();
 
+        // Track if navigation was triggered by click
+        let isClickNavigation = false;
+
         // Initialize fullPage.js with optimized settings
         new fullpage('#fullpage', {
             // Navigation
@@ -138,15 +141,10 @@ const Navigation = (function () {
             lockAnchors: true,  // Prevent URL updates during scroll
             
             // Scrolling optimization
-            scrollingSpeed: 1000,  // Slightly longer for smoother feel
-            easingcss3: 'cubic-bezier(0.22, 1, 0.36, 1)',  // Smooth easing with slight bounce
+            scrollingSpeed: 1000,  // Default speed for normal scrolling
+            easingcss3: 'cubic-bezier(0.4, 0, 0.2, 1)',
             fitToSection: true,
             fitToSectionDelay: 800,
-            scrollBar: false,
-            autoScrolling: true,
-            touchSensitivity: 20,
-            bigSectionsDestination: 'top',
-            scrollingThreshold: 5,  // Smoother threshold detection
             
             // Remove normalScrollElements to allow scrolling while hovering Swiper
             // normalScrollElements: '.swiper',
@@ -177,6 +175,13 @@ const Navigation = (function () {
                 // Cancel scroll if animation queue is processing
                 if (AnimationQueue.isProcessing && AnimationQueue.queue.length > 0) {
                     return false;
+                }
+                
+                // Set scrolling speed based on navigation type
+                if (isClickNavigation) {
+                    fullpage_api.setScrollingSpeed(0);
+                } else {
+                    fullpage_api.setScrollingSpeed(1000);
                 }
                 
                 AnimationQueue.add(async () => {
@@ -210,6 +215,9 @@ const Navigation = (function () {
             },
 
             afterLoad: function(origin, destination, direction) {
+                // Reset click navigation flag after transition
+                isClickNavigation = false;
+                
                 // Header updates are high priority
                 AnimationQueue.add(async () => {
                     updateHeaderContent(destination.item);
@@ -237,7 +245,22 @@ const Navigation = (function () {
 
         // Optimize event listeners
         DOM.navLinks.forEach(link => {
-            link.addEventListener('click', (e) => e.preventDefault(), { passive: true });
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute('data-section');
+                // Set flag for click navigation
+                isClickNavigation = true;
+                
+                // Immediately hide preview when clicking
+                if (DOM.previewContainer) {
+                    DOM.previewContainer.classList.add('hidden');
+                    DOM.previewContainer.style.opacity = '0';
+                    DOM.previewContainer.style.visibility = 'hidden';
+                }
+                if (sectionId && window.fullpage_api) {
+                    window.fullpage_api.moveTo(sectionId);
+                }
+            });
         });
 
         // Set initial content

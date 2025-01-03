@@ -119,28 +119,32 @@ main {
 
 .image-grid {
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 
 .image-placeholder {
     background: #222;
     border-radius: 8px;
-    aspect-ratio: 16/9;
     width: 100%;
 }
 
 
 .main-image {
+    max-width: 100%;
     width: 100%;
     height: auto;
     margin-bottom: 20px;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .image-row {
     width: 100%;
     position: relative;
     padding-bottom: 64px;
+    display: flex;
+    flex-direction: column;
 }
 
 .swiper {
@@ -453,7 +457,6 @@ img {
     width: 100%;
     height: auto;
     background: rgba(0, 0, 0, 0.1);
-    aspect-ratio: 16/9;
     object-fit: cover;
     border-radius: 4px;
 }
@@ -732,7 +735,6 @@ img {
     width: 100%;
     height: auto;
     background: rgba(0, 0, 0, 0.1);
-    aspect-ratio: 16/9;
     object-fit: cover;
     border-radius: 4px;
     opacity: 1;
