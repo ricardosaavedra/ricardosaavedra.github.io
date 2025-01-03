@@ -41,32 +41,63 @@ main {
     z-index: 1000;
     height: 98px;
     padding-top: var(--spacing-lg);
-    padding-right: var(--spacing-md);
+  
+}
+
+
+.section-header.over-image {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(0, 0, 0, 0.2);
+    /* Simplified gradient for better performance */
     background: linear-gradient(to bottom, 
-        rgba(0, 0, 0, 0.2) 0%,
-        rgba(0, 0, 0, 0.1) 85%,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.2) 50%,
         rgba(0, 0, 0, 0) 100%
     );
+    /* Reduced complexity of mask */
     mask-image: linear-gradient(to bottom,
         rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 40%,
-        rgba(0, 0, 0, 0.6) 70%,
-        rgba(0, 0, 0, 0.2) 85%,
+        rgba(0, 0, 0, 1) 50%,
         rgba(0, 0, 0, 0) 100%
     );
     -webkit-mask-image: linear-gradient(to bottom,
         rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 40%,
-        rgba(0, 0, 0, 0.6) 70%,
-        rgba(0, 0, 0, 0.4) 85%,
+        rgba(0, 0, 0, 1) 50%,
         rgba(0, 0, 0, 0) 100%
     );
-    backdrop-filter: blur(80px) saturate(180%);
-    -webkit-backdrop-filter: blur(80px) saturate(180%);
+    /* Reduced blur value and added contrast for better performance */
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    /* Hardware acceleration */
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    /* Improve performance */
     will-change: backdrop-filter;
-    transform: translateZ(0);
+    /* Prevent flickering in some browsers */
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Ensure GPU rendering */
+    perspective: 1000;
+    -webkit-perspective: 1000;
 }
+
+/* Add a pseudo-element for additional stability */
+.section-header.over-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    z-index: -1;
+}
+
 /*
 .section-header.over-image {
     background: rgba(0, 0, 0, 0.2);
