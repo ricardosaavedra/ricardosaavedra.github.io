@@ -9,6 +9,7 @@ const Navigation = (function () {
         sectionHeader: null,
         headerElements: null,
         previewContainer: null,
+        currentActiveSection: null, // Track current active section
         init() {
             this.main = document.querySelector('main');
             this.sections = document.querySelectorAll('.section');
@@ -21,6 +22,9 @@ const Navigation = (function () {
                 year: this.sectionHeader.querySelector('.year'),
                 caseStudyBtn: this.sectionHeader.querySelector('.case-study-btn')
             };
+            // Set initial active section
+            this.currentActiveSection = this.navLinks[0];
+            this.currentActiveSection.classList.add('active');
         }
     };
 
@@ -183,6 +187,22 @@ const Navigation = (function () {
             },
 
             onLeave: function(origin, destination, direction) {
+                // Early menu update as soon as fullPage.js commits to the change
+                const nextActiveLink = Array.from(DOM.navLinks).find(link => 
+                    link.getAttribute('data-section') === destination.anchor
+                );
+
+                if (nextActiveLink && DOM.currentActiveSection !== nextActiveLink) {
+                    // Only update if it's actually changing
+                    requestAnimationFrame(() => {
+                        // Remove active class from all links first
+                        DOM.navLinks.forEach(link => link.classList.remove('active'));
+                        // Add active to the next link
+                        nextActiveLink.classList.add('active');
+                        DOM.currentActiveSection = nextActiveLink;
+                    });
+                }
+
                 // Prepare next section early
                 requestAnimationFrame(() => {
                     destination.item.style.willChange = 'opacity, transform';
@@ -194,14 +214,6 @@ const Navigation = (function () {
                 AnimationQueue.add(async () => {
                     updateHeaderContent(destination.item);
                 }, 'high');
-
-                // Navigation updates are normal priority
-                AnimationQueue.add(async () => {
-                    DOM.navLinks.forEach(link => {
-                        link.classList.toggle('active', 
-                            link.getAttribute('data-section') === destination.anchor);
-                    });
-                }, 'normal');
 
                 // Cleanup is lower priority
                 AnimationQueue.add(async () => {
