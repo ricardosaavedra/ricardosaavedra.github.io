@@ -249,39 +249,101 @@
 window.addEventListener('load', async () => {
     // Initialize fullPage.js first
     await Navigation.init();
+    
+    // Add fullPage.js section change event
+    if (window.fullpage_api) {
+        window.fullpage_api.setAllowScrolling(true);
+        window.fullpage_api.setKeyboardScrolling(true);
+        window.fullpage_api.setScrollingSpeed(700);
+        
+        // Listen to all relevant fullPage.js events
+        window.fullpage_api.onLeave = function() {
+            const cursor = document.getElementById('custom-cursor');
+            if (cursor) {
+                cursor.style.display = 'none';
+            }
+        };
+    }
+    
     // Then initialize Swiper with a small delay to prevent conflicts
     setTimeout(() => {
         Slider.init();
-        // Initialize custom cursor after Swiper
         initCustomCursor();
     }, 100);
 });
 
 function initCustomCursor() {
-    // Cache DOM elements
     const cursor = document.getElementById('custom-cursor');
     const galleries = document.querySelectorAll('.swiper');
-    
-    // Set initial cursor state
-    cursor.style.display = 'none';
-    
-    // Track cursor state
     let isHovering = false;
     let isDragging = false;
-    let rafId = null;
+    let currentGallery = null;
+    let rafPending = false;
+    let isTrackpadScrolling = false;
+    let trackpadTimeout = null;
     
-    // Update cursor position using requestAnimationFrame
+    // Detect trackpad scrolling
+    function handleWheel(e) {
+        // Check if the event is from a trackpad by looking at deltaMode and deltaY
+        // Trackpad typically has deltaMode 0 and fractional deltaY
+        if (e.deltaMode === 0 && !Number.isInteger(e.deltaY)) {
+            isTrackpadScrolling = true;
+            hideCursor();
+            
+            // Clear existing timeout
+            if (trackpadTimeout) {
+                clearTimeout(trackpadTimeout);
+            }
+            
+            // Set a timeout to reset the trackpad scrolling state
+            trackpadTimeout = setTimeout(() => {
+                isTrackpadScrolling = false;
+            }, 150); // Adjust timeout as needed
+        }
+    }
+    
     function updateCursorPosition(e) {
-        if (!isHovering) return;
+        if (!isHovering || !e || isTrackpadScrolling) return;
         
-        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
-        rafId = requestAnimationFrame(() => updateCursorPosition(e));
+        // Force hide cursor during any ongoing fullPage transitions
+        const fpWrapper = document.querySelector('#fullpage');
+        if (fpWrapper && fpWrapper.classList.contains('fp-transitioning')) {
+            hideCursor();
+            return;
+        }
+        
+        // Verify if we're still actually over a gallery
+        const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+        const galleryAtPoint = elementAtPoint?.closest('.swiper');
+        
+        if (!galleryAtPoint || !galleryAtPoint.closest('.section.active')) {
+            hideCursor();
+            return;
+        }
+        
+        if (!rafPending) {
+            rafPending = true;
+            requestAnimationFrame(() => {
+                cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+                rafPending = false;
+            });
+        }
     }
     
     function showCursor(e) {
-        if (!e.target.closest('.swiper')) return;
+        if (isTrackpadScrolling) return;
+        
+        // Don't show cursor if we're transitioning sections
+        const fpWrapper = document.querySelector('#fullpage');
+        if (fpWrapper && fpWrapper.classList.contains('fp-transitioning')) {
+            return;
+        }
+        
+        const gallery = e.target.closest('.swiper');
+        if (!gallery || !gallery.closest('.section.active')) return;
         
         isHovering = true;
+        currentGallery = gallery;
         cursor.style.display = 'block';
         updateCursorPosition(e);
     }
@@ -289,17 +351,17 @@ function initCustomCursor() {
     function hideCursor() {
         isHovering = false;
         isDragging = false;
+        currentGallery = null;
         cursor.style.display = 'none';
         cursor.classList.remove('dragging');
-        
-        if (rafId) {
-            cancelAnimationFrame(rafId);
-            rafId = null;
-        }
     }
     
     function handleDragStart(e) {
-        if (!e.target.closest('.swiper')) return;
+        if (isTrackpadScrolling) return;
+        
+        const gallery = e.target.closest('.swiper');
+        if (!gallery || !gallery.closest('.section.active')) return;
+        
         isDragging = true;
         cursor.classList.add('dragging');
     }
@@ -307,24 +369,63 @@ function initCustomCursor() {
     function handleDragEnd() {
         isDragging = false;
         cursor.classList.remove('dragging');
-        if (!isHovering) {
+        
+        if (isTrackpadScrolling || !currentGallery || !currentGallery.closest('.section.active')) {
             hideCursor();
         }
     }
     
-    // Add event listeners to each gallery
+    function cleanup() {
+        hideCursor();
+        isHovering = false;
+        isDragging = false;
+        currentGallery = null;
+        isTrackpadScrolling = false;
+        if (trackpadTimeout) {
+            clearTimeout(trackpadTimeout);
+        }
+    }
+    
+    // Add wheel event listener for trackpad detection
+    document.addEventListener('wheel', handleWheel, { passive: true });
+    
+    // Add transition detection observer
+    const fpWrapper = document.querySelector('#fullpage');
+    if (fpWrapper) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.classList.contains('fp-transitioning')) {
+                    hideCursor();
+                }
+            });
+        });
+        
+        observer.observe(fpWrapper, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    }
+    
+    // Add mousemove listener to document to catch all mouse movements
+    document.addEventListener('mousemove', (e) => {
+        if (isHovering && !isTrackpadScrolling) {
+            updateCursorPosition(e);
+        }
+    });
+    
     galleries.forEach(gallery => {
         gallery.addEventListener('mouseenter', showCursor);
-        gallery.addEventListener('mousemove', updateCursorPosition);
         gallery.addEventListener('mouseleave', hideCursor);
         gallery.addEventListener('mousedown', handleDragStart);
         gallery.addEventListener('mouseup', handleDragEnd);
     });
     
-    // Global cleanup
-    window.addEventListener('blur', hideCursor);
-    window.addEventListener('scroll', hideCursor);
-    document.addEventListener('mouseleave', hideCursor);
+    window.addEventListener('blur', cleanup);
+    window.addEventListener('scroll', cleanup);
+    document.addEventListener('mouseleave', cleanup);
+    
+    // Initial state
+    cursor.style.display = 'none';
 }
     </script>
     <script src="js/navigation.js" defer></script>
