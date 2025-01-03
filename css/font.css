@@ -24,8 +24,8 @@
 
 @font-face {
     font-family: 'Items';
-    src: url('Items-Light.woff2') format('woff2'),
-        url('Items-Light.woff') format('woff');
+    src: url('./fonts/Items-Light.woff2') format('woff2'),
+        url('./fonts/Items-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -33,8 +33,8 @@
 
 @font-face {
     font-family: 'Items';
-    src: url('Items-Thin.woff2') format('woff2'),
-        url('Items-Thin.woff') format('woff');
+    src: url('./fonts/Items-Thin.woff2') format('woff2'),
+        url('./fonts/Items-Thin.woff') format('woff');
     font-weight: 100;
     font-style: normal;
     font-display: swap;
@@ -42,29 +42,49 @@
 
 @font-face {
     font-family: 'Items';
-    src: url('Items-Regular.woff2') format('woff2'),
-        url('Items-Regular.woff') format('woff');
+    src: url('./fonts/Items-Regular.woff2') format('woff2'),
+        url('./fonts/Items-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Items Condensed';
+    src: url('../fonts/Items-CondensedLight.woff2') format('woff2'),
+        url('../fonts/Items-CondensedLight.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Items Condensed';
+    src: url('../fonts/Items-CondensedThin.woff2') format('woff2'),
+        url('../fonts/Items-CondensedThin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
 .item-display2 {
     color: #FFF;
-    font-family: Items;
+    font-family: Items Condensed ;
     font-size: var(--font-size-display-2);
     font-style: normal;
-    font-weight: 300;
+    font-weight: 100;
     line-height: 100px;
     letter-spacing: 1px;
     text-align: center;
   }
 
 .item-body1 {
-  font-family: Items;
+  font-family: Items Condensed;
   font-size: var(--font-size-body-1);
   font-style: normal;
-  font-weight: 300;
+  font-weight: 100;
   line-height: 28px;
   letter-spacing: 0.8px;
 }

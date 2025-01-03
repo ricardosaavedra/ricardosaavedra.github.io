@@ -31,19 +31,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script defer src="https://unpkg.com/fullpage.js/dist/fullpage.min.js"></script>
 
-    <style>
-        /* Critical inline styles */
-        .fp-watermark { display: none !important; }
-        .section { opacity: 0; transition: opacity 0.5s ease-in-out; }
-        .section.active { opacity: 1; }
-        
-        /* Remove stagger animations */
-        .image-grid img, .image-row img {
-            opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
-        }
-    </style>
+
 
 </head>
 
@@ -106,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="image-row">
+                <div class="image-grid">
                     <img src="img/home/ds-cover.jpg" alt="Meta project main visualization" class="main-image" loading="lazy" decoding="async">
                     <div class="image-row">
                         <div class="swiper">
@@ -398,6 +386,7 @@ function initCustomCursor() {
     <script src="js/navigation.js" defer></script>
     <script src="js/preview.js" defer></script>
     <script src="js/gallery-scroll.js" defer></script>
+    <script src="js/header-scroll.js" defer></script>
 
 
 </body>
