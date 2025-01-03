@@ -772,5 +772,9 @@ img {
     transition: transform 0.3s ease-out;
 }
 
+.text-content {
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
 
+}
 
