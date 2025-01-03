@@ -245,119 +245,87 @@
         <span>drag</span>
     </div>
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Cache DOM elements and create state object
-    const state = {
-        cursor: document.getElementById('custom-cursor'),
-        galleries: document.querySelectorAll('.swiper'),
-        isHovering: false,
-        isDragging: false,
-        rafId: null,
-        cursorPos: { x: 0, y: 0 }
-    };
+// Wait for both fullPage.js and Swiper to load before initializing
+window.addEventListener('load', async () => {
+    // Initialize fullPage.js first
+    await Navigation.init();
+    // Then initialize Swiper with a small delay to prevent conflicts
+    setTimeout(() => {
+        Slider.init();
+        // Initialize custom cursor after Swiper
+        initCustomCursor();
+    }, 100);
+});
 
-    // Initialize cursor state
-    state.cursor.style.display = 'none';
-    state.cursor.style.transform = 'translate3d(-100%, -100%, 0)';
-
-    // Batch cursor updates using requestAnimationFrame
-    const updateCursorPosition = () => {
-        if (state.isHovering) {
-            state.cursor.style.transform = `translate3d(${state.cursorPos.x}px, ${state.cursorPos.y}px, 0) translate(-50%, -50%)`;
-            state.rafId = requestAnimationFrame(updateCursorPosition);
-        }
-    };
-
-    // Update cursor position without immediate DOM updates
-    const moveCursor = (e) => {
-        if (!state.isHovering || !e.target.closest('.swiper')) {
-            hideCursor();
-            return;
-        }
+function initCustomCursor() {
+    // Cache DOM elements
+    const cursor = document.getElementById('custom-cursor');
+    const galleries = document.querySelectorAll('.swiper');
+    
+    // Set initial cursor state
+    cursor.style.display = 'none';
+    
+    // Track cursor state
+    let isHovering = false;
+    let isDragging = false;
+    let rafId = null;
+    
+    // Update cursor position using requestAnimationFrame
+    function updateCursorPosition(e) {
+        if (!isHovering) return;
         
-        state.cursorPos.x = e.clientX;
-        state.cursorPos.y = e.clientY;
-        
-        // Start animation frame if not already running
-        if (!state.rafId) {
-            state.rafId = requestAnimationFrame(updateCursorPosition);
-        }
-    };
-
-    const showCursor = (e) => {
+        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+        rafId = requestAnimationFrame(() => updateCursorPosition(e));
+    }
+    
+    function showCursor(e) {
         if (!e.target.closest('.swiper')) return;
         
-        state.isHovering = true;
-        state.cursor.style.display = 'block';
-        moveCursor(e);
-    };
-
-    const hideCursor = () => {
-        state.isHovering = false;
-        state.isDragging = false;
-        state.cursor.style.display = 'none';
-        state.cursor.classList.remove('dragging');
+        isHovering = true;
+        cursor.style.display = 'block';
+        updateCursorPosition(e);
+    }
+    
+    function hideCursor() {
+        isHovering = false;
+        isDragging = false;
+        cursor.style.display = 'none';
+        cursor.classList.remove('dragging');
         
-        // Cancel any pending animation frame
-        if (state.rafId) {
-            cancelAnimationFrame(state.rafId);
-            state.rafId = null;
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
         }
-    };
-
-    const handleDragStart = (e) => {
+    }
+    
+    function handleDragStart(e) {
         if (!e.target.closest('.swiper')) return;
-        state.isDragging = true;
-        state.cursor.classList.add('dragging');
-    };
-
-    const handleDragEnd = () => {
-        state.isDragging = false;
-        state.cursor.classList.remove('dragging');
-        if (!state.isHovering) {
+        isDragging = true;
+        cursor.classList.add('dragging');
+    }
+    
+    function handleDragEnd() {
+        isDragging = false;
+        cursor.classList.remove('dragging');
+        if (!isHovering) {
             hideCursor();
         }
-    };
-
-    // Delegate events to reduce event listeners
-    const galleryContainer = document.querySelector('main');
-    galleryContainer.addEventListener('pointerenter', showCursor, { passive: true });
-    galleryContainer.addEventListener('pointermove', moveCursor, { passive: true });
-    galleryContainer.addEventListener('pointerleave', hideCursor, { passive: true });
-    galleryContainer.addEventListener('pointerdown', handleDragStart, { passive: true });
-    galleryContainer.addEventListener('pointerup', handleDragEnd, { passive: true });
-
-    // Cleanup with single handler
-    const cleanup = () => {
-        hideCursor();
-        if (state.rafId) {
-            cancelAnimationFrame(state.rafId);
-            state.rafId = null;
-        }
-    };
-
-    // Global events with single cleanup handler
-    ['blur', 'scroll', 'resize'].forEach(event => {
-        window.addEventListener(event, cleanup, { passive: true });
+    }
+    
+    // Add event listeners to each gallery
+    galleries.forEach(gallery => {
+        gallery.addEventListener('mouseenter', showCursor);
+        gallery.addEventListener('mousemove', updateCursorPosition);
+        gallery.addEventListener('mouseleave', hideCursor);
+        gallery.addEventListener('mousedown', handleDragStart);
+        gallery.addEventListener('mouseup', handleDragEnd);
     });
     
-    document.addEventListener('mouseleave', cleanup, { passive: true });
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) cleanup();
-    }, { passive: true });
-});
-    </script>
-    <!-- Add before closing body tag, replace existing script tag -->
-    <script type="module">
-        // Wait for both fullPage.js and Swiper to load before initializing
-        window.addEventListener('load', async () => {
-            // Initialize fullPage.js first
-            await Navigation.init();
-            // Then initialize Swiper with a small delay to prevent conflicts
-            setTimeout(() => {
-                Slider.init();
-            }, 100);
-        });
+    // Global cleanup
+    window.addEventListener('blur', hideCursor);
+    window.addEventListener('scroll', hideCursor);
+    document.addEventListener('mouseleave', hideCursor);
+}
     </script>
     <script src="js/navigation.js" defer></script>
     <script src="js/preview.js" defer></script>

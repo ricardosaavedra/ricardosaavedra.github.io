@@ -171,7 +171,7 @@ main {
     z-index: 999;
     visibility: hidden;
     opacity: 0;
-    transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
 }
 
@@ -183,31 +183,33 @@ main {
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: transform 0.3s ease-out;
-    transform: scale(1.02) translateZ(0);
-    will-change: transform;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity;
     backface-visibility: hidden;
     opacity: 1;
 }
 
-.preview-container[style*="visible"] .preview-overlay {
-    transform: scale(1) translateZ(0);
+.preview-overlay.next {
+    position: absolute;
+    opacity: 0;
+    z-index: 2;
 }
 
-/* Remove the additional overlay since we don't need it */
-.preview-overlay::after {
-    display: none;
+.preview-overlay.current {
+    position: absolute;
+    opacity: 1;
+    z-index: 1;
 }
 
 .preview-content {
     position: absolute;
     bottom: var(--spacing-md);
-    left: calc(212px + var(--spacing-md)); /* Align with main content */
+    left: calc(212px + var(--spacing-md));
     color: #fff;
     z-index: 3;
     transform: translateY(10px);
     opacity: 0;
-    transition: all 0.3s ease-out;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform, opacity;
 }
 
@@ -595,14 +597,26 @@ img.loaded {
 
 .nav-links {
     list-style: none;
-    width: fit-content; /* Make container fit content */
+    width: fit-content;
+    position: relative;
 }
 
 
 .nav-links li {
-    width: fit-content; /* Make list items fit content */
+    width: fit-content;
+    position: relative;
+    margin-bottom: 8px;
 }
 
+.nav-links li::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
 
 .nav-links li a {
     display: inline-flex;
@@ -616,10 +630,11 @@ img.loaded {
     font-size: 14px;
     color: #fff;
     text-decoration: none;
-    margin-bottom: 8px;
     white-space: nowrap;
     width: fit-content;
-    border: 1px solid transparent; /* Add transparent border by default */
+    border: 1px solid transparent;
+    position: relative;
+    z-index: 2;
 }
 
 
@@ -681,42 +696,35 @@ img.loaded {
 .preview-visible .logo,
 .preview-visible .nav-links li a,
 .preview-visible .case-study-btn {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.5);
     color: #fff;
     border-color: transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .preview-visible .nav-links li a.active {
-    border-color: #ffffff; /* Only change border color instead of adding border */
-    background: rgba(0, 0, 0, 0.10);
+    border-color: #ffffff;
+    background: rgba(0, 0, 0, 0.3);
 }
-
 
 .preview-visible .logo:hover,
 .preview-visible .nav-links li a:hover,
 .preview-visible .nav-links li a.hovered,
 .preview-visible .case-study-btn:hover {
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.8);
 }
 
-.logo:hover,
-.nav-links li a:hover,
-.nav-links li a.hovered,
-.case-study-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+.preview-visible .logo span,
+.preview-visible .nav-links li a span,
+.preview-visible .case-study-btn span {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
-.logo span,
-.nav-links li a span,
-.case-study-btn span {
-    transition: text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.logo:hover span,
-.nav-links li a:hover span,
-.nav-links li a.active span,
-.case-study-btn:hover span {
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+.preview-visible .logo:hover span,
+.preview-visible .nav-links li a:hover span,
+.preview-visible .nav-links li a.active span,
+.preview-visible .case-study-btn:hover span {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
 /* Optimized image styles */

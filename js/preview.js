@@ -2,15 +2,16 @@
 
 const Preview = (function() {
     const previewContainer = document.querySelector('.preview-container');
-    const previewOverlay = document.querySelector('.preview-overlay');
     const previewProjectName = document.querySelector('.preview-project-name');
     const previewTitle = document.querySelector('.preview-title');
-    const navLinks = document.querySelectorAll('.nav-links li a');
+    const navItems = document.querySelectorAll('.nav-links li');
     const sections = document.querySelectorAll('.section');
     const body = document.body;
 
     let currentImageUrl = '';
     let isPreviewVisible = false;
+    let fadeOutTimeout = null;
+    let fadeOutDelay = 150; // Delay before starting fade out
 
     function preloadImage(url) {
         return new Promise((resolve, reject) => {
@@ -21,35 +22,79 @@ const Preview = (function() {
         });
     }
 
+    function createOverlay() {
+        const overlay = document.createElement('div');
+        overlay.className = 'preview-overlay';
+        return overlay;
+    }
+
+    function setPreviewVisible(visible) {
+        if (visible) {
+            body.classList.add('preview-visible');
+            previewContainer.style.visibility = 'visible';
+            requestAnimationFrame(() => {
+                previewContainer.style.opacity = '1';
+            });
+        } else {
+            body.classList.remove('preview-visible');
+            previewContainer.style.opacity = '0';
+            setTimeout(() => {
+                if (!isPreviewVisible) {
+                    previewContainer.style.visibility = 'hidden';
+                }
+            }, 300);
+        }
+        isPreviewVisible = visible;
+    }
+
     async function updatePreview(projectName, title, imageUrl) {
         if (!imageUrl) return;
 
         try {
-            // If it's the same image, just ensure visibility
+            // Clear any pending fade out
+            if (fadeOutTimeout) {
+                clearTimeout(fadeOutTimeout);
+                fadeOutTimeout = null;
+            }
+
+            // If it's the same image and already visible, do nothing
             if (currentImageUrl === imageUrl && isPreviewVisible) {
                 return;
             }
 
             // Preload the new image
             await preloadImage(imageUrl);
+
+            // Create new overlay for the next image
+            const nextOverlay = createOverlay();
+            nextOverlay.style.backgroundImage = `url(${imageUrl})`;
+            nextOverlay.classList.add('next');
             
-            // Set the new image and content
-            previewOverlay.style.backgroundImage = `url(${imageUrl})`;
+            // Add the new overlay to the container
+            previewContainer.appendChild(nextOverlay);
+
+            // Show the preview container if it's not visible
+            if (!isPreviewVisible) {
+                setPreviewVisible(true);
+            }
+
+            // Update content
             previewProjectName.textContent = projectName;
             previewTitle.textContent = title;
-            
-            // Show the preview
-            if (!isPreviewVisible) {
-                previewContainer.style.visibility = 'visible';
-                // Use requestAnimationFrame to ensure proper transition
-                requestAnimationFrame(() => {
-                    previewContainer.style.opacity = '1';
-                    body.classList.add('preview-visible');
-                });
-            }
-            
+
+            // Fade in the new overlay
+            requestAnimationFrame(() => {
+                nextOverlay.classList.remove('next');
+                nextOverlay.classList.add('current');
+                
+                // Remove old overlays after transition
+                const oldOverlays = previewContainer.querySelectorAll('.preview-overlay:not(.current)');
+                setTimeout(() => {
+                    oldOverlays.forEach(overlay => overlay.remove());
+                }, 300);
+            });
+
             currentImageUrl = imageUrl;
-            isPreviewVisible = true;
         } catch (error) {
             console.error('Error loading preview image:', error);
         }
@@ -58,22 +103,32 @@ const Preview = (function() {
     function fadeOutPreview() {
         if (!isPreviewVisible) return;
         
-        previewContainer.style.opacity = '0';
-        body.classList.remove('preview-visible');
-        isPreviewVisible = false;
+        // Clear any existing timeout
+        if (fadeOutTimeout) {
+            clearTimeout(fadeOutTimeout);
+        }
         
-        setTimeout(() => {
-            if (!isPreviewVisible) { // Only hide if still not visible
-                previewContainer.style.visibility = 'hidden';
-                currentImageUrl = '';
-            }
-        }, 300);
+        // Set new timeout for delayed fade out
+        fadeOutTimeout = setTimeout(() => {
+            setPreviewVisible(false);
+            
+            // Clean up overlays after transition
+            setTimeout(() => {
+                if (!isPreviewVisible) {
+                    currentImageUrl = '';
+                    const overlays = previewContainer.querySelectorAll('.preview-overlay');
+                    overlays.forEach(overlay => overlay.remove());
+                }
+            }, 300);
+        }, fadeOutDelay);
     }
 
     function init() {
-        navLinks.forEach((link, index) => {
+        navItems.forEach((item, index) => {
+            const link = item.querySelector('a');
+            
             const handlePreview = function() {
-                if (this.classList.contains('active')) {
+                if (link.classList.contains('active')) {
                     fadeOutPreview();
                     return;
                 }
@@ -83,25 +138,20 @@ const Preview = (function() {
                 const imageUrl = section.getAttribute('data-preview-image');
                 const title = section.querySelector('.item-display2')?.textContent || '';
 
-                this.classList.add('hovered');
+                link.classList.add('hovered');
                 updatePreview(projectName, title, imageUrl);
             };
 
             const handlePreviewEnd = function() {
-                this.classList.remove('hovered');
+                link.classList.remove('hovered');
                 fadeOutPreview();
             };
 
-            // Mouse events
-            link.addEventListener('mouseenter', () => {
-                handlePreview.call(link);
-            });
-            
-            link.addEventListener('mouseleave', () => {
-                handlePreviewEnd.call(link);
-            });
+            // Mouse events on the list item instead of the anchor
+            item.addEventListener('mouseenter', handlePreview);
+            item.addEventListener('mouseleave', handlePreviewEnd);
 
-            // Keyboard events
+            // Keep keyboard events on the anchor
             link.addEventListener('focus', handlePreview);
             link.addEventListener('blur', handlePreviewEnd);
         });
