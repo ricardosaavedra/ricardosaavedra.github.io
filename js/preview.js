@@ -7,6 +7,7 @@ const Preview = (function() {
     const previewTitle = document.querySelector('.preview-title');
     const navLinks = document.querySelectorAll('.nav-links li a');
     const sections = document.querySelectorAll('.section');
+    const body = document.body;
 
     let currentImageUrl = '';
     let isPreviewVisible = false;
@@ -43,6 +44,7 @@ const Preview = (function() {
                 // Use requestAnimationFrame to ensure proper transition
                 requestAnimationFrame(() => {
                     previewContainer.style.opacity = '1';
+                    body.classList.add('preview-visible');
                 });
             }
             
@@ -57,6 +59,7 @@ const Preview = (function() {
         if (!isPreviewVisible) return;
         
         previewContainer.style.opacity = '0';
+        body.classList.remove('preview-visible');
         isPreviewVisible = false;
         
         setTimeout(() => {

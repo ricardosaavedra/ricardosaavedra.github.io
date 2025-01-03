@@ -24,114 +24,6 @@ body {
 }
 
 
-.sidebar {
-    position: fixed;
-    height: 100vh;
-    padding-left: var(--spacing-md);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-
-.logo {
-    position: absolute;
-    top: var(--spacing-md);
-    display: inline-flex;
-    padding: 8px 16px;
-    align-items: center;
-    gap: 10px;
-    border-radius: 27px;
-    background: rgba(255, 255, 255, 0.15);
-    opacity: 1;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 14px;
-    color: #fff;
-    text-decoration: none;
-    white-space: nowrap;
-    width: fit-content;
-    border: 1px solid transparent;
-}
-
-.logo:hover {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.logo span {
-    transition: text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.logo:hover span {
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-}
-
-
-.nav-links {
-    list-style: none;
-    width: fit-content; /* Make container fit content */
-}
-
-
-.nav-links li {
-    width: fit-content; /* Make list items fit content */
-}
-
-
-.nav-links li a {
-    display: inline-flex;
-    padding: 8px 16px;
-    align-items: center;
-    gap: 10px;
-    border-radius: 27px;
-    background: rgba(255, 255, 255, 0.15);
-    opacity: 1;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 14px;
-    color: #fff;
-    text-decoration: none;
-    margin-bottom: 8px;
-    white-space: nowrap;
-    width: fit-content;
-    border: 1px solid transparent; /* Add transparent border by default */
-}
-
-
-.nav-links li a:hover,
-.nav-links li a.hovered {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-
-.nav-links li a.active {
-    border-color: #FFF; /* Only change border color instead of adding border */
-    background: rgba(0, 0, 0, 0.10);
-}
-
-
-/* Remove the old active state dot */
-.nav-links li a.active::after {
-    display: none;
-}
-
-
-/* Add hover effect for active items */
-.nav-links li a.active:hover {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-
-/* Smooth text glow transition */
-.nav-links li a span {
-    transition: text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-
-.nav-links li a:hover span,
-.nav-links li a.active span {
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-}
-
 
 main {
     margin-left: 212px;
@@ -655,6 +547,117 @@ img.loaded {
 }
 
 /* Consolidated button styles */
+
+
+
+.sidebar {
+    position: fixed;
+    height: 100vh;
+    padding-left: var(--spacing-md);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.logo {
+    position: absolute;
+    top: var(--spacing-md);
+    display: inline-flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 27px;
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    color: #fff;
+    text-decoration: none;
+    white-space: nowrap;
+    width: fit-content;
+    border: 1px solid transparent;
+}
+
+.logo:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.logo span {
+    transition: text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo:hover span {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+
+.nav-links {
+    list-style: none;
+    width: fit-content; /* Make container fit content */
+}
+
+
+.nav-links li {
+    width: fit-content; /* Make list items fit content */
+}
+
+
+.nav-links li a {
+    display: inline-flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 27px;
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    width: fit-content;
+    border: 1px solid transparent; /* Add transparent border by default */
+}
+
+
+.nav-links li a:hover,
+.nav-links li a.hovered {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+
+.nav-links li a.active {
+    border-color: #FFF; /* Only change border color instead of adding border */
+    background: rgba(0, 0, 0, 0.10);
+}
+
+
+/* Remove the old active state dot */
+.nav-links li a.active::after {
+    display: none;
+}
+
+
+/* Add hover effect for active items */
+.nav-links li a.active:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+
+/* Smooth text glow transition */
+.nav-links li a span {
+    transition: text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.nav-links li a:hover span,
+.nav-links li a.active span {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
 .logo,
 .nav-links li a,
 .case-study-btn {
@@ -669,10 +672,31 @@ img.loaded {
     font-size: 14px;
     color: #fff;
     text-decoration: none;
-    backdrop-filter: blur(5px);
     white-space: nowrap;
     width: fit-content;
     border: 1px solid transparent;
+}
+
+/* Inverted state when preview is visible */
+.preview-visible .logo,
+.preview-visible .nav-links li a,
+.preview-visible .case-study-btn {
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    border-color: transparent;
+}
+
+.preview-visible .nav-links li a.active {
+    border-color: #ffffff; /* Only change border color instead of adding border */
+    background: rgba(0, 0, 0, 0.10);
+}
+
+
+.preview-visible .logo:hover,
+.preview-visible .nav-links li a:hover,
+.preview-visible .nav-links li a.hovered,
+.preview-visible .case-study-btn:hover {
+    background: rgba(0, 0, 0, 0.95);
 }
 
 .logo:hover,
