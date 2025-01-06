@@ -30,6 +30,8 @@ main {
     width: calc(100% - 24px);
     height: 100vh;
     padding-right: var(--spacing-md);
+    z-index: 1;
+    position: relative;
 }
 
 
@@ -726,6 +728,13 @@ img.loaded {
     pointer-events: none;
 }
 
+.sidebar.visible {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+    z-index: 2002; /* Above everything */
+}
+
 .sidebar.locked {
     pointer-events: none;
 }
@@ -760,6 +769,8 @@ img.loaded {
 .blur-overlay.visible {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
+    z-index: 2001; /* Above content, below sidebar */
 }
 
 /* Current section indicator */
@@ -775,14 +786,13 @@ img.loaded {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
-    z-index: 2000; /* Same as sidebar */
+    z-index: 2002; /* Same as sidebar */
     cursor: pointer;
     border: 1px solid transparent;
 }
 
-/* Keep visual hover effect for the indicator button */
 .section-indicator:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.85);
 }
 
 .section-indicator.visible {
@@ -1049,7 +1059,7 @@ img {
     position: fixed;
     top: var(--spacing-md);
     left: var(--spacing-md);
-    z-index: 2001; /* Above everything */
+    z-index: 2002; /* Above blur overlay */
 }
 
 .fixed-about .logo {
@@ -1057,19 +1067,25 @@ img {
     top: 0;
 }
 
-/* Update sidebar to remove logo positioning */
-.sidebar {
+/* Current section indicator */
+.section-indicator {
     position: fixed;
-    height: 100vh;
-    padding-left: var(--spacing-md);
-    z-index: 2000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    left: var(--spacing-md);
+    bottom: var(--spacing-md);
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 27px;
+    color: #000000;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    z-index: 2002; /* Above blur overlay */
+    cursor: pointer;
+    border: 1px solid transparent;
 }
 
-/* Add blur overlay styles */
+/* Update blur overlay */
 .blur-overlay {
     position: fixed;
     top: 0;
@@ -1083,12 +1099,14 @@ img {
     pointer-events: none;
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1996;
-    visibility: hidden; /* Hide by default */
+    visibility: hidden;
 }
 
 .blur-overlay.visible {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
+    z-index: 2001; /* Below fixed-about and section-indicator */
 }
 
 /* Remove all the automatic blur behaviors */
@@ -1250,7 +1268,18 @@ img {
 }
 
 #fp-nav {
-    z-index: 2002 !important; /* Above preview container (1997-1999) */
+    z-index: 2002 !important;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#fp-nav.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Update fullpage navigation to stay above overlay */
+#fp-nav {
+    z-index: 2002 !important;
 }
 
 /* Current section indicator with click behavior */
