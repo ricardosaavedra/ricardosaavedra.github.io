@@ -110,18 +110,9 @@
                 <div class="image-grid">
                     <img src="img/home/ds-cover.jpg" alt="Meta project main visualization" class="main-image" loading="lazy" decoding="async">
                     <div class="image-row">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="img/home/ds-cover.jpg" alt="Detail view 1" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/wonder-ds/colour-combinations.jpg" alt="Detail view 2" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/home/ds-cover.jpg" alt="Detail view 3" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                            </div>
+                        <div class="static-gallery">
+                            <img src="img/home/ds-cover.jpg" alt="Detail view 1" class="half-width" loading="lazy" decoding="async">
+                            <img src="img/wonder-ds/colour-combinations.jpg" alt="Detail view 2" class="half-width" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>
@@ -146,18 +137,9 @@
                 <div class="image-grid">
                     <img src="img/home/wonder-brand-full.png" alt="Meta project main visualization" class="main-image" loading="lazy" decoding="async">
                     <div class="image-row">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="img/home/ds-cover.jpg" alt="Detail view 1" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/wonder-ds/colour-combinations.jpg" alt="Detail view 2" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/home/ds-cover.jpg" alt="Detail view 3" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                            </div>
+                        <div class="static-gallery">
+                            <img src="img/home/ds-cover.jpg" alt="Detail view 1" class="half-width" loading="lazy" decoding="async">
+                            <img src="img/wonder-ds/colour-combinations.jpg" alt="Detail view 2" class="half-width" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>
@@ -182,18 +164,9 @@
                 <div class="image-grid">
                     <img src="img/hunch/canvas.png" alt="Meta project main visualization" class="main-image" loading="lazy" decoding="async">
                     <div class="image-row">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="img/home/ds-cover.jpg" alt="Detail view 1" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/wonder-ds/colour-combinations.jpg" alt="Detail view 2" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/home/ds-cover.jpg" alt="Detail view 3" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                            </div>
+                        <div class="static-gallery">
+                            <img src="img/home/ds-cover.jpg" alt="Detail view 1" class="half-width" loading="lazy" decoding="async">
+                            <img src="img/wonder-ds/colour-combinations.jpg" alt="Detail view 2" class="half-width" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>
@@ -217,20 +190,10 @@
                 </div>
                 <div class="image-grid">
                     <img src="img/home/status.jpg" alt="Meta project main visualization" class="main-image" loading="lazy" decoding="async">
-                    
                     <div class="image-row">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="img/home/ds-cover.jpg" alt="Detail view 1" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/wonder-ds/colour-combinations.jpg" alt="Detail view 2" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/home/ds-cover.jpg" alt="Detail view 3" class="half-width" loading="lazy" decoding="async">
-                                </div>
-                            </div>
+                        <div class="static-gallery">
+                            <img src="img/home/ds-cover.jpg" alt="Detail view 1" class="half-width" loading="lazy" decoding="async">
+                            <img src="img/wonder-ds/colour-combinations.jpg" alt="Detail view 2" class="half-width" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>
@@ -255,7 +218,7 @@
         <span>drag</span>
     </div>
     <script>
-// Wait for both fullPage.js and Swiper to load before initializing
+// Wait for fullPage.js to load before initializing
 window.addEventListener('load', async () => {
     // Initialize fullPage.js first
     await Navigation.init();
@@ -265,136 +228,8 @@ window.addEventListener('load', async () => {
         window.fullpage_api.setAllowScrolling(true);
         window.fullpage_api.setKeyboardScrolling(true);
         window.fullpage_api.setScrollingSpeed(700);
-        
-        // Listen to all relevant fullPage.js events
-        window.fullpage_api.onLeave = function() {
-            const cursor = document.getElementById('custom-cursor');
-            if (cursor) {
-                cursor.style.display = 'none';
-            }
-        };
     }
-    
-    // Then initialize Swiper with a small delay to prevent conflicts
-    setTimeout(() => {
-        Slider.init();
-        initCustomCursor();
-    }, 100);
 });
-
-function initCustomCursor() {
-    const cursor = document.getElementById('custom-cursor');
-    const galleries = document.querySelectorAll('.swiper');
-    let isHovering = false;
-    let isDragging = false;
-    let currentGallery = null;
-    let rafPending = false;
-    let isTransitioning = false;
-    
-    function updateCursorPosition(e) {
-        if (!isHovering || !cursor || isTransitioning) return;
-        
-        const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
-        const galleryAtPoint = elementAtPoint?.closest('.swiper');
-        const activeSection = document.querySelector('.section.active');
-        
-        if (!galleryAtPoint || !galleryAtPoint.closest('.section.active')) {
-            hideCursor();
-            return;
-        }
-        
-        if (!rafPending) {
-            rafPending = true;
-            requestAnimationFrame(() => {
-                cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
-                cursor.style.display = 'block';
-                rafPending = false;
-            });
-        }
-    }
-    
-    function showCursor(e) {
-        if (isTransitioning) return;
-        
-        const gallery = e.target.closest('.swiper');
-        const activeSection = document.querySelector('.section.active');
-        
-        if (!gallery || !gallery.closest('.section.active')) {
-            hideCursor();
-            return;
-        }
-        
-        isHovering = true;
-        currentGallery = gallery;
-        cursor.style.display = 'block';
-        updateCursorPosition(e);
-    }
-    
-    function hideCursor() {
-        isHovering = false;
-        isDragging = false;
-        currentGallery = null;
-        if (cursor) {
-            cursor.style.display = 'none';
-            cursor.classList.remove('dragging');
-        }
-    }
-    
-    function handleDragStart(e) {
-        if (isTransitioning) return;
-        
-        const gallery = e.target.closest('.swiper');
-        if (!gallery || !gallery.closest('.section.active')) return;
-        
-        isDragging = true;
-        if (cursor) cursor.classList.add('dragging');
-    }
-    
-    function handleDragEnd() {
-        isDragging = false;
-        if (cursor) cursor.classList.remove('dragging');
-        
-        if (!currentGallery || !currentGallery.closest('.section.active')) {
-            hideCursor();
-        }
-    }
-    
-    function cleanup() {
-        hideCursor();
-        isHovering = false;
-        isDragging = false;
-        currentGallery = null;
-    }
-    
-    // Handle section transitions
-    if (window.fullpage_api) {
-        window.fullpage_api.onLeave = (origin, destination, direction) => {
-            isTransitioning = true;
-            hideCursor();
-        };
-        
-        window.fullpage_api.afterLoad = (origin, destination, direction) => {
-            isTransitioning = false;
-        };
-    }
-    
-    // Add mousemove listener to document to catch all mouse movements
-    document.addEventListener('mousemove', updateCursorPosition, { passive: true });
-    
-    galleries.forEach(gallery => {
-        gallery.addEventListener('mouseenter', showCursor);
-        gallery.addEventListener('mouseleave', hideCursor);
-        gallery.addEventListener('mousedown', handleDragStart);
-        gallery.addEventListener('mouseup', handleDragEnd);
-    });
-    
-    window.addEventListener('blur', cleanup);
-    window.addEventListener('scroll', cleanup);
-    document.addEventListener('mouseleave', cleanup);
-    
-    // Initial state
-    cursor.style.display = 'none';
-}
     </script>
     <script src="js/navigation.js" defer></script>
     <script src="js/preview.js" defer></script>

@@ -304,8 +304,9 @@ const Preview = (function() {
                 const section = sections[index];
                 if (!section) return;
 
+                // Don't show preview if section is active
                 if (section.classList.contains('active')) {
-                    blurOverlay.classList.add('visible');
+                    return;
                 }
 
                 const imageUrl = section.dataset.previewImage;
@@ -318,7 +319,6 @@ const Preview = (function() {
             const handlePreviewEnd = function() {
                 if (!isTransitioning) {
                     fadeOutPreview();
-                    blurOverlay.classList.remove('visible');
                 }
             };
 
@@ -338,8 +338,9 @@ const Preview = (function() {
                 
                 if (!section) return;
 
+                // Remove the blur overlay for active sections
                 if (section.classList.contains('active')) {
-                    blurOverlay.classList.add('visible');
+                    return;
                 }
 
                 const imageUrl = section.dataset.previewImage;
@@ -352,7 +353,6 @@ const Preview = (function() {
             const handlePreviewEnd = function() {
                 if (!isTransitioning) {
                     fadeOutPreview();
-                    blurOverlay.classList.remove('visible');
                 }
             };
 

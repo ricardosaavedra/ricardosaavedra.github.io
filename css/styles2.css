@@ -244,24 +244,18 @@ main {
     flex-direction: column;
 }
 
-.swiper {
+.static-gallery {
+    display: flex;
+    gap: 20px;
     width: 100%;
-    height: 100%;
 }
 
-.swiper-slide {
-    /* Set a fixed width that makes sense for your layout */
-    width: 500px; /* or whatever width you want your slides to be */
-    height: 100%;
-}
-
-.swiper-slide img {
-    width: 100%; /* Make image fill the slide */
-    height: 100%;
+.static-gallery img.half-width {
+    width: calc(50% - 10px);
+    height: auto;
     object-fit: cover;
     border-radius: 4px;
 }
-
 
 .preview-container {
     position: fixed;
@@ -400,45 +394,7 @@ main {
 
 /* Custom Cursor Styles */
 #custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    display: none;
-    z-index: 10000;
-    color: #fff;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    will-change: transform;
-    transform: translate3d(-50%, -50%, 0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-}
-
-#custom-cursor span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    padding: 8px 12px;
-    background: rgba(0, 0, 0, 0.7);
-    white-space: nowrap;
-    transform: translateZ(0);
-}
-
-#custom-cursor::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 30px;
-    height: 30px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    transform: translate3d(-50%, -50%, 0);
-    will-change: transform;
-    backface-visibility: hidden;
+    display: none !important;
 }
 
 /* Styles for dragging state */
