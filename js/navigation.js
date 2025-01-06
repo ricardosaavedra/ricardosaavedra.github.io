@@ -140,7 +140,10 @@ const Navigation = (function () {
             // Navigation
             menu: '.nav-links',
             anchors: ['intro', 'section1', 'section2', 'section3', 'section4'],
-            navigation: false,
+            navigation: true,
+            navigationPosition: 'left',
+            navigationTooltips: ['Intro', 'Meta Cube', 'Meta', '2023', 'Case Study'],
+            showActiveTooltip: false,
             lockAnchors: true,  // Prevent URL updates during scroll
             
             // Scrolling optimization

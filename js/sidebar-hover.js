@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isHovering = true;
         sidebar.classList.remove('collapsed');
         sidebar.classList.add('visible');
+        blurOverlay.classList.add('visible');
     }
 
     function hideMenu() {
@@ -62,6 +63,23 @@ document.addEventListener('DOMContentLoaded', () => {
             showMenu();
         }
     });
+
+    // Add event listeners for fullPage.js navigation dots
+    const fpNav = document.getElementById('fp-nav');
+    if (fpNav) {
+        fpNav.addEventListener('mouseenter', () => {
+            if (!isMenuDisabled && !isInHomeSection) {
+                showMenu();
+            }
+        });
+
+        fpNav.addEventListener('mouseleave', (event) => {
+            // Only hide if the mouse isn't moving towards the sidebar
+            if (event.clientX > SAFE_ZONE_WIDTH) {
+                hideMenu();
+            }
+        });
+    }
 
     // Listen for fullpage.js section changes
     if (window.fullpage_api) {

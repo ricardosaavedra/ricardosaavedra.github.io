@@ -469,13 +469,66 @@ main {
 }
 
 /* fullPage.js specific styles */
-#fp-nav ul li a span, 
+#fp-nav ul li a span,
+#fp-nav.fp-left ul li a span,
 .fp-slidesNav ul li a span {
-    background: #fff;
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    width: 8px !important;
+    height: 8px !important;
+    margin: -4px 0 0 -4px !important;
+    border-radius: 50% !important;
+    opacity: 1 !important;
+    border: 2px solid #ffffff !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5) !important;
+}
+
+#fp-nav ul li a.active span,
+#fp-nav.fp-left ul li a.active span,
+.fp-slidesNav ul li a.active span {
+    opacity: 1 !important;
+    transform: scale(2.5) !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7) !important;
+}
+
+#fp-nav ul li,
+#fp-nav.fp-left ul li {
+    margin: 12px 0 !important;
 }
 
 #fp-nav ul li .fp-tooltip {
-    color: #fff;
+    color: #ffffff !important;
+    font-size: 14px !important;
+    font-family: var(--font-family) !important;
+    top: -2px !important;
+}
+
+#fp-nav.fp-left {
+    left: 40px !important;
+}
+
+/* Hide navigation bullets on intro section */
+.fp-viewing-intro #fp-nav {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease !important;
+}
+
+/* Hide the intro section dot but keep others visible */
+#fp-nav ul li:first-child {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    height: 0 !important;
+}
+
+/* Adjust spacing for the first visible dot */
+#fp-nav ul li:nth-child(2) {
+    margin-top: 0 !important;
 }
 
 /* Hide scrollbars but keep functionality */
@@ -491,7 +544,7 @@ main {
 
 .three-column-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 100%);
     gap: var(--spacing-2xl);
     width: 100%;
     margin: var(--spacing-3xl) 0 var(--spacing-5xl) 0;
@@ -1098,4 +1151,54 @@ img {
 .blur-overlay.visible {
     opacity: 1;
     visibility: visible;
+}
+
+/* Navigation Bullets Styles */
+#fp-nav ul li a span,
+#fp-nav.fp-left ul li a span,
+.fp-slidesNav ul li a span {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    width: 8px !important;
+    height: 8px !important;
+    margin: -4px 0 0 -4px !important;
+    border-radius: 50% !important;
+    opacity: 1 !important;
+    border: 2px solid #ffffff !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5) !important;
+}
+
+#fp-nav ul li a.active span,
+#fp-nav.fp-left ul li a.active span,
+.fp-slidesNav ul li a.active span {
+    opacity: 1 !important;
+    transform: scale(2.5) !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7) !important;
+}
+
+#fp-nav ul li,
+#fp-nav.fp-left ul li {
+    margin: 12px 0 !important;
+}
+
+#fp-nav ul li .fp-tooltip {
+    color: #ffffff !important;
+    font-size: 14px !important;
+    font-family: var(--font-family) !important;
+    top: -2px !important;
+}
+
+#fp-nav.fp-left {
+    left: 40px !important;
+}
+
+/* Hide navigation bullets on intro section */
+.fp-viewing-intro #fp-nav {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease !important;
 }
