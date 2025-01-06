@@ -22,9 +22,8 @@ const Navigation = (function () {
                 year: this.sectionHeader.querySelector('.year'),
                 caseStudyBtn: this.sectionHeader.querySelector('.case-study-btn')
             };
-            // Set initial active section
-            this.currentActiveSection = this.navLinks[0];
-            this.currentActiveSection.classList.add('active');
+            // Remove initial active section setting
+            this.currentActiveSection = null;
         }
     };
 
@@ -136,7 +135,7 @@ const Navigation = (function () {
         new fullpage('#fullpage', {
             // Navigation
             menu: '.nav-links',
-            anchors: ['section1', 'section2', 'section3', 'section4'],
+            anchors: ['intro', 'section1', 'section2', 'section3', 'section4'],
             navigation: false,
             lockAnchors: true,  // Prevent URL updates during scroll
             

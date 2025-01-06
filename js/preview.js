@@ -48,7 +48,12 @@ const Preview = (function() {
     }
 
     async function updatePreview(projectName, title, imageUrl) {
-        if (!imageUrl) return;
+        if (!imageUrl) {
+            console.error('No image URL provided for preview');
+            return;
+        }
+
+        console.log('Attempting to load preview image:', imageUrl);
 
         try {
             // Clear any pending fade out
@@ -59,11 +64,17 @@ const Preview = (function() {
 
             // If it's the same image and already visible, do nothing
             if (currentImageUrl === imageUrl && isPreviewVisible) {
+                console.log('Image already visible:', imageUrl);
                 return;
             }
 
             // Preload the new image
-            await preloadImage(imageUrl);
+            await preloadImage(imageUrl).catch(error => {
+                console.error('Failed to load preview image:', imageUrl, error);
+                throw error;
+            });
+
+            console.log('Successfully loaded preview image:', imageUrl);
 
             // Create new overlay for the next image
             const nextOverlay = createOverlay();
@@ -96,7 +107,7 @@ const Preview = (function() {
 
             currentImageUrl = imageUrl;
         } catch (error) {
-            console.error('Error loading preview image:', error);
+            console.error('Error in updatePreview:', error);
         }
     }
 
@@ -273,6 +284,9 @@ const Preview = (function() {
     }
 
     function init() {
+        // Get all sections except the intro section
+        const contentSections = Array.from(sections).filter(section => section.getAttribute('data-anchor') !== 'intro');
+        
         navItems.forEach((item, index) => {
             const link = item.querySelector('a');
             
@@ -282,7 +296,8 @@ const Preview = (function() {
                     return;
                 }
 
-                const section = sections[index];
+                // Match with content sections instead of all sections
+                const section = contentSections[index];
                 const projectName = section.getAttribute('data-project-name');
                 const imageUrl = section.getAttribute('data-preview-image');
                 const title = section.querySelector('.item-display2')?.textContent || '';

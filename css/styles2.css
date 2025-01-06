@@ -272,6 +272,7 @@ main {
     opacity: 0;
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
+    background: rgba(0, 0, 0, 0.5); /* Add semi-transparent background */
 }
 
 .preview-overlay {
@@ -286,18 +287,19 @@ main {
     will-change: opacity;
     backface-visibility: hidden;
     opacity: 1;
+    z-index: 1001; /* Ensure overlay is above container */
 }
 
 .preview-overlay.next {
     position: absolute;
     opacity: 0;
-    z-index: 2;
+    z-index: 1002; /* Ensure next overlay is above current */
 }
 
 .preview-overlay.current {
     position: absolute;
     opacity: 1;
-    z-index: 1;
+    z-index: 1001;
 }
 
 .preview-content {
@@ -305,7 +307,7 @@ main {
     bottom: var(--spacing-md);
     left: calc(212px + var(--spacing-md));
     color: #fff;
-    z-index: 3;
+    z-index: 1003; /* Ensure content is above overlays */
     transform: translateY(10px);
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
