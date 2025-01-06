@@ -509,6 +509,7 @@ main {
 
 #fp-nav.fp-left {
     left: 40px !important;
+    z-index: 2002 !important; /* Above preview container (1997-1999) */
 }
 
 /* Hide navigation bullets on intro section */
@@ -1182,7 +1183,7 @@ img {
 
 #fp-nav ul li,
 #fp-nav.fp-left ul li {
-    margin: 12px 0 !important;
+    margin: 8px 0 !important;
 }
 
 #fp-nav ul li .fp-tooltip {
@@ -1194,6 +1195,7 @@ img {
 
 #fp-nav.fp-left {
     left: 40px !important;
+    z-index: 2002 !important; /* Above preview container (1997-1999) */
 }
 
 /* Hide navigation bullets on intro section */
@@ -1201,4 +1203,52 @@ img {
     opacity: 0 !important;
     pointer-events: none !important;
     transition: opacity 0.3s ease !important;
+}
+
+/* Enhance fp-nav tooltip interaction */
+#fp-nav ul li {
+    position: relative;
+    width: auto !important;
+    height: auto !important;
+    margin: 8px 0 !important;
+    padding: 8px 0;
+}
+
+#fp-nav ul li a {
+    position: relative;
+    display: block;
+    width: auto !important;
+    height: auto !important;
+    padding: 4px;
+    margin: 0 !important;
+    cursor: pointer;
+}
+
+#fp-nav ul li .fp-tooltip {
+    color: #ffffff !important;
+    font-size: 14px !important;
+    font-family: var(--font-family) !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
+#fp-nav ul li:hover .fp-tooltip {
+    opacity: 1 !important;
+    width: auto !important;
+    border-radius: 25px;
+}
+
+/* Ensure tooltips are always visible on hover */
+#fp-nav.fp-show-active a.active + .fp-tooltip {
+    opacity: 1 !important;
+    width: auto !important;
+}
+
+#fp-nav {
+    z-index: 2002 !important; /* Above preview container (1997-1999) */
 }

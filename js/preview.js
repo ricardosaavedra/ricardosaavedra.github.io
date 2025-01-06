@@ -288,6 +288,45 @@ const Preview = (function() {
         }
     }
 
+    function initFpNavPreview() {
+        // Wait for fp-nav to be available
+        const fpNav = document.getElementById('fp-nav');
+        if (!fpNav) return;
+
+        const tooltips = fpNav.querySelectorAll('li');
+        tooltips.forEach((tooltip, index) => {
+            // Skip the first tooltip (intro section)
+            if (index === 0) return;
+
+            const handlePreview = function() {
+                if (isTransitioning) return;
+                
+                const section = sections[index];
+                if (!section) return;
+
+                if (section.classList.contains('active')) {
+                    blurOverlay.classList.add('visible');
+                }
+
+                const imageUrl = section.dataset.previewImage;
+                const projectName = section.dataset.projectName;
+                const title = section.querySelector('.item-display2')?.textContent || '';
+
+                updatePreview(projectName, title, imageUrl);
+            };
+
+            const handlePreviewEnd = function() {
+                if (!isTransitioning) {
+                    fadeOutPreview();
+                    blurOverlay.classList.remove('visible');
+                }
+            };
+
+            tooltip.addEventListener('mouseenter', handlePreview);
+            tooltip.addEventListener('mouseleave', handlePreviewEnd);
+        });
+    }
+
     function init() {
         navItems.forEach(item => {
             const handlePreview = function() {
@@ -335,6 +374,10 @@ const Preview = (function() {
             item.addEventListener('mouseleave', handlePreviewEnd);
             item.addEventListener('click', handleClick);
         });
+
+        // Initialize fp-nav preview functionality
+        // Wait for fullPage.js to initialize
+        setTimeout(initFpNavPreview, 500);
     }
 
     return {
