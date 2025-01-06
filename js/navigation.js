@@ -172,6 +172,15 @@ const Navigation = (function () {
             
             // Optimized events
             beforeLeave: function(origin, destination, direction) {
+                // 1. Fade out the old header FIRST
+                const headerContent = document.querySelector('.header-content');
+                if (headerContent) {
+                    // Remove any leftover fade-in class
+                    headerContent.classList.remove('fade-in');
+                    // Add fade-out class
+                    headerContent.classList.add('fade-out');
+                }
+
                 // Cancel scroll if animation queue is processing
                 if (AnimationQueue.isProcessing && AnimationQueue.queue.length > 0) {
                     return false;
@@ -215,6 +224,30 @@ const Navigation = (function () {
             },
 
             afterLoad: function(origin, destination, direction) {
+                // 2. Update the header text AFTER old content has faded out
+                setTimeout(() => {
+                    DOM.headerElements.projectName.textContent = destination.item.getAttribute('data-project-name');
+                    DOM.headerElements.company.textContent = destination.item.getAttribute('data-company');
+                    DOM.headerElements.year.textContent = destination.item.getAttribute('data-year');
+                    // If you have a CTA or caseStudyBtn, update that too
+                }, 200); // small delay so fade-out is mostly done
+
+                // 3. Fade in the new text
+                const headerContent = document.querySelector('.header-content');
+                if (headerContent) {
+                    // Remove fade-out to reset
+                    headerContent.classList.remove('fade-out');
+                    // Force reflow if needed (sometimes helps ensure transitions)
+                    void headerContent.offsetWidth; 
+                    // Then add fade-in
+                    headerContent.classList.add('fade-in');
+                    
+                    // Optionally remove fade-in class after a while, if you like:
+                    setTimeout(() => {
+                        headerContent.classList.remove('fade-in');
+                    }, 600); 
+                }
+
                 // Reset click navigation flag after transition
                 isClickNavigation = false;
                 
