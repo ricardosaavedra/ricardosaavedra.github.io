@@ -10,12 +10,16 @@ const Navigation = (function () {
         headerElements: null,
         previewContainer: null,
         currentActiveSection: null, // Track current active section
+        sidebar: null,
+        sectionIndicator: null,
         init() {
             this.main = document.querySelector('main');
             this.sections = document.querySelectorAll('.section');
             this.navLinks = document.querySelectorAll('.nav-links li a');
             this.sectionHeader = document.querySelector('.section-header');
             this.previewContainer = document.querySelector('.preview-container');
+            this.sidebar = document.querySelector('.sidebar');
+            this.sectionIndicator = document.querySelector('.section-indicator');
             this.headerElements = {
                 projectName: this.sectionHeader.querySelector('.project-name'),
                 company: this.sectionHeader.querySelector('.company'),
@@ -171,12 +175,31 @@ const Navigation = (function () {
             
             // Optimized events
             beforeLeave: function(origin, destination, direction) {
+                // Handle menu visibility
+                if (origin.index === 0 && destination.index !== 0) {
+                    // Leaving first section, collapse menu
+                    DOM.sidebar.classList.add('collapsed');
+                    // Show section indicator
+                    DOM.sectionIndicator.classList.add('visible');
+                } else if (destination.index === 0) {
+                    // Going to first section, show menu
+                    DOM.sidebar.classList.remove('collapsed');
+                    // Hide section indicator
+                    DOM.sectionIndicator.classList.remove('visible');
+                }
+
+                // Update section indicator text
+                const destinationLink = Array.from(DOM.navLinks).find(link => 
+                    link.getAttribute('data-section') === destination.anchor
+                );
+                if (destinationLink && DOM.sectionIndicator) {
+                    DOM.sectionIndicator.querySelector('span').textContent = destinationLink.textContent;
+                }
+
                 // 1. Fade out the old header FIRST
                 const headerContent = document.querySelector('.header-content');
                 if (headerContent) {
-                    // Remove any leftover fade-in class
                     headerContent.classList.remove('fade-in');
-                    // Add fade-out class
                     headerContent.classList.add('fade-out');
                 }
 

@@ -26,8 +26,8 @@ body {
 
 
 main {
-    margin-left: 212px;
-    width: calc(100% - 212px);
+    margin-left: 24px;
+    width: calc(100% - 24px);
     height: 100vh;
     padding-right: var(--spacing-md);
 }
@@ -36,8 +36,8 @@ main {
 .section-header {
     position: fixed;
     top: 0;
-    left: 212px;
-    width: calc(100% - 236px);
+    left: 24px;
+    width: calc(100% - 48px);
     z-index: 100;
     height: 98px;
     padding-top: var(--spacing-lg);
@@ -660,8 +660,34 @@ img.loaded {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.sidebar.collapsed {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+/* Current section indicator */
+.section-indicator {
+    position: fixed;
+    left: var(--spacing-md);
+    bottom: var(--spacing-md);
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 27px;
+    color: #fff;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 2000;
+}
+
+.section-indicator.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 .logo {
     position: absolute;
@@ -891,3 +917,28 @@ img {
       transform: none !important;
       transition: none !important;
   }
+
+/* Fixed About button styles */
+.fixed-about {
+    position: fixed;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    z-index: 2001; /* Higher than sidebar */
+}
+
+.fixed-about .logo {
+    position: relative;
+    top: 0;
+}
+
+/* Update sidebar to remove logo positioning */
+.sidebar {
+    position: fixed;
+    height: 100vh;
+    padding-left: var(--spacing-md);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
