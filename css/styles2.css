@@ -44,6 +44,7 @@ main {
     height: 98px;
     padding-top: var(--spacing-lg);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none; /* Disable interactions since it's empty now */
 }
 
 
@@ -985,7 +986,10 @@ img {
 .text-content {
     padding-left: var(--spacing-5xl);
     padding-right: var(--spacing-5xl);
-
+    padding-top: var(--spacing-5xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
   /* Critical inline styles */
@@ -1251,4 +1255,61 @@ img {
 .click-indicator.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* New styles for project info */
+.project-info {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.project-info span {
+    font-size: 14px;
+    color: #fff;
+    opacity: 0.8;
+    text-align: center;
+}
+
+.project-info .project-name {
+    opacity: 1;
+}
+
+/* Update text-content to ensure proper centering */
+.text-content {
+    padding-left: var(--spacing-5xl);
+    padding-right: var(--spacing-5xl);
+    padding-top: var(--spacing-5xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Keep intro section centered without extra space */
+.section[data-anchor="intro"] {
+    padding-top: 0;
+}
+
+.section[data-anchor="intro"] .text-content {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Adjust fp-overflow padding for intro section */
+.fp-viewing-intro .fp-overflow {
+    padding-top: 0;
+}
+
+/* Ensure the title is also centered */
+.item-display2 {
+    text-align: center;
+    width: 100%;
 }

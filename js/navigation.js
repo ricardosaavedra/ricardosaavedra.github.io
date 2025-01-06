@@ -135,6 +135,18 @@ const Navigation = (function () {
         // Track if navigation was triggered by click
         let isClickNavigation = false;
 
+        // Add home link click handler
+        const homeLink = document.querySelector('.fixed-about .logo');
+        if (homeLink) {
+            homeLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                isClickNavigation = true;
+                if (window.fullpage_api) {
+                    window.fullpage_api.moveTo('intro');
+                }
+            });
+        }
+
         // Initialize fullPage.js with optimized settings
         new fullpage('#fullpage', {
             // Navigation
