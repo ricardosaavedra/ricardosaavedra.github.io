@@ -1,19 +1,16 @@
-// Handle sidebar hover interactions
+// Handle sidebar click interactions
 document.addEventListener('DOMContentLoaded', () => {
-    const sectionIndicator = document.querySelector('.section-indicator');
+    const sectionIndicator = document.querySelector('.section-indicator.click-indicator');
     const sidebar = document.querySelector('.sidebar');
     const blurOverlay = document.querySelector('.blur-overlay');
     let isMenuDisabled = false;
-    let isHovering = false;
-    let hoverTimeout;
+    let isMenuOpen = false;
     let isInHomeSection = true; // Track if we're in home section
-    const SAFE_ZONE_WIDTH = 200;
 
     function showMenu() {
         if (isMenuDisabled) return;
 
-        clearTimeout(hoverTimeout);
-        isHovering = true;
+        isMenuOpen = true;
         sidebar.classList.remove('collapsed');
         sidebar.classList.add('visible');
         blurOverlay.classList.add('visible');
@@ -22,64 +19,42 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideMenu() {
         if (isInHomeSection) return; // Don't hide if in home section
         
-        isHovering = false;
-        hoverTimeout = setTimeout(() => {
-            if (!isHovering) {
-                sidebar.classList.add('collapsed');
-                sidebar.classList.remove('visible');
-                blurOverlay.classList.remove('visible');
-            }
-        }, 100);
+        isMenuOpen = false;
+        sidebar.classList.add('collapsed');
+        sidebar.classList.remove('visible');
+        blurOverlay.classList.remove('visible');
     }
 
-    // Track mouse movement across the entire document
-    document.addEventListener('mousemove', (event) => {
-        if (isMenuDisabled || isInHomeSection) return;
-        
-        if (event.clientX <= SAFE_ZONE_WIDTH) {
-            showMenu();
+    function toggleMenu() {
+        if (isMenuOpen) {
+            hideMenu();
         } else {
+            showMenu();
+        }
+    }
+
+    // Toggle menu on section indicator click
+    sectionIndicator.addEventListener('click', () => {
+        if (!isMenuDisabled && !isInHomeSection) {
+            toggleMenu();
+        }
+    });
+
+    // Hide menu when clicking outside
+    document.addEventListener('click', (event) => {
+        const clickedLink = event.target.closest('.nav-links a');
+        const clickedIndicator = event.target.closest('.section-indicator.click-indicator');
+        const clickedSidebar = event.target.closest('.sidebar');
+        
+        if (clickedLink) {
+            // Handle navigation link clicks
+            isMenuDisabled = true;
+            hideMenu();
+        } else if (!clickedIndicator && !clickedSidebar && isMenuOpen) {
+            // Hide menu when clicking outside
             hideMenu();
         }
     });
-
-    // Show menu when hovering over section indicator
-    sectionIndicator.addEventListener('mouseenter', () => {
-        if (!isMenuDisabled && !isInHomeSection) {
-            showMenu();
-        }
-    });
-
-    // Show menu when hovering over sidebar
-    sidebar.addEventListener('mouseenter', () => {
-        if (!isMenuDisabled && !isInHomeSection) {
-            showMenu();
-        }
-    });
-
-    // Show menu when hovering over blur overlay
-    blurOverlay.addEventListener('mouseenter', (event) => {
-        if (!isMenuDisabled && !isInHomeSection && event.clientX <= SAFE_ZONE_WIDTH) {
-            showMenu();
-        }
-    });
-
-    // Add event listeners for fullPage.js navigation dots
-    const fpNav = document.getElementById('fp-nav');
-    if (fpNav) {
-        fpNav.addEventListener('mouseenter', () => {
-            if (!isMenuDisabled && !isInHomeSection) {
-                showMenu();
-            }
-        });
-
-        fpNav.addEventListener('mouseleave', (event) => {
-            // Only hide if the mouse isn't moving towards the sidebar
-            if (event.clientX > SAFE_ZONE_WIDTH) {
-                hideMenu();
-            }
-        });
-    }
 
     // Listen for fullpage.js section changes
     if (window.fullpage_api) {
@@ -92,15 +67,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Permanently disable menu on click
-    document.addEventListener('click', (event) => {
-        const clickedLink = event.target.closest('.nav-links a');
-        if (clickedLink) {
-            isMenuDisabled = true;
-            sidebar.classList.add('collapsed');
-            sidebar.classList.remove('visible');
-            blurOverlay.classList.remove('visible');
-        }
-    });
 }); 

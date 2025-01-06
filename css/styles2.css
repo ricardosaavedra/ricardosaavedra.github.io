@@ -780,6 +780,7 @@ img.loaded {
     border: 1px solid transparent;
 }
 
+/* Keep visual hover effect for the indicator button */
 .section-indicator:hover {
     background: rgba(255, 255, 255, 0.25);
 }
@@ -789,7 +790,7 @@ img.loaded {
     transform: translateY(0);
 }
 
-/* Update sidebar styles for hover behavior */
+/* Update sidebar styles - remove hover behavior */
 .sidebar {
     position: fixed;
     height: 100vh;
@@ -808,11 +809,10 @@ img.loaded {
     pointer-events: none;
 }
 
-/* Show sidebar when section indicator is hovered */
+/* Remove hover-based show behavior */
 .section-indicator:hover + .sidebar,
 .sidebar:hover {
-    transform: translateX(0) !important;
-    opacity: 1 !important;
+    /* Remove automatic show behavior */
 }
 
 /* Remove the pointer-events rules since we don't need them anymore */
@@ -1251,4 +1251,41 @@ img {
 
 #fp-nav {
     z-index: 2002 !important; /* Above preview container (1997-1999) */
+}
+
+/* Current section indicator with click behavior */
+.click-indicator {
+    position: fixed;
+    left: var(--spacing-md);
+    bottom: var(--spacing-md);
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 27px;
+    color: #000000;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    z-index: 2000;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+/* Override hover behaviors for click indicator */
+.click-indicator:hover + .sidebar,
+.click-indicator:hover ~ .sidebar,
+.click-indicator:hover + .blur-overlay {
+    /* Disable automatic behaviors */
+    transform: none;
+    opacity: 0;
+}
+
+/* Keep visual hover effect for the button itself */
+.click-indicator:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.click-indicator.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
