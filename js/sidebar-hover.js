@@ -10,13 +10,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const SAFE_ZONE_WIDTH = 200;
 
     function showMenu() {
-        if (isMenuDisabled) return;
+        if (isMenuDisabled) {
+            console.log('Menu is disabled, not showing');
+            return;
+        }
+
+        console.log('showMenu called, current states:', {
+            isMenuDisabled,
+            isInHomeSection,
+            isHovering,
+            sidebarClasses: sidebar.classList.toString()
+        });
 
         clearTimeout(hoverTimeout);
         isHovering = true;
         sidebar.classList.remove('collapsed');
         sidebar.classList.add('visible');
         blurOverlay.classList.add('visible');
+
+        console.log('After showMenu, sidebar classes:', sidebar.classList.toString());
     }
 
     function hideMenu() {
@@ -64,22 +76,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Add event listeners for fullPage.js navigation dots
-    const fpNav = document.getElementById('fp-nav');
-    if (fpNav) {
-        fpNav.addEventListener('mouseenter', () => {
-            if (!isMenuDisabled && !isInHomeSection) {
-                showMenu();
-            }
-        });
+    // Wait for fullPage.js to initialize and add fp-nav hover handler
+    const initFpNavHandler = () => {
+        const fpNav = document.getElementById('fp-nav');
+        if (fpNav) {
+            fpNav.addEventListener('mouseenter', () => {
+                console.log('fp-nav mouseenter, states:', {
+                    isMenuDisabled,
+                    isInHomeSection,
+                    isHovering,
+                    sidebarClasses: sidebar.classList.toString()
+                });
+                
+                // For fp-nav, we only care if menu is disabled
+                if (!isMenuDisabled) {
+                    showMenu();
+                }
+            });
+        }
+    };
 
-        fpNav.addEventListener('mouseleave', (event) => {
-            // Only hide if the mouse isn't moving towards the sidebar
-            if (event.clientX > SAFE_ZONE_WIDTH) {
-                hideMenu();
-            }
-        });
-    }
+    // Check periodically for fp-nav until it exists
+    const checkForFpNav = setInterval(() => {
+        console.log('Checking for fp-nav...'); // Debug log
+        if (document.getElementById('fp-nav')) {
+            console.log('fp-nav found, initializing handler'); // Debug log
+            initFpNavHandler();
+            clearInterval(checkForFpNav);
+        }
+    }, 100);
 
     // Listen for fullpage.js section changes
     if (window.fullpage_api) {

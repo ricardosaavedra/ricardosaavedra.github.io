@@ -1202,3 +1202,34 @@ img {
     pointer-events: none !important;
     transition: opacity 0.3s ease !important;
 }
+
+/* Hide tooltips when menu is shown */
+#fp-nav.hide-tooltips .fp-tooltip {
+    display: none !important;
+}
+
+/* Ensure sidebar appears above fp-nav */
+.sidebar {
+    z-index: 2000;  /* Higher than fp-nav */
+}
+
+#fp-nav {
+    z-index: 1998;  /* Lower than sidebar */
+}
+
+/* Show sidebar when section indicator or fp-nav is hovered */
+.section-indicator:hover + .sidebar,
+#fp-nav:hover ~ .sidebar,
+.sidebar:hover {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+}
+
+/* Show blur overlay when hovering */
+.section-indicator:hover ~ .blur-overlay,
+#fp-nav:hover ~ .blur-overlay,
+.sidebar:hover ~ .blur-overlay {
+    opacity: 1;
+    visibility: visible;
+}
