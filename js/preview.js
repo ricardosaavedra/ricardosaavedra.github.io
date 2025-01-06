@@ -7,11 +7,14 @@ const Preview = (function() {
     const navItems = document.querySelectorAll('.nav-links li');
     const sections = document.querySelectorAll('.section');
     const body = document.body;
+    const blurOverlay = document.querySelector('.blur-overlay');
+    const sidebar = document.querySelector('.sidebar');
 
     let currentImageUrl = '';
     let isPreviewVisible = false;
     let fadeOutTimeout = null;
     let fadeOutDelay = 150; // Delay before starting fade out
+    let isTransitioning = false; // Flag to prevent multiple transitions
 
     function preloadImage(url) {
         return new Promise((resolve, reject) => {
@@ -155,7 +158,7 @@ const Preview = (function() {
                 width: 100vw;
                 height: 100vh;
                 overflow: hidden;
-                z-index: 1000;
+                z-index: 2000;
             `;
             
             transitionEl.style.cssText = `
@@ -168,12 +171,14 @@ const Preview = (function() {
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
-                z-index: 1000;
+                z-index: 2000;
                 pointer-events: none;
                 opacity: 1;
                 transform-origin: center;
                 will-change: transform;
                 transition: none;
+                mix-blend-mode: normal;
+                isolation: isolate;
             `;
 
             // Add to DOM immediately
@@ -284,75 +289,63 @@ const Preview = (function() {
     }
 
     function init() {
-        // Get all sections except the intro section
-        const contentSections = Array.from(sections).filter(section => section.getAttribute('data-anchor') !== 'intro');
-        
-        navItems.forEach((item, index) => {
-            const link = item.querySelector('a');
-            
+        navItems.forEach(item => {
             const handlePreview = function() {
-                if (link.classList.contains('active') || link.classList.contains('clicked')) {
-                    fadeOutPreview();
-                    return;
+                if (isTransitioning) return;
+                
+                const link = item.querySelector('a');
+                const sectionId = link.dataset.section;
+                const section = document.querySelector(`.section[data-anchor="${sectionId}"]`);
+                
+                if (!section) return;
+
+                if (section.classList.contains('active')) {
+                    blurOverlay.classList.add('visible');
                 }
 
-                // Match with content sections instead of all sections
-                const section = contentSections[index];
-                const projectName = section.getAttribute('data-project-name');
-                const imageUrl = section.getAttribute('data-preview-image');
+                const imageUrl = section.dataset.previewImage;
+                const projectName = section.dataset.projectName;
                 const title = section.querySelector('.item-display2')?.textContent || '';
 
-                link.classList.add('hovered');
                 updatePreview(projectName, title, imageUrl);
             };
 
             const handlePreviewEnd = function() {
-                link.classList.remove('hovered');
-                // Only fade out if the link wasn't clicked
-                if (!link.classList.contains('clicked')) {
+                if (!isTransitioning) {
                     fadeOutPreview();
+                    blurOverlay.classList.remove('visible');
                 }
             };
 
-            // Mouse events on the list item instead of the anchor
+            const handleClick = async function(e) {
+                e.preventDefault();
+
+                // If you have a hero transition, run it:
+                const section = document.querySelector(`.section[data-anchor="${item.querySelector('a').dataset.section}"]`);
+                if (section) {
+                    const imageUrl = section.dataset.previewImage;
+                    if (imageUrl) {
+                        await createHeroTransition(imageUrl, section);
+                    }
+                }
+            };
+
+            // Add event listeners
             item.addEventListener('mouseenter', handlePreview);
             item.addEventListener('mouseleave', handlePreviewEnd);
-
-            // Keep keyboard events on the anchor
-            link.addEventListener('focus', handlePreview);
-            link.addEventListener('blur', handlePreviewEnd);
-
-            // Modify click handler
-            link.addEventListener('click', async () => {
-                const section = sections[index];
-                const imageUrl = section.getAttribute('data-preview-image');
-                
-                if (isPreviewVisible && imageUrl) {
-                    // Start transition first
-                    const transitionPromise = createHeroTransition(imageUrl, section);
-                    
-                    // Then cleanup and navigate
-                    cleanupPreview();
-                    const sectionId = link.getAttribute('data-section');
-                    if (sectionId && window.fullpage_api) {
-                        window.fullpage_api.moveTo(sectionId);
-                    }
-                    
-                    // Wait for transition to complete
-                    await transitionPromise;
-                }
-                
-                link.classList.add('clicked');
-                setTimeout(() => {
-                    link.classList.remove('clicked');
-                }, 1000);
-            });
+            item.addEventListener('click', handleClick);
         });
     }
 
-    return { init };
+    return {
+        init,
+        updatePreview,
+        fadeOutPreview,
+        setPreviewVisible
+    };
 })();
 
+// Initialize the preview functionality
 document.addEventListener('DOMContentLoaded', Preview.init);
 
 
