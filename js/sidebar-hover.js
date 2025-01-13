@@ -1,6 +1,6 @@
 // Handle sidebar click interactions
 document.addEventListener('DOMContentLoaded', () => {
-    const sectionIndicator = document.querySelector('.section-indicator.click-indicator');
+    const sectionIndicator = document.querySelector('.section-indicator');
     const sidebar = document.querySelector('.sidebar');
     const blurOverlay = document.querySelector('.blur-overlay');
     
@@ -37,29 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function toggleMenu() {
-        if (isMenuOpen) {
-            hideMenu();
-        } else {
-            showMenu();
-        }
-    }
-
-    sectionIndicator.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!isMenuDisabled) {
-            toggleMenu();
-        }
-    });
-
     document.addEventListener('click', (event) => {
         const clickedLink = event.target.closest('.nav-links a');
-        const clickedIndicator = event.target.closest('.section-indicator.click-indicator');
         const clickedSidebar = event.target.closest('.sidebar');
         const clickedBlurOverlay = event.target.closest('.blur-overlay');
         const fpNav = document.getElementById('fp-nav');
         
-        if ((clickedBlurOverlay || (!clickedIndicator && !clickedSidebar)) && isMenuOpen) {
+        if ((clickedBlurOverlay || !clickedSidebar) && isMenuOpen) {
             hideMenu();
             if (fpNav && !isInHomeSection) {
                 setTimeout(() => {

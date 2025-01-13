@@ -723,7 +723,8 @@ img.loaded {
 /* Current section indicator */
 .section-indicator {
     position: fixed;
-    left: var(--spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
     bottom: var(--spacing-md);
     padding: 8px 16px;
     background: rgba(255, 255, 255, 1);
@@ -731,20 +732,14 @@ img.loaded {
     color: #000000;
     font-size: 14px;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
-    z-index: 2002; /* Same as sidebar */
-    cursor: pointer;
+    transition: opacity 0.3s ease;
+    z-index: 2002; /* Above blur overlay */
+    pointer-events: none;
     border: 1px solid transparent;
-}
-
-.section-indicator:hover {
-    background: rgba(255, 255, 255, 0.85);
 }
 
 .section-indicator.visible {
     opacity: 1;
-    transform: translateY(0);
 }
 
 /* Update sidebar styles - remove hover behavior */
@@ -1020,7 +1015,8 @@ img {
 /* Current section indicator */
 .section-indicator {
     position: fixed;
-    left: var(--spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
     bottom: var(--spacing-md);
     padding: 8px 16px;
     background: rgba(255, 255, 255, 1);
@@ -1028,11 +1024,14 @@ img {
     color: #000000;
     font-size: 14px;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    transition: opacity 0.3s ease;
     z-index: 2002; /* Above blur overlay */
-    cursor: pointer;
+    pointer-events: none;
     border: 1px solid transparent;
+}
+
+.section-indicator.visible {
+    opacity: 1;
 }
 
 /* Update blur overlay */
